@@ -1,15 +1,15 @@
-# SecretNote
+# Manusecret
 
-SecretNote is an iOS application project.
+Manusecret is an iOS application project.
 It focuses on providing encrypted short note with clear UI/UX.
 
 
 ## Overview
 
-SecretNote provides note management for the users.
+Manusecret provides note management for the users.
 It is clear that there are thousands of note application in store.
 However, since there is no satisfying note app for me, I decide to create my own one.
-The basic concept of the SecretNote is the manuscript, such as hand-written note.
+The basic concept of the Manusecret is the manuscript, such as hand-written note.
 Thus, the convenience is not our highest priority.
 Since its difficulty and non-profitable buissness model, there will be no commercials or advertisements (only a simple donate method for me).
 I also plan to open the source codes.
@@ -42,7 +42,7 @@ The implementation could be changed.
 ### 1. Public Section
 
 Every notes are the plain texts, and each notes is sharable using Airdrop.
-The reason that SecretNote only supports Airdrop is the concept of the app is a manuscript, which is retro or classic or out-dated.
+The reason that Manusecret only supports Airdrop is the concept of the app is a manuscript, which is retro or classic or out-dated.
 
 
 ### 2. Private Section  
@@ -60,7 +60,7 @@ The "cloud" parameter enables users could sync their notes with the server (it c
 Each notes has its name, tag, day and etc.
 One of the interesting parts of note is it automatically resize the texts depending on its size.
 Less the texts are, clearer the character is.
-Moreover, SecretNote does not support modifying the contents. 
+Moreover, Manusecret does not support modifying the contents. 
 It only supports append feature.
 
 ## Used Libraries
