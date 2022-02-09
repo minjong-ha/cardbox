@@ -14,7 +14,7 @@ Thus, the convenience is not our highest priority.
 Since its difficulty and non-profitable buissness model, there will be no commercials or advertisements (only a simple donate method for me).
 I also plan to open the source codes.
 
-There are public and private sections.
+There are two sections: public and private.
 
 In public section, the contents of the note are not encrypted and sharable (for now, I plan to support Airdrop only).
 User can write and read just like the other files.
@@ -63,6 +63,13 @@ Less the texts are, clearer the character is.
 Moreover, Manusecret does not support modifying the contents. 
 It only supports append feature.
 
+
+## Development Environment
+
+  1. Xcode 13
+  2. SwiftUI 
+
+
 ## Used Libraries
 
 
@@ -72,3 +79,4 @@ It only supports append feature.
   3. https://github.com/Ramotion/animated-tab-bar 
   4. https://github.com/Ramotion/paper-switch
   5. https://github.com/Ramotion/fluid-slider (android support)
+  6. https://github.com/Ramotion/garland-view
