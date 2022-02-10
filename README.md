@@ -9,10 +9,12 @@ It focuses on providing encrypted short note with clear UI/UX.
 Manusecret provides note management for the users.
 It is clear that there are thousands of note application in store.
 However, since there is no satisfying note app for me, I decide to create my own one.
-The basic concept of the Manusecret is the manuscript, such as hand-written note.
-Thus, the convenience is not our highest priority.
+The name of "Manusecret" is a combination of manuscript and secret.
+The basic concept of it is a card sorting box, such as hand-written note.
+Thus, the convenience is not our highest priority, it is more important to transplant the feeling of cards.
 Since its difficulty and non-profitable buissness model, there will be no commercials or advertisements (only a simple donate method for me).
 I also plan to open the source codes.
+
 
 There are two sections: public and private.
 
@@ -26,6 +28,7 @@ Users can enroll their key when their first sign-in.
 I am still thinking about the efficient and acceptable decrypt policy and mechanism.
 For the incremental implementation, My plan is following the below blueprint.
 
+
   > * 1. The contents are written in plain text, and they will be shown up when users click the private section or each notes. 
   The first enrolled key is used for decrpytion.
 
@@ -35,6 +38,7 @@ For the incremental implementation, My plan is following the below blueprint.
   The plain text will never exist in both machine and server, except the time users decrypt it.
   (Optional, users decide where the encrpyted notes are.
    It could be local, or cloud.)
+
 
 The implementation could be changed.
 
@@ -75,8 +79,8 @@ It only supports append feature.
 
 ## Libraries keep an eye on
   1. https://github.com/jogendra/LoadingShimmer
-  2. https://github.com/Ramotion/folding-cell (android support)
+  2. https://github.com/Ramotion/folding-cell (android support): card representation candidate
   3. https://github.com/Ramotion/animated-tab-bar 
-  4. https://github.com/Ramotion/paper-switch
+  4. https://github.com/Ramotion/paper-switch: local/cloud indicator candidate
   5. https://github.com/Ramotion/fluid-slider (android support)
-  6. https://github.com/Ramotion/garland-view
+  6. https://github.com/Ramotion/garland-view : card representation candidate
