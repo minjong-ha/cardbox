@@ -8,15 +8,14 @@
 import SwiftUI
 struct PublicBoxTabView: View {
     var body: some View {
-        ZStack {
-            Circle()
-                .frame(width: 300, height: 300)
-                .foregroundColor(.blue)
-            
-            Text("Public")
-                .font(.system(size: 70))
-                .foregroundColor(.white)
-                .fontWeight(.bold)
+        NavigationView {
+            VStack (alignment: .leading) {
+                Text("Public Box")
+                    .font(.system(size: 30)) //TODO: dynamic font size depending on the screen size!
+                Text("This is the Public Box which contains public cards!")
+            }
+            .navigationTitle("Public Box")
+            .padding()
         }
     }
 }
