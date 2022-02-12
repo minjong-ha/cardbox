@@ -7,12 +7,28 @@
 
 import SwiftUI
 
+//TODO: add section in ContentView
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        TabView {
+            PrivateBoxTabView()
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Private")
+                }
+            PublicBoxTabView()
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Public")
+                }
+        }
     }
 }
+
+/*
+ * Each Views represents the page.
+ * TabView add TabView button connecting the other Views
+ */
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
