@@ -2,36 +2,42 @@
 //  ContentView.swift
 //  CardBox
 //
-//  Created by 하민종 on 2022/02/12.
+//  Created by Minjong Ha on 2022/02/12.
 //
 
 import SwiftUI
 
-//TODO: add section in ContentView
 struct ContentView: View {
+    @State private var selection = 0
+    
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             PrivateBoxTabView()
                 .tabItem {
-                    Image(systemName: "house")
-                    Text("Private")
+                        Image(systemName: selection == 0 ? "lock.open" : "lock")
+                        Text("Private Box")
                 }
+                .tag(0)
+            
             PublicBoxTabView()
                 .tabItem {
-                    Image(systemName: "person")
-                    Text("Public")
+                        Image(systemName: "person.3")
+                        Text("Public Box")
                 }
+                .tag(1)
         }
+        .padding()
     }
 }
 
 /*
  * Each Views represents the page.
- * TabView add TabView button connecting the other Views
+ * TabView adds tabItem connecting the other Views
  */
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+.previewInterfaceOrientation(.portrait)
     }
 }

@@ -2,22 +2,21 @@
 //  PrivateBox.swift
 //  CardBox
 //
-//  Created by 하민종 on 2022/02/12.
+//  Created by Minjong Ha on 2022/02/12.
 //
 
 import SwiftUI
 
 struct PrivateBoxTabView: View {
     var body: some View {
-        ZStack {
-            Circle()
-                .frame(width: 300, height: 300)
-                .foregroundColor(.green)
-            
-            Text("Private")
-                .font(.system(size: 70))
-                .foregroundColor(.white)
-                .fontWeight(.bold)
+        //What is ZStack?
+        NavigationView {
+            VStack (alignment: .leading) {
+                Text("Private Box")
+                    .font(.system(size: 30)) //TODO: dynamic font size depending on the screen size!
+            }
+            .padding()
+            .navigationTitle("Private Box")
         }
     }
 }
