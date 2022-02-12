@@ -1,15 +1,15 @@
-# Manusecret
+# Cardbox
 
-Manusecret is an iOS application project.
+Cardbox is an iOS application project.
 It focuses on providing encrypted short card with clear UI/UX.
 
 
 ## Overview
 
-Manusecret provides card management for the users.
+Cardbox provides card management for the users.
 It is clear that there are thousands of card application in store.
 However, since there is no satisfying card app for me, I decide to create my own one.
-The name of "Manusecret" is a combination of manuscript and secret.
+The name of "Cardbox" is a combination of manuscript and secret.
 The basic concept of it is a card sorting box, such as hand-written card.
 Thus, the convenience is not our highest priority, it is more important to transplant the feeling of cards.
 Since its difficulty and non-profitable buissness model, there will be no commercials or advertisements (only a simple donate method for me).
@@ -46,7 +46,7 @@ The implementation could be changed.
 ### 1. Public Section
 
 Every cards are the plain texts, and each cards is sharable using Airdrop.
-The reason that Manusecret only supports Airdrop is the concept of the app is a manuscript, which is retro or classic or out-dated.
+The reason that Cardbox only supports Airdrop is the concept of the app is a manuscript, which is retro or classic or out-dated.
 
 
 ### 2. Private Section  
@@ -64,13 +64,13 @@ The "cloud" parameter enables users could sync their cards with the server (it c
 Each cards has its name, tag, day and etc.
 One of the interesting parts of card is it automatically resize the texts depending on its size.
 Less the texts are, clearer the character is.
-Moreover, Manusecret does not support modifying the contents. 
+Moreover, Cardbox does not support modifying the contents. 
 It only supports append feature.
 
 
 ### 4. Sorting
 
-Manusecret supports powerful sorting functions.
+Cardbox supports powerful sorting functions.
   > * Users can sort the cards depending on its title.
   > * Users can extract the cards containing specific keyword__s__.
 
