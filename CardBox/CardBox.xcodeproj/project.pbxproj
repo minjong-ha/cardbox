@@ -14,6 +14,9 @@
 		1CF3EDF927B7453B00B6559F /* CardBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EDF827B7453B00B6559F /* CardBoxTests.swift */; };
 		1CF3EE0327B7453B00B6559F /* CardBoxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EE0227B7453B00B6559F /* CardBoxUITests.swift */; };
 		1CF3EE0527B7453B00B6559F /* CardBoxUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EE0427B7453B00B6559F /* CardBoxUITestsLaunchTests.swift */; };
+		762563F37BD20CB5B306C957 /* Pods_CardBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B821941CBB1464F5C023B932 /* Pods_CardBox.framework */; };
+		B2D3F6D38C130462CA80E599 /* Pods_CardBoxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4186ADF3A1B96F8775BDFA5B /* Pods_CardBoxTests.framework */; };
+		CA112025C8B5D169E312BC65 /* Pods_CardBox_CardBoxUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A02E3EEF388C7A4BB7C995D0 /* Pods_CardBox_CardBoxUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F96BECD7A30FCC651D100F2 /* Pods-CardBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBox.debug.xcconfig"; path = "Target Support Files/Pods-CardBox/Pods-CardBox.debug.xcconfig"; sourceTree = "<group>"; };
 		1CF3EDE427B7453900B6559F /* CardBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CF3EDE727B7453900B6559F /* CardBoxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxApp.swift; sourceTree = "<group>"; };
 		1CF3EDE927B7453900B6559F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +49,14 @@
 		1CF3EE0227B7453B00B6559F /* CardBoxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxUITests.swift; sourceTree = "<group>"; };
 		1CF3EE0427B7453B00B6559F /* CardBoxUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1CF3EE1127B7482F00B6559F /* CardBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardBox.entitlements; sourceTree = "<group>"; };
+		3A079676F449FCE142E69D5D /* Pods-CardBoxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBoxTests.debug.xcconfig"; path = "Target Support Files/Pods-CardBoxTests/Pods-CardBoxTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4186ADF3A1B96F8775BDFA5B /* Pods_CardBoxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CardBoxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		89B4211E10411A45046D4292 /* Pods-CardBoxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBoxTests.release.xcconfig"; path = "Target Support Files/Pods-CardBoxTests/Pods-CardBoxTests.release.xcconfig"; sourceTree = "<group>"; };
+		9BCCB02F557BCC4F074756DD /* Pods-CardBox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBox.release.xcconfig"; path = "Target Support Files/Pods-CardBox/Pods-CardBox.release.xcconfig"; sourceTree = "<group>"; };
+		A02E3EEF388C7A4BB7C995D0 /* Pods_CardBox_CardBoxUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CardBox_CardBoxUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2FB52ED1131190591518219 /* Pods-CardBox-CardBoxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBox-CardBoxUITests.debug.xcconfig"; path = "Target Support Files/Pods-CardBox-CardBoxUITests/Pods-CardBox-CardBoxUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A3E5B5C80357B6B15E4227F7 /* Pods-CardBox-CardBoxUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBox-CardBoxUITests.release.xcconfig"; path = "Target Support Files/Pods-CardBox-CardBoxUITests/Pods-CardBox-CardBoxUITests.release.xcconfig"; sourceTree = "<group>"; };
+		B821941CBB1464F5C023B932 /* Pods_CardBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CardBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				762563F37BD20CB5B306C957 /* Pods_CardBox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2D3F6D38C130462CA80E599 /* Pods_CardBoxTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,12 +80,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA112025C8B5D169E312BC65 /* Pods_CardBox_CardBoxUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A02EF49EAF4B1BCF78D9BC2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0F96BECD7A30FCC651D100F2 /* Pods-CardBox.debug.xcconfig */,
+				9BCCB02F557BCC4F074756DD /* Pods-CardBox.release.xcconfig */,
+				A2FB52ED1131190591518219 /* Pods-CardBox-CardBoxUITests.debug.xcconfig */,
+				A3E5B5C80357B6B15E4227F7 /* Pods-CardBox-CardBoxUITests.release.xcconfig */,
+				3A079676F449FCE142E69D5D /* Pods-CardBoxTests.debug.xcconfig */,
+				89B4211E10411A45046D4292 /* Pods-CardBoxTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		1CF3EDDB27B7453900B6559F = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +107,8 @@
 				1CF3EDF727B7453B00B6559F /* CardBoxTests */,
 				1CF3EE0127B7453B00B6559F /* CardBoxUITests */,
 				1CF3EDE527B7453900B6559F /* Products */,
+				0A02EF49EAF4B1BCF78D9BC2 /* Pods */,
+				81F1D3B844EE1DC03C3B36FC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +159,16 @@
 			path = CardBoxUITests;
 			sourceTree = "<group>";
 		};
+		81F1D3B844EE1DC03C3B36FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B821941CBB1464F5C023B932 /* Pods_CardBox.framework */,
+				A02E3EEF388C7A4BB7C995D0 /* Pods_CardBox_CardBoxUITests.framework */,
+				4186ADF3A1B96F8775BDFA5B /* Pods_CardBoxTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -136,6 +176,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1CF3EE0827B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBox" */;
 			buildPhases = (
+				9C0FE738125E0CC5CDB789BB /* [CP] Check Pods Manifest.lock */,
 				1CF3EDE027B7453900B6559F /* Sources */,
 				1CF3EDE127B7453900B6559F /* Frameworks */,
 				1CF3EDE227B7453900B6559F /* Resources */,
@@ -153,6 +194,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1CF3EE0B27B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBoxTests" */;
 			buildPhases = (
+				A31CF888C77980E3D760262C /* [CP] Check Pods Manifest.lock */,
 				1CF3EDF027B7453B00B6559F /* Sources */,
 				1CF3EDF127B7453B00B6559F /* Frameworks */,
 				1CF3EDF227B7453B00B6559F /* Resources */,
@@ -171,6 +213,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1CF3EE0E27B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBoxUITests" */;
 			buildPhases = (
+				F5354A36ABF9F3B91C8AD87E /* [CP] Check Pods Manifest.lock */,
 				1CF3EDFA27B7453B00B6559F /* Sources */,
 				1CF3EDFB27B7453B00B6559F /* Frameworks */,
 				1CF3EDFC27B7453B00B6559F /* Resources */,
@@ -253,6 +296,75 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9C0FE738125E0CC5CDB789BB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CardBox-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A31CF888C77980E3D760262C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CardBoxTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5354A36ABF9F3B91C8AD87E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CardBox-CardBoxUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1CF3EDE027B7453900B6559F /* Sources */ = {
@@ -415,6 +527,7 @@
 		};
 		1CF3EE0927B7453B00B6559F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F96BECD7A30FCC651D100F2 /* Pods-CardBox.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -449,6 +562,7 @@
 		};
 		1CF3EE0A27B7453B00B6559F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9BCCB02F557BCC4F074756DD /* Pods-CardBox.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -483,6 +597,7 @@
 		};
 		1CF3EE0C27B7453B00B6559F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A079676F449FCE142E69D5D /* Pods-CardBoxTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -503,6 +618,7 @@
 		};
 		1CF3EE0D27B7453B00B6559F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89B4211E10411A45046D4292 /* Pods-CardBoxTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -523,6 +639,7 @@
 		};
 		1CF3EE0F27B7453B00B6559F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A2FB52ED1131190591518219 /* Pods-CardBox-CardBoxUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -541,6 +658,7 @@
 		};
 		1CF3EE1027B7453B00B6559F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3E5B5C80357B6B15E4227F7 /* Pods-CardBox-CardBoxUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
