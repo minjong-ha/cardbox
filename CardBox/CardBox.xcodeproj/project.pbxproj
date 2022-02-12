@@ -1,0 +1,602 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1CF3EDE827B7453900B6559F /* CardBoxApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EDE727B7453900B6559F /* CardBoxApp.swift */; };
+		1CF3EDEA27B7453900B6559F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EDE927B7453900B6559F /* ContentView.swift */; };
+		1CF3EDEC27B7453B00B6559F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CF3EDEB27B7453B00B6559F /* Assets.xcassets */; };
+		1CF3EDEF27B7453B00B6559F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CF3EDEE27B7453B00B6559F /* Preview Assets.xcassets */; };
+		1CF3EDF927B7453B00B6559F /* CardBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EDF827B7453B00B6559F /* CardBoxTests.swift */; };
+		1CF3EE0327B7453B00B6559F /* CardBoxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EE0227B7453B00B6559F /* CardBoxUITests.swift */; };
+		1CF3EE0527B7453B00B6559F /* CardBoxUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EE0427B7453B00B6559F /* CardBoxUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1CF3EDF527B7453B00B6559F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1CF3EDDC27B7453900B6559F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1CF3EDE327B7453900B6559F;
+			remoteInfo = CardBox;
+		};
+		1CF3EDFF27B7453B00B6559F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1CF3EDDC27B7453900B6559F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1CF3EDE327B7453900B6559F;
+			remoteInfo = CardBox;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1CF3EDE427B7453900B6559F /* CardBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CF3EDE727B7453900B6559F /* CardBoxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxApp.swift; sourceTree = "<group>"; };
+		1CF3EDE927B7453900B6559F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1CF3EDEB27B7453B00B6559F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1CF3EDEE27B7453B00B6559F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1CF3EDF427B7453B00B6559F /* CardBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardBoxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CF3EDF827B7453B00B6559F /* CardBoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxTests.swift; sourceTree = "<group>"; };
+		1CF3EDFE27B7453B00B6559F /* CardBoxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardBoxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CF3EE0227B7453B00B6559F /* CardBoxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxUITests.swift; sourceTree = "<group>"; };
+		1CF3EE0427B7453B00B6559F /* CardBoxUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1CF3EE1127B7482F00B6559F /* CardBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardBox.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1CF3EDE127B7453900B6559F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1CF3EDF127B7453B00B6559F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1CF3EDFB27B7453B00B6559F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1CF3EDDB27B7453900B6559F = {
+			isa = PBXGroup;
+			children = (
+				1CF3EDE627B7453900B6559F /* CardBox */,
+				1CF3EDF727B7453B00B6559F /* CardBoxTests */,
+				1CF3EE0127B7453B00B6559F /* CardBoxUITests */,
+				1CF3EDE527B7453900B6559F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1CF3EDE527B7453900B6559F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1CF3EDE427B7453900B6559F /* CardBox.app */,
+				1CF3EDF427B7453B00B6559F /* CardBoxTests.xctest */,
+				1CF3EDFE27B7453B00B6559F /* CardBoxUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1CF3EDE627B7453900B6559F /* CardBox */ = {
+			isa = PBXGroup;
+			children = (
+				1CF3EE1127B7482F00B6559F /* CardBox.entitlements */,
+				1CF3EDE727B7453900B6559F /* CardBoxApp.swift */,
+				1CF3EDE927B7453900B6559F /* ContentView.swift */,
+				1CF3EDEB27B7453B00B6559F /* Assets.xcassets */,
+				1CF3EDED27B7453B00B6559F /* Preview Content */,
+			);
+			path = CardBox;
+			sourceTree = "<group>";
+		};
+		1CF3EDED27B7453B00B6559F /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1CF3EDEE27B7453B00B6559F /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1CF3EDF727B7453B00B6559F /* CardBoxTests */ = {
+			isa = PBXGroup;
+			children = (
+				1CF3EDF827B7453B00B6559F /* CardBoxTests.swift */,
+			);
+			path = CardBoxTests;
+			sourceTree = "<group>";
+		};
+		1CF3EE0127B7453B00B6559F /* CardBoxUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1CF3EE0227B7453B00B6559F /* CardBoxUITests.swift */,
+				1CF3EE0427B7453B00B6559F /* CardBoxUITestsLaunchTests.swift */,
+			);
+			path = CardBoxUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1CF3EDE327B7453900B6559F /* CardBox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1CF3EE0827B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBox" */;
+			buildPhases = (
+				1CF3EDE027B7453900B6559F /* Sources */,
+				1CF3EDE127B7453900B6559F /* Frameworks */,
+				1CF3EDE227B7453900B6559F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CardBox;
+			productName = CardBox;
+			productReference = 1CF3EDE427B7453900B6559F /* CardBox.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1CF3EDF327B7453B00B6559F /* CardBoxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1CF3EE0B27B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBoxTests" */;
+			buildPhases = (
+				1CF3EDF027B7453B00B6559F /* Sources */,
+				1CF3EDF127B7453B00B6559F /* Frameworks */,
+				1CF3EDF227B7453B00B6559F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1CF3EDF627B7453B00B6559F /* PBXTargetDependency */,
+			);
+			name = CardBoxTests;
+			productName = CardBoxTests;
+			productReference = 1CF3EDF427B7453B00B6559F /* CardBoxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1CF3EDFD27B7453B00B6559F /* CardBoxUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1CF3EE0E27B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBoxUITests" */;
+			buildPhases = (
+				1CF3EDFA27B7453B00B6559F /* Sources */,
+				1CF3EDFB27B7453B00B6559F /* Frameworks */,
+				1CF3EDFC27B7453B00B6559F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1CF3EE0027B7453B00B6559F /* PBXTargetDependency */,
+			);
+			name = CardBoxUITests;
+			productName = CardBoxUITests;
+			productReference = 1CF3EDFE27B7453B00B6559F /* CardBoxUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1CF3EDDC27B7453900B6559F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1320;
+				LastUpgradeCheck = 1320;
+				TargetAttributes = {
+					1CF3EDE327B7453900B6559F = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					1CF3EDF327B7453B00B6559F = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 1CF3EDE327B7453900B6559F;
+					};
+					1CF3EDFD27B7453B00B6559F = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 1CF3EDE327B7453900B6559F;
+					};
+				};
+			};
+			buildConfigurationList = 1CF3EDDF27B7453900B6559F /* Build configuration list for PBXProject "CardBox" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1CF3EDDB27B7453900B6559F;
+			productRefGroup = 1CF3EDE527B7453900B6559F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1CF3EDE327B7453900B6559F /* CardBox */,
+				1CF3EDF327B7453B00B6559F /* CardBoxTests */,
+				1CF3EDFD27B7453B00B6559F /* CardBoxUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1CF3EDE227B7453900B6559F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CF3EDEF27B7453B00B6559F /* Preview Assets.xcassets in Resources */,
+				1CF3EDEC27B7453B00B6559F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1CF3EDF227B7453B00B6559F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1CF3EDFC27B7453B00B6559F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1CF3EDE027B7453900B6559F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CF3EDEA27B7453900B6559F /* ContentView.swift in Sources */,
+				1CF3EDE827B7453900B6559F /* CardBoxApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1CF3EDF027B7453B00B6559F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CF3EDF927B7453B00B6559F /* CardBoxTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1CF3EDFA27B7453B00B6559F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CF3EE0527B7453B00B6559F /* CardBoxUITestsLaunchTests.swift in Sources */,
+				1CF3EE0327B7453B00B6559F /* CardBoxUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1CF3EDF627B7453B00B6559F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1CF3EDE327B7453900B6559F /* CardBox */;
+			targetProxy = 1CF3EDF527B7453B00B6559F /* PBXContainerItemProxy */;
+		};
+		1CF3EE0027B7453B00B6559F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1CF3EDE327B7453900B6559F /* CardBox */;
+			targetProxy = 1CF3EDFF27B7453B00B6559F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1CF3EE0627B7453B00B6559F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1CF3EE0727B7453B00B6559F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1CF3EE0927B7453B00B6559F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CardBox/CardBox.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CardBox/Preview Content\"";
+				DEVELOPMENT_TEAM = VC9MJ6V547;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cardbox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		1CF3EE0A27B7453B00B6559F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CardBox/CardBox.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CardBox/Preview Content\"";
+				DEVELOPMENT_TEAM = VC9MJ6V547;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cardbox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		1CF3EE0C27B7453B00B6559F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VC9MJ6V547;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cardbox.CardBoxTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardBox.app/CardBox";
+			};
+			name = Debug;
+		};
+		1CF3EE0D27B7453B00B6559F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VC9MJ6V547;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cardbox.CardBoxTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardBox.app/CardBox";
+			};
+			name = Release;
+		};
+		1CF3EE0F27B7453B00B6559F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VC9MJ6V547;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cardbox.CardBoxUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CardBox;
+			};
+			name = Debug;
+		};
+		1CF3EE1027B7453B00B6559F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VC9MJ6V547;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cardbox.CardBoxUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CardBox;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1CF3EDDF27B7453900B6559F /* Build configuration list for PBXProject "CardBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CF3EE0627B7453B00B6559F /* Debug */,
+				1CF3EE0727B7453B00B6559F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1CF3EE0827B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CF3EE0927B7453B00B6559F /* Debug */,
+				1CF3EE0A27B7453B00B6559F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1CF3EE0B27B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBoxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CF3EE0C27B7453B00B6559F /* Debug */,
+				1CF3EE0D27B7453B00B6559F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1CF3EE0E27B7453B00B6559F /* Build configuration list for PBXNativeTarget "CardBoxUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CF3EE0F27B7453B00B6559F /* Debug */,
+				1CF3EE1027B7453B00B6559F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1CF3EDDC27B7453900B6559F /* Project object */;
+}
