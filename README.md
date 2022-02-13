@@ -4,6 +4,10 @@ Cardbox is an iOS application project.
 It focuses on providing encrypted short card with clear UI/UX.
 
 
+## File Description
+CardBox: xcode project directory
+
+
 ## Overview
 
 Cardbox provides card management for the users.
@@ -29,10 +33,10 @@ I am still thinking about the efficient and acceptable decrypt policy and mechan
 For the incremental implementation, My plan is following the below blueprint.
 
 
-  > * 1. The contents are written in plain text, and they will be shown up when users click the private section or each cards. 
+  > * The contents are written in plain text, and they will be shown up when users click the private section or each cards. 
   The first enrolled key is used for decrpytion.
 
-  > * 2. The contents are written in crypt text. 
+  > * The contents are written in crypt text. 
   The key is located in the server, and users send request to acquire key or send crpyt text to server.
   The text will be translated in the local device or server.
   The plain text will never exist in both machine and server, except the time users decrypt it.
@@ -80,18 +84,18 @@ Cardbox supports powerful sorting functions.
   > * write location info where the card created? updated?
 
 ## Development Environment
-
-  1. Xcode 13
-  2. SwiftUI 
+  * Xcode 13
+  * SwiftUI 
 
 
 ## Used Libraries
+  * https://github.com/realm/realm-swift (RealmSwift): mobile database 
+  * https://github.com/Ramotion/folding-cell (FoldingCell)
 
 
 ## Libraries keep an eye on
-  1. https://github.com/jogendra/LoadingShimmer
-  2. https://github.com/Ramotion/folding-cell (android support): card representation candidate
-  3. https://github.com/Ramotion/animated-tab-bar 
-  4. https://github.com/Ramotion/paper-switch: local/cloud indicator candidate
-  5. https://github.com/Ramotion/fluid-slider (android support)
-  6. https://github.com/Ramotion/garland-view : card representation candidate
+  * https://github.com/jogendra/LoadingShimmer
+  * https://github.com/Ramotion/animated-tab-bar 
+  * https://github.com/Ramotion/paper-switch: local/cloud indicator candidate
+  * https://github.com/Ramotion/fluid-slider (android support)
+  * https://github.com/Ramotion/garland-view : card representation candidate
