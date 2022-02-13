@@ -22,9 +22,10 @@ struct AddNewCardView: View {
     init() {
         let today = Date()
         let dateFormatter = DateFormatter()
-        //dateFormatter.dateStyle = .full
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        //dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
+        dateFormatter.dateFormat = "hh:mm:ss"
         
+        print("DEBUG: load AddNewCardView")
         _date = State(initialValue: dateFormatter.string(from: today))
     }
     
@@ -45,14 +46,14 @@ struct AddNewCardView: View {
                 
                 VStack(alignment: .leading) {
                     Text("Date")
-                    TextField("Date", text: $date) //TODO: adjust font smaller
+                    TextField("Date", text: $date) //TODO: adjust font smaller + replace it with datepicker!
                         .textFieldStyle(.roundedBorder)
                 }
             }
             
             VStack(alignment: .leading) {
                 Text("Location")
-                TextField("Location", text: $location)
+                TextField("Location", text: $location) //TODO: autofill current location! as String!
                     .textFieldStyle(.roundedBorder)
             }
             
@@ -63,6 +64,15 @@ struct AddNewCardView: View {
             }
         }
         .navigationTitle("Add a new Card")
+        .onAppear {
+            let today = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
+            
+            print("DEBUG: FUCKFUCKFUCK")
+            date = dateFormatter.string(from: today)
+            
+        }
         //Add button that save the json data into RealmSwift! as "Public"
         
     }

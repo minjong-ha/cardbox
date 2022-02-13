@@ -9,9 +9,19 @@ import SwiftUI
 import FoldingCell
 import Combine
 
+//TODO: add SwiftRealm and struct for it
+
 struct PublicBoxTabView: View {
+    
+    @State var isNewActive: Bool = false
+    
+    init() {
+        print("DEBUG: load PublicBoxTabView")
+    }
+    
     var body: some View {
         
+        //TODO: replace it with vertical list cards from RealmSwift
         NavigationView {
             VStack (alignment: .leading) {
                 Text("Public Box")
@@ -28,6 +38,9 @@ struct PublicBoxTabView: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            print("DEBUG: PublicBoxTabView onAppear")
         }
     }
 }

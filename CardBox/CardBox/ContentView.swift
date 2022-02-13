@@ -19,7 +19,7 @@ struct ContentView: View {
                 }
                 .tag(0)
             
-            PublicBoxTabView()
+            PublicBoxTabView() //TODO: refresh each views only whenever I press the tabItem button! now it reload all the Views...
                 .tabItem {
                         Image(systemName: "person.3")
                         Text("Public Box")
