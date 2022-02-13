@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import FoldingCell
+import Combine
+
 struct PublicBoxTabView: View {
     var body: some View {
+        
         NavigationView {
             VStack (alignment: .leading) {
                 Text("Public Box")
@@ -19,6 +23,8 @@ struct PublicBoxTabView: View {
         }
     }
 }
+
+
 
 struct PuplicBox_Previews: PreviewProvider {
     static var previews: some View {

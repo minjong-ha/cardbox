@@ -2,7 +2,7 @@
 //  CardBoxApp.swift
 //  CardBox
 //
-//  Created by 하민종 on 2022/02/12.
+//  Created by Minjong Ha on 2022/02/12.
 //
 
 import SwiftUI

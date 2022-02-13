@@ -13,7 +13,7 @@ struct PrivateBoxTabView: View {
         NavigationView {
             VStack (alignment: .leading) {
                 Text("Private Box")
-                    .font(.system(size: 30)) //TODO: dynamic font size depending on the screen size!
+                    .font(.system(size: 30))
             }
             .padding()
             .navigationTitle("Private Box")
