@@ -14,9 +14,19 @@ struct PrivateBoxTabView: View {
             VStack (alignment: .leading) {
                 Text("Private Box")
                     .font(.system(size: 30))
+                Text("This is the Private Box which contains secret cards!")
+                Text("Press 'Add' to write a new secret card!")
+                
             }
             .padding()
             .navigationTitle("Private Box")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: AddNewCardView()) {
+                        Text("Add")
+                    }
+                }
+            }
         }
     }
 }
