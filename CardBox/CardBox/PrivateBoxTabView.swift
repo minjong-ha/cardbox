@@ -8,6 +8,13 @@
 import SwiftUI
 
 struct PrivateBoxTabView: View {
+    
+    @State var isNewActive: Bool = false
+    
+    init() {
+        print("DEBUG: load PrivateBoxTabView")
+    }
+    
     var body: some View {
         //What is ZStack?
         NavigationView {
@@ -22,11 +29,14 @@ struct PrivateBoxTabView: View {
             .navigationTitle("Private Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: AddNewCardView()) {
+                    NavigationLink(destination: AddNewCardView()) { //TODO: refresh navigationlink only it pressed! use NavigationLink with inActive!
                         Text("Add")
                     }
                 }
             }
+        }
+        .onAppear {
+            print("DEBUG: PrivateBoxTabView onAppear")
         }
     }
 }
