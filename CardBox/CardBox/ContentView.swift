@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selection = 0
+    @State private var selection = 1 //default tab bar is Public Box
     
     var body: some View {
         TabView(selection: $selection) {
