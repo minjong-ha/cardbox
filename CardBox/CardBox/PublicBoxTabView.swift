@@ -16,6 +16,7 @@ import Combine
 
 struct PublicBoxTabView: View {
     
+    
     init() {
         print("DEBUG: load PublicBoxTabView")
     }

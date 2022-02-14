@@ -11,6 +11,8 @@ import Combine
 
 struct AddNewCardView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
 	//Card Data
     @State var title: String = ""
     @State var tag: String = ""
@@ -22,12 +24,14 @@ struct AddNewCardView: View {
 	@State var isEncrpy: Bool = false //if true, the card requires individual decrpytion
 	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
     
+   /*
     init() {
         print("DEBUG: load AddNewCardView")
     }
+    */
     
     var body: some View {
-        VStack (alignment: .leading) {
+        VStack (alignment: .center) {
              VStack(alignment: .leading) {
                  Text("Title")
                  TextField("Title", text: $title)
@@ -68,9 +72,12 @@ struct AddNewCardView: View {
                 self.location = ""
                 self.contents = ""
                 //TODO: And then go back to the parent view
+                self.presentationMode.wrappedValue.dismiss()
             }) {
                 Text("Add New Card!")
+                    .font(.system(size: 20))
             }
+            .buttonStyle(.bordered)
         }
         .navigationTitle("Add a new Card")
         .onAppear {
@@ -91,6 +98,7 @@ struct AddNewCardView: View {
 
 struct AddNewCardView_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewCardView()
+        //AddNewCardView(false: )
+        ContentView()
     }
 }
