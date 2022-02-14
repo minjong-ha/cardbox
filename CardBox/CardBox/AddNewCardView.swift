@@ -10,8 +10,7 @@ import SwiftUI
 import Combine
 
 struct AddNewCardView: View {
-    
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
 	//Card Data
     @State var title: String = ""
@@ -24,11 +23,9 @@ struct AddNewCardView: View {
 	@State var isEncrpy: Bool = false //if true, the card requires individual decrpytion
 	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
     
-   /*
     init() {
         print("DEBUG: load AddNewCardView")
     }
-    */
     
     var body: some View {
         VStack (alignment: .center) {
@@ -52,7 +49,7 @@ struct AddNewCardView: View {
                 }
             }
             
-            VStack(alignment: .leading) {
+           VStack(alignment: .leading) {
                 Text("Location")
                 TextField("Location", text: $location) //TODO: autofill current location! as String!
                     .textFieldStyle(.roundedBorder)
@@ -64,6 +61,10 @@ struct AddNewCardView: View {
                     .textFieldStyle(.roundedBorder)
             }
             
+            //TODO: this is for empty space for now. find right way!
+            Text("(empty space)")
+                .hidden()
+            
             Button(action: {
                 //TODO: Write new Card data into the RealmSwift
                 print("DEBUG: Add New Card! Button Action")
@@ -71,8 +72,8 @@ struct AddNewCardView: View {
                 self.tag = ""
                 self.location = ""
                 self.contents = ""
-                //TODO: And then go back to the parent view
-                self.presentationMode.wrappedValue.dismiss()
+                //TODO: refresh parent view when AddNewCardView dismiss -> use onAppear in parent view
+                self.dismiss()
             }) {
                 Text("Add New Card!")
                     .font(.system(size: 20))

@@ -16,7 +16,6 @@ import Combine
 
 struct PublicBoxTabView: View {
     
-    
     init() {
         print("DEBUG: load PublicBoxTabView")
     }
@@ -36,7 +35,19 @@ struct PublicBoxTabView: View {
                     NavigationLink(destination: OnDemandView(AddNewCardView())) {
                         Text("Add")
                     }
+                    .onAppear {
+                        print("DEBUG: PublicBoxTabView NavigationLink onAppear")
+                    }
+                    .onDisappear {
+                        print("DEBUG: PublicBoxTabView NavigationLink onDisappear")
+                    }
                 }
+            }
+            .onAppear {
+                print("DEBUG: PublicBoxTabView NavigationView onAppear")
+            }
+            .onDisappear {
+                print("DEBUG: PublicBoxTabView NavigationView onDisaapear")
             }
         }
         .onAppear {
