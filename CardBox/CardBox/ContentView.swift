@@ -8,20 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selection = 1 //default tab bar is Public Box
+    @State private var selection : Int = 1 //default tab bar is Public Box
     
     var body: some View {
         TabView(selection: $selection) {
             PrivateBoxTabView()
                 .tabItem {
-                        Image(systemName: selection == 0 ? "lock.open" : "lock")
+                    Image(systemName: self.selection == 0 ? "lock.open" : "lock")
                         Text("Private Box")
                 }
                 .tag(0)
-				.onAppear() { // I hope it will solve the load all tabItem problem...
-					self.selection = 0
-					print("DEBUG: ContentView onAppear = 0")
-				}
             
             PublicBoxTabView() //TODO: refresh each views only whenever I press the tabItem button! now it reload all the Views...
                 .tabItem {
@@ -29,10 +25,6 @@ struct ContentView: View {
                         Text("Public Box")
                 }
                 .tag(1)
-				.onAppear() {
-					self.selection = 1
-					print("DEBUG: ContentView onAppear = 1")
-				}
         }
         .padding()
     }
