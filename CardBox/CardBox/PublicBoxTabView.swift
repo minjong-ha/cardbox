@@ -9,6 +9,19 @@ import SwiftUI
 import FoldingCell
 import Combine
 
+public struct OnDemandView<Content: View>: View {
+	private let build(): () -> Content
+
+	public init(_ build: @autoclosure @escaping () -> Content) {
+		self.build = build
+	}
+	
+	public var body: Content {
+		build()
+	}
+}
+
+
 //TODO: add SwiftRealm and struct for it
 
 struct PublicBoxTabView: View {
@@ -33,7 +46,7 @@ struct PublicBoxTabView: View {
             .navigationTitle("Public Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: AddNewCardView()) { //TODO: refresh navigationlink only it pressed! use NavigationLink with inActive!
+                    NavigationLink(destination: OnDemandView(AddNewCardView())) { //TODO: refresh navigationlink only it pressed! use NavigationLink with inActive!
                         Text("Add")
                     }
                 }
