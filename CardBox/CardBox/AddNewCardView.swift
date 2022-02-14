@@ -59,16 +59,30 @@ struct AddNewCardView: View {
                 TextField("Contents", text: $contents)
                     .textFieldStyle(.roundedBorder)
             }
+            
+            Button(action: {
+                //TODO: Write new Card data into the RealmSwift
+                print("DEBUG: Add New Card! Button Action")
+                self.title = ""
+                self.tag = ""
+                self.location = ""
+                self.contents = ""
+                //TODO: And then go back to the parent view
+            }) {
+                Text("Add New Card!")
+            }
         }
         .navigationTitle("Add a new Card")
         .onAppear {
             let today = Date()
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
             
             print("DEBUG: AddCardView onAppear()")
             date = dateFormatter.string(from: today)
-            
+        }
+        .onDisappear {
+            print("DEBUG: AddCardView onDisappear")
         }
         //Add button that save the json data into RealmSwift! as "Public"
         
