@@ -3,7 +3,7 @@
 //  CardBox
 //
 //  Created by Minjong Ha on 2022/02/12.
-//
+//  ContentView is a kind of main view.
 
 import SwiftUI
 
@@ -18,6 +18,9 @@ struct ContentView: View {
                         Text("Private Box")
                 }
                 .tag(0)
+				.onAppear() { // I hope it will solve the load all tabItem problem...
+					self.selection = 0
+				}
             
             PublicBoxTabView() //TODO: refresh each views only whenever I press the tabItem button! now it reload all the Views...
                 .tabItem {
@@ -25,6 +28,9 @@ struct ContentView: View {
                         Text("Public Box")
                 }
                 .tag(1)
+				.onAppear() {
+					self.selection = 1
+				}
         }
         .padding()
     }
