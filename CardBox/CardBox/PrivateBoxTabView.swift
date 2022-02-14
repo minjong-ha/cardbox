@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PrivateBoxTabView: View {
     
+    
     init() {
         print("DEBUG: load PrivateBoxTabView")
     }
@@ -25,7 +26,8 @@ struct PrivateBoxTabView: View {
             .navigationTitle("Private Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: OnDemandView(AddNewCardView())) {                         Text("Add")
+                    NavigationLink(destination: OnDemandView(AddNewCardView())) {
+                        Text("Add")
                     }
                 }
             }
