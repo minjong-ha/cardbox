@@ -9,6 +9,7 @@ import SwiftUI
 import FoldingCell
 import Combine
 
+// I hope it will solve the instant view loading problem
 public struct OnDemandView<Content: View>: View {
 	private let build(): () -> Content
 

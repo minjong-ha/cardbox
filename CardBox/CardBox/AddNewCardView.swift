@@ -20,15 +20,10 @@ struct AddNewCardView: View {
     
     @State var isPrivate: Bool = false //if true, proceed private card creation. not public
 	@State var isEncrpy: Bool = false //if true, the card requires individual decrpytion
+	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
     
     init() {
-        let today = Date()
-        let dateFormatter = DateFormatter()
-        //dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
-        dateFormatter.dateFormat = "hh:mm:ss"
-        
         print("DEBUG: load AddNewCardView")
-        _date = State(initialValue: dateFormatter.string(from: today))
     }
     
     var body: some View {
@@ -48,7 +43,7 @@ struct AddNewCardView: View {
                 
                 VStack(alignment: .leading) {
                     Text("Date")
-                    TextField("Date", text: $date) //TODO: adjust font smaller + replace it with datepicker!
+                    TextField("Date", text: $date) //TODO: replace it to the datepicker!
                         .textFieldStyle(.roundedBorder)
                 }
             }
