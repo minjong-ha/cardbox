@@ -11,6 +11,7 @@ import Combine
 
 struct AddNewCardView: View {
     
+	//Card Data
     @State var title: String = ""
     @State var tag: String = ""
     @State var location: String = ""
@@ -18,6 +19,7 @@ struct AddNewCardView: View {
     @State var contents: String = ""
     
     @State var isPrivate: Bool = false //if true, proceed private card creation. not public
+	@State var isEncrpy: Bool = false //if true, the card requires individual decrpytion
     
     init() {
         let today = Date()
@@ -69,7 +71,7 @@ struct AddNewCardView: View {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
             
-            print("DEBUG: FUCKFUCKFUCK")
+            print("DEBUG: AddCardView onAppear()")
             date = dateFormatter.string(from: today)
             
         }
