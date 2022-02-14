@@ -20,6 +20,7 @@ struct ContentView: View {
                 .tag(0)
 				.onAppear() { // I hope it will solve the load all tabItem problem...
 					self.selection = 0
+					print("DEBUG: ContentView onAppear = 0")
 				}
             
             PublicBoxTabView() //TODO: refresh each views only whenever I press the tabItem button! now it reload all the Views...
@@ -30,6 +31,7 @@ struct ContentView: View {
                 .tag(1)
 				.onAppear() {
 					self.selection = 1
+					print("DEBUG: ContentView onAppear = 1")
 				}
         }
         .padding()

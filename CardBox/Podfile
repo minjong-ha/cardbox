@@ -3,10 +3,10 @@
 
 target 'CardBox' do
   # Comment the next line if you don't want to use dynamic frameworks use_frameworks!
-pod 'FoldingCell'
-pod 'RealmSwift'
-
   # Pods for CardBox
+
+pod 'FoldingCell' # for later
+pod 'RealmSwift' # for Card data
 
   target 'CardBoxTests' do
     inherit! :search_paths
@@ -14,7 +14,7 @@ pod 'RealmSwift'
   end
 
   target 'CardBoxUITests' do
-    # Pods for testing
+    # Pods for UItesting
   end
 
 end
