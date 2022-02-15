@@ -13,6 +13,7 @@ struct AddNewCardView: View {
     @Environment(\.dismiss) var dismiss
     
 	//Card Data
+	//TODO: make a Card class for RealmSwift
     @State var title: String = ""
     @State var tag: String = ""
     @State var location: String = ""
@@ -20,7 +21,7 @@ struct AddNewCardView: View {
     @State var contents: String = ""
     
     @State var isPrivate: Bool = false //if true, proceed private card creation. not public
-	@State var isEncrpy: Bool = false //if true, the card requires individual decrpytion
+	@State var isEncrypt: Bool = false //if true, the card requires individual decrpytion
 	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
     
     init() {
@@ -58,6 +59,7 @@ struct AddNewCardView: View {
             }
             
             VStack(alignment: .leading) {
+				//TODO: use TextEditor(lib) for multiline textfield!
                 Text("Contents")
                 TextField("Contents", text: $contents)
                     .textFieldStyle(.roundedBorder)
