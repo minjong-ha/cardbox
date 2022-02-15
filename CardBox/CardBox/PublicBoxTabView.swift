@@ -59,9 +59,6 @@ struct PublicBoxTabView: View {
     }
 }
 
-
-
-
 struct PuplicBox_Previews: PreviewProvider {
     static var previews: some View {
         PublicBoxTabView()
