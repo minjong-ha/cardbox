@@ -88,7 +88,8 @@ struct AddNewCardView: View {
         .onAppear {
             let today = Date()
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+			//TODO: configurable date format? add new ConfigView + data + interaction
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" 
             
             print("DEBUG: AddCardView onAppear()")
             date = dateFormatter.string(from: today)
