@@ -14,6 +14,7 @@ struct AddNewCardView: View {
     
 	//Card Data
 	//TODO: make a Card class for RealmSwift
+    @State var uuid: String =  ""
     @State var title: String = ""
     @State var tag: String = ""
     @State var location: String = ""
@@ -71,11 +72,12 @@ struct AddNewCardView: View {
             
             Button(action: {
                 //TODO: Write new Card data into the RealmSwift
+                let uuid = NSUUID().uuidString
+                self.uuid = uuid
+                
                 print("DEBUG: Add New Card! Button Action")
-                self.title = ""
-                self.tag = ""
-                self.location = ""
-                self.contents = ""
+                print("DEBUG:", self.uuid)
+                
                 //TODO: refresh parent view when AddNewCardView dismiss -> use onAppear in parent view
                 self.dismiss()
             }) {
@@ -88,11 +90,12 @@ struct AddNewCardView: View {
         .onAppear {
             let today = Date()
             let dateFormatter = DateFormatter()
+            
 			//TODO: configurable date format? add new ConfigView + data + interaction
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" 
             
             print("DEBUG: AddCardView onAppear()")
-            date = dateFormatter.string(from: today)
+            self.date = dateFormatter.string(from: today)
         }
         .onDisappear {
             print("DEBUG: AddCardView onDisappear")
