@@ -43,15 +43,17 @@ struct AddNewCardView: View {
                 }
                 
                 VStack(alignment: .leading) {
+					//TODO: replace it to the datepicker!
                     Text("Date")
-                    TextField("Date", text: $date) //TODO: replace it to the datepicker!
+                    TextField("Date", text: $date) 
                         .textFieldStyle(.roundedBorder)
-                }
+				}
             }
             
            VStack(alignment: .leading) {
-                Text("Location")
-                TextField("Location", text: $location) //TODO: autofill current location! as String!
+			   //TODO: autofill current location! as String!
+			    Text("Location")
+                TextField("Location", text: $location) 
                     .textFieldStyle(.roundedBorder)
             }
             
@@ -92,7 +94,6 @@ struct AddNewCardView: View {
         .onDisappear {
             print("DEBUG: AddCardView onDisappear")
         }
-        //Add button that save the json data into RealmSwift! as "Public"
         
     }
 }
