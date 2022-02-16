@@ -24,7 +24,10 @@ struct PublicBoxTabView: View {
         self.publicCards = realm.objects(Card.self)
         let count = publicCards.count
         
-        print("DEBUG: count is ", count)
+        //TODO: filter isPrivate==false only (public cards)
+        let cardConfigs = realm.objects(CardConfig.self)
+        
+        print("DEBUG: nr_cards: ", count)
         for card in publicCards {
             print("DEBUG: Card is ", card.cardTitle)
         }
