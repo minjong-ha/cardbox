@@ -35,9 +35,6 @@ struct PrivateBoxTabView: View {
                 }
             }
         }
-        .onAppear {
-            print("DEBUG: PrivateBoxTabView onAppear")
-        }
     }
 }
 
