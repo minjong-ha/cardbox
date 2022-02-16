@@ -9,11 +9,7 @@ import SwiftUI
 import FoldingCell
 import Combine
 
-
-
-
 //TODO: add SwiftRealm and struct for it
-
 struct PublicBoxTabView: View {
 	var countCards: Int = 0
 	var publicCards: Card

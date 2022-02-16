@@ -29,6 +29,7 @@ struct AddNewCardView: View {
         print("DEBUG: load AddNewCardView")
     }
     
+	//TODO: check onAppear can use in body
     var body: some View {
         VStack (alignment: .center) {
              VStack(alignment: .leading) {
@@ -39,6 +40,8 @@ struct AddNewCardView: View {
             
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
+					//TODO: dropdown for tag, exist tag + new tag(appear additional add tag field) (https://medium.com/geekculture/custom-drop-down-text-field-in-swiftui-a748d2cebbeb) (https://stackoverflow.com/questions/59821797/is-there-a-way-to-populate-a-textfield-in-a-drop-down-manner-in-swiftui)
+					//TODO: add textfield for new view (alert) (https://stackoverflow.com/questions/56726663/how-to-add-a-textfield-to-alert-in-swiftui)
                     Text("Tag")
                     TextField("Tag", text: $tag)
                         .textFieldStyle(.roundedBorder)
@@ -121,10 +124,6 @@ struct AddNewCardView: View {
             print("DEBUG: AddCardView onAppear()")
             self.date = dateFormatter.string(from: today)
         }
-        .onDisappear {
-            print("DEBUG: AddCardView onDisappear")
-        }
-        
     }
 }
 

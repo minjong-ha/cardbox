@@ -22,7 +22,7 @@ class Card: Object {
 }    
 
 //TODO: change the class name for more better....
-class Authority: Object {
+class CardAccess: Object {
 	@Persisted(primaryKey: true) var cardUUID: String
 
 	@Persisted var isPrivate: Bool
@@ -31,8 +31,13 @@ class Authority: Object {
 }
 
 //How to handle this key?
-class Security: Object {
+class CardKey: Object {
 	@Persisted(primaryKey: true) var cardUUID: String
 
 	@Persisted var key: String
+}
+
+//for user defined tag
+class TagList: Object {
+	@Persisted var tag: string
 }
