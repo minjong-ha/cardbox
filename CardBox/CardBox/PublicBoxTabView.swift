@@ -8,14 +8,13 @@
 import SwiftUI
 import FoldingCell
 import Combine
+import RealmSwift
 
-//TODO: add SwiftRealm and struct for it
 struct PublicBoxTabView: View {
 	var countCards: Int = 0
 	var publicCards: Card
     
     init() {
-		//TODO: load Cards from RealmSwift
         print("DEBUG: load PublicBoxTabView")
 
 		let realm = try! Realm()
