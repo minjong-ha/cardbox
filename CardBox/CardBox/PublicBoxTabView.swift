@@ -15,18 +15,28 @@ import Combine
 //TODO: add SwiftRealm and struct for it
 
 struct PublicBoxTabView: View {
-	var nr_Cards: Int = 0
+	var countCards: Int = 0
+	var publicCards: Card
     
     init() {
 		//TODO: load Cards from RealmSwift
         print("DEBUG: load PublicBoxTabView")
+
+		let realm = try! Realm()
+		let cards = realm.objects(Card.self)
+		publicCards = cards.where {
+			$0.isPrivate == false
+		}
+		//TODO: Check it!
+		countCards = publicCards.count
+		print("DEBUG: countCards is \(countCards)")
     }
     
 	//TODO: add button for var body: some View
     var body: some View {
         //TODO: replace it with vertical list cards from RealmSwift
 		//TODO: create new View ==> CardView.swift to show the Card (will support modify and delete)
-		//TODO: onAppear load Cards List and update nr_Cards
+		//TODO: onAppear load Cards List and update countCards
 		//if Card exist in Realm --> List Card (https://www.hackingwithswift.com/quick-start/swiftui/composing-views-to-create-a-list-row)
 		//else print current info screen
         NavigationView {
