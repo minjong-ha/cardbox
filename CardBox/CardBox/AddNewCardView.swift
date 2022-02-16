@@ -8,12 +8,34 @@
 import Foundation
 import SwiftUI
 import Combine
+import CoreLocation
+import CoreLocationUI
+
+//TODO: is this necessary? test it
+class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    let manager = CLLocationManager()
+
+    @Published var location: CLLocationCoordinate2D?
+
+    override init() {
+        super.init()
+        manager.delegate = self
+    }
+
+    func requestLocation() {
+        manager.requestLocation()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.first?.coordinate
+    }
+}
 
 struct AddNewCardView: View {
     @Environment(\.dismiss) var dismiss
+	@StateObject var locationManager = LocationManager()
     
 	//Card Data
-	//TODO: make a Card class for RealmSwift
     @State var uuid: String =  ""
     @State var title: String = ""
     @State var tag: String = ""
@@ -24,9 +46,12 @@ struct AddNewCardView: View {
     @State var isPrivate: Bool = false //if true, proceed private card creation. not public
 	@State var isEncrypt: Bool = false //if true, the card requires individual decrpytion
 	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
+
+	@State var key: String = "" //work with self.isPrivate!
     
     init() {
         print("DEBUG: load AddNewCardView")
+
     }
     
 	//TODO: check onAppear can use in body
@@ -117,6 +142,11 @@ struct AddNewCardView: View {
         .onAppear {
             let today = Date()
             let dateFormatter = DateFormatter()
+
+			//TODO: get address from latitude and longitude
+			if let location = locationManager.location {
+				self.location = "\(location.latitude) \(location.longitude)"
+			}
             
 			//TODO: configurable date format? add new ConfigView + data + interaction
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" 
