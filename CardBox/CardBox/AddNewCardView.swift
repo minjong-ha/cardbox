@@ -89,6 +89,7 @@ struct AddNewCardView: View {
             
             VStack(alignment: .leading) {
 				//TODO: use TextEditor(lib) for multiline textfield! for vertically expandable textfield!
+				//TODO: character limit (https://stackoverflow.com/questions/56476007/swiftui-textfield-max-length)
                 Text("Contents")
                 TextField("Contents", text: $contents)
                     .textFieldStyle(.roundedBorder)
@@ -143,7 +144,7 @@ struct AddNewCardView: View {
             let today = Date()
             let dateFormatter = DateFormatter()
 
-			//TODO: get address from latitude and longitude
+			//TODO: get address from latitude and longitude (https://devsc.tistory.com/82) 
 			if let location = locationManager.location {
 				self.location = "\(location.latitude) \(location.longitude)"
 			}
