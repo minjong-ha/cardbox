@@ -89,8 +89,8 @@ Cardbox supports powerful sorting functions.
 
 
 ## Used Libraries
-  * https://github.com/realm/realm-swift (RealmSwift): mobile database 
-  * https://github.com/Ramotion/folding-cell (FoldingCell)
+  * https://github.com/realm/realm-swift (RealmSwift): mobile database (https://docs.mongodb.com/realm/sdk/swift/)
+  * https://github.com/Ramotion/folding-cell (FoldingCell) (https://github.com/Ramotion/folding-cell/issues/194)
 
 
 ## Libraries keep an eye on

@@ -21,10 +21,18 @@ class Card: Object {
     @Persisted var cardContents: String
 }    
 
+//TODO: change the class name for more better....
 class Authority: Object {
 	@Persisted(primaryKey: true) var cardUUID: String
 
 	@Persisted var isPrivate: Bool
 	@Persisted var isEncrypt: Bool
 	@Persisted var isCloud: Bool
+}
+
+//How to handle this key?
+class Security: Object {
+	@Persisted(primaryKey: true) var cardUUID: String
+
+	@Persisted var key: String
 }
