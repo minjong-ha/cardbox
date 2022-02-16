@@ -60,20 +60,44 @@ struct AddNewCardView: View {
             }
             
             VStack(alignment: .leading) {
-				//TODO: use TextEditor(lib) for multiline textfield!
+				//TODO: use TextEditor(lib) for multiline textfield! for vertically expandable textfield!
                 Text("Contents")
                 TextField("Contents", text: $contents)
                     .textFieldStyle(.roundedBorder)
             }
             
-            //TODO: this is for empty space for now. find right way!
+            //TODO: this is for empty space for now. find right way! (https://stackoverflow.com/questions/60324478/how-to-add-blank-space-at-the-bottom-of-a-form-in-swiftui)
+			//TODO: study about the padding (https://www.hackingwithswift.com/quick-start/swiftui/how-to-control-spacing-around-individual-views-using-padding)
             Text("(empty space)")
                 .hidden()
             
             Button(action: {
                 //TODO: Write new Card data into the RealmSwift
+				let realm = try! Realm()
+
+				let card = Card()
+				let card_authority = Authority()
+
                 let uuid = NSUUID().uuidString
                 self.uuid = uuid
+
+				card.cardUUID = self.uuid
+				card.cardTitle = self.title
+				card.cardTag = self.tag
+				card.cardLocation = self.location
+				card.cardDate = self.date
+				card.cardContents = self.contents
+
+				card_authority.cardUUID = self.uuid
+				card_authority.isPrivate = self.isPrivate
+				card_authority.isEncrypt = self.isEncrypt
+				card_authority.isCloud = self.isCloud
+
+				//TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
+				try! realm.write {
+					realm.add(card, update: true)
+					realm.add(card_authority, update: true)
+				}
                 
                 print("DEBUG: Add New Card! Button Action")
                 print("DEBUG:", self.uuid)

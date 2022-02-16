@@ -15,14 +15,20 @@ import Combine
 //TODO: add SwiftRealm and struct for it
 
 struct PublicBoxTabView: View {
+	var nr_Cards: Int = 0
     
     init() {
+		//TODO: load Cards from RealmSwift
         print("DEBUG: load PublicBoxTabView")
     }
     
+	//TODO: add button for var body: some View
     var body: some View {
-        
         //TODO: replace it with vertical list cards from RealmSwift
+		//TODO: create new View ==> CardView.swift to show the Card (will support modify and delete)
+		//TODO: onAppear load Cards List and update nr_Cards
+		//if Card exist in Realm --> List Card (https://www.hackingwithswift.com/quick-start/swiftui/composing-views-to-create-a-list-row)
+		//else print current info screen
         NavigationView {
             VStack (alignment: .leading) {
                 Text("This is the Public Box which contains public cards!")
@@ -35,26 +41,8 @@ struct PublicBoxTabView: View {
                     NavigationLink(destination: OnDemandView(AddNewCardView())) {
                         Text("Add")
                     }
-                    .onAppear {
-                        print("DEBUG: PublicBoxTabView NavigationLink onAppear")
-                    }
-                    .onDisappear {
-                        print("DEBUG: PublicBoxTabView NavigationLink onDisappear")
-                    }
                 }
             }
-            .onAppear {
-                print("DEBUG: PublicBoxTabView NavigationView onAppear")
-            }
-            .onDisappear {
-                print("DEBUG: PublicBoxTabView NavigationView onDisaapear")
-            }
-        }
-        .onAppear {
-            print("DEBUG: PublicBoxTabView onAppear")
-        }
-        .onDisappear {
-            print("DEBUG: PublicBoxTabView onDisappear")
         }
     }
 }
