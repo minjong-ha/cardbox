@@ -10,7 +10,7 @@ import RealmSwift
 
 //TODO: consider the Object structure. Remember, changing Object struct is impossible as I know...
 //TODO: add func() for Object interaction?
-//TODO: test can change Object class structure in live service
+//TODO: update schema caution (https://docs.mongodb.com/realm/sdk/swift/examples/modify-an-object-schema/)
 class Card: Object {
     @Persisted(primaryKey: true) var cardUUID: String
 
@@ -22,7 +22,7 @@ class Card: Object {
 }    
 
 //TODO: change the class name for more better....
-class CardAccess: Object {
+class CardConfig: Object {
 	@Persisted(primaryKey: true) var cardUUID: String
 
 	@Persisted var isPrivate: Bool
