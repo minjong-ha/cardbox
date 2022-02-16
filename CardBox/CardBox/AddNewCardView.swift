@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 import CoreLocation
 import CoreLocationUI
+import RealmSwift
 
 //TODO: is this necessary? test it
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
@@ -51,10 +52,14 @@ struct AddNewCardView: View {
     
     init() {
         print("DEBUG: load AddNewCardView")
-
+        //TODO: fully understand Realm migration and make auto figure
+        //TODO: before then, manually remove swift file for containers...
+        print(Realm.Configuration.defaultConfiguration.fileURL)
+        print("hello?")
     }
     
 	//TODO: check onAppear can use in body
+    
     var body: some View {
         VStack (alignment: .center) {
              VStack(alignment: .leading) {
@@ -88,11 +93,12 @@ struct AddNewCardView: View {
             }
             
             VStack(alignment: .leading) {
-				//TODO: use TextEditor(lib) for multiline textfield! for vertically expandable textfield!
-				//TODO: character limit (https://stackoverflow.com/questions/56476007/swiftui-textfield-max-length)
+				//TODO: character limit + TextEditor Background color problem (https://stackoverflow.com/questions/56476007/swiftui-textfield-max-length)
                 Text("Contents")
-                TextField("Contents", text: $contents)
+                TextEditor(text: $contents)
                     .textFieldStyle(.roundedBorder)
+                //TextField("Contents", text: $contents)
+                    //.textFieldStyle(.roundedBorder)
             }
             
             //TODO: this is for empty space for now. find right way! (https://stackoverflow.com/questions/60324478/how-to-add-blank-space-at-the-bottom-of-a-form-in-swiftui)
@@ -101,11 +107,11 @@ struct AddNewCardView: View {
                 .hidden()
             
             Button(action: {
-                //TODO: Write new Card data into the RealmSwift
+                //TODO: fix try! error (https://www.selmanalpdundar.com/solution-of-realm-migration-error-code-10.html)
 				let realm = try! Realm()
 
 				let card = Card()
-				let card_authority = Authority()
+                let card_config = CardConfig()
 
                 let uuid = NSUUID().uuidString
                 self.uuid = uuid
@@ -117,19 +123,26 @@ struct AddNewCardView: View {
 				card.cardDate = self.date
 				card.cardContents = self.contents
 
-				card_authority.cardUUID = self.uuid
-				card_authority.isPrivate = self.isPrivate
-				card_authority.isEncrypt = self.isEncrypt
-				card_authority.isCloud = self.isCloud
+                card_config.cardUUID = self.uuid
+				card_config.isPrivate = self.isPrivate
+				card_config.isEncrypt = self.isEncrypt
+				card_config.isCloud = self.isCloud
 
 				//TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
-				try! realm.write {
-					realm.add(card, update: true)
-					realm.add(card_authority, update: true)
-				}
+                try! realm.write {
+                    realm.add(card, update: .modified)
+                    realm.add(card_config, update: .modified)
+                    //realm.add(card, update: true)
+                    //realm.add(card_authority, update: true)
+                }
                 
                 print("DEBUG: Add New Card! Button Action")
                 print("DEBUG:", self.uuid)
+                print("DEBUG:", self.title)
+                print("DEBUG:", self.tag)
+                print("DEBUG:", self.location)
+                print("DEBUG:", self.date)
+                print("DEBUG:", self.contents)
                 
                 //TODO: refresh parent view when AddNewCardView dismiss -> use onAppear in parent view
                 self.dismiss()
