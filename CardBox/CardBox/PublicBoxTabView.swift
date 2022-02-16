@@ -11,20 +11,32 @@ import Combine
 import RealmSwift
 
 struct PublicBoxTabView: View {
-	var countCards: Int = 0
-	var publicCards: Card
+	//var countCards: Int = 0
+    //var publicCards: Results<Card>
+    
+    var publicCards: Results<Card>
+    
     
     init() {
         print("DEBUG: load PublicBoxTabView")
-
-		let realm = try! Realm()
-		let cards = realm.objects(Card.self)
-		publicCards = cards.where {
-			$0.isPrivate == false
-		}
+        
+        let realm = try! Realm()
+        self.publicCards = realm.objects(Card.self)
+        let count = publicCards.count
+        
+        print("DEBUG: count is ", count)
+        for card in publicCards {
+            print("DEBUG: Card is ", card.cardTitle)
+        }
+        
+        
+		//let cards = realm.objects(Card.self)
+		//publicCards = cards.where {
+			//$0.isPrivate == false
+		//}
 		//TODO: Check it!
-		countCards = publicCards.count
-		print("DEBUG: countCards is \(countCards)")
+        //countCards = publicCards.accessibilityElementCount()
+		//print("DEBUG: countCards is \(countCards)")
     }
     
 	//TODO: add button for var body: some View

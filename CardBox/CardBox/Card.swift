@@ -19,15 +19,14 @@ class Card: Object {
     @Persisted var cardLocation: String
     @Persisted var cardDate: String
     @Persisted var cardContents: String
-}    
-
-//TODO: change the class name for more better....
+}
+    
 class CardConfig: Object {
-	@Persisted(primaryKey: true) var cardUUID: String
-
-	@Persisted var isPrivate: Bool
-	@Persisted var isEncrypt: Bool
-	@Persisted var isCloud: Bool
+    @Persisted(primaryKey: true) var cardUUID: String
+    
+    @Persisted var isPrivate: Bool
+    @Persisted var isEncrypt: Bool
+    @Persisted var isCloud: Bool
 }
 
 //How to handle this key?
@@ -39,5 +38,5 @@ class CardKey: Object {
 
 //for user defined tag
 class TagList: Object {
-	@Persisted var tag: string
+	@Persisted var tag: String
 }
