@@ -8,7 +8,6 @@
 import Foundation
 import RealmSwift
 
-//TODO: consider the Object structure. Remember, changing Object struct is impossible as I know...
 //TODO: add func() for Object interaction?
 //TODO: update schema caution (https://docs.mongodb.com/realm/sdk/swift/examples/modify-an-object-schema/)
 class Card: Object {
