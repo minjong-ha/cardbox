@@ -28,6 +28,27 @@ struct PublicBoxTabView: View {
         }
     }
     
+    private func onAppearUpdate() {
+        let cardInfoList = realm.objects(CardInfo.self)
+        
+        self.publicCardInfoList = cardInfoList.where {
+            $0.isPrivate == false
+        }
+        
+        if (self.publicCardInfoList.count > 0) {
+            self.isExist = true
+        }
+    }
+    
+    private func onDeleteCard(at indexSet: IndexSet) {
+        try! realm.write {
+            indexSet.forEach({
+                realm.delete(self.publicCardInfoList[$0])
+            })
+        }
+        onAppearUpdate()
+    }
+    
     var body: some View {
         if (self.isExist) {
             NavigationView {
@@ -36,18 +57,8 @@ struct PublicBoxTabView: View {
                         let title = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)?.cardTitle
                         Text(title ?? "UNKNOWN")
                     }
-                    .onAppear(perform:  {
-                        let cardInfoList = realm.objects(CardInfo.self)
-                        
-                        self.publicCardInfoList = cardInfoList.where {
-                            $0.isPrivate == false
-                        }
-                        
-                        if (self.publicCardInfoList.count > 0) {
-                            self.isExist = true
-                        }
-                        
-                    })
+                    .onDelete(perform: self.onDeleteCard)
+                    .onAppear(perform: self.onAppearUpdate)
                 }
                 .navigationTitle("Public Box")
                 .toolbar {
@@ -58,23 +69,11 @@ struct PublicBoxTabView: View {
                     }
                 }
             }
-            .onAppear {
-                let cardInfoList = realm.objects(CardInfo.self)
-                
-                self.publicCardInfoList = cardInfoList.where {
-                    $0.isPrivate == false
-                }
-                
-                if (self.publicCardInfoList.count > 0) {
-                    self.isExist = true
-                }
-            }
         }
         else {
             NavigationView {
                 VStack (alignment: .leading) {
                     Text("This is the Public Box which contains public cards!")
-                        .foregroundColor(.none)
                     Text("Press 'Add' to write a new card!")
                 }
                 .padding()
@@ -86,17 +85,7 @@ struct PublicBoxTabView: View {
                         }
                     }
                 }
-            }
-            .onAppear {
-                let cardInfoList = realm.objects(CardInfo.self)
-                
-                self.publicCardInfoList = cardInfoList.where {
-                    $0.isPrivate == false
-                }
-                
-                if (self.publicCardInfoList.count > 0) {
-                    self.isExist = true
-                }
+                .onAppear(perform: self.onAppearUpdate)
             }
         }
     }
