@@ -11,53 +11,91 @@ import Combine
 import RealmSwift
 
 struct PublicBoxTabView: View {
-
-	var countPublicCardList: Int
-    var publicCardList: Results<Card>
+    
+    let realm = try! Realm()
+    @State var publicCardInfoList: Results<CardInfo>
+    @State var isExist: Bool = false
     
     init() {
-        print("DEBUG: load PublicBoxTabView")
+        let cardInfoList = realm.objects(CardInfo.self)
         
-        let realm = try! Realm()
-
-		let cardList = realm.objects(Card.self)
-        let configList = realm.objects(CardConfig.self)
-
-		let publicConfigList = configs.where {
+        self.publicCardInfoList = cardInfoList.where {
 			$0.isPrivate == false
 		}
-
-		//TODO: check this plot, grammar
-		for publicConfig in publicConfigs {
-			let publicUUID = publicConfig.cardUUID
-			let publicCard = realm.object(ofTypes: Person.self, forPrimaryKey: publicUUID)
-			self.publicCardList.append(publicCard)
-		}
-		print("publicCardList: ", self.publicCardList.count)
-		for publicCard in publicCardList {
-			print("Public Card: ", publicCard.title)
-		}
+        
+        if (self.publicCardInfoList.count > 0) {
+            self.isExist = true
+        }
     }
     
-	//TODO: add button for var body: some View
     var body: some View {
-        //TODO: replace it with vertical list cards from RealmSwift
-		//TODO: create new View ==> CardView.swift to show the Card (will support modify and delete)
-		//TODO: onAppear load Cards List and update countCards
-		//if Card exist in Realm --> List Card (https://www.hackingwithswift.com/quick-start/swiftui/composing-views-to-create-a-list-row) (https://peterfriese.dev/posts/swiftui-listview-part4/)
-		//else print current info screen
-        NavigationView {
-            VStack (alignment: .leading) {
-                Text("This is the Public Box which contains public cards!")
-                Text("Press 'Add' to write a new card!")
-            }
-            .padding()
-            .navigationTitle("Public Box")
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: OnDemandView(AddNewCardView())) {
-                        Text("Add")
+        if (self.isExist) {
+            NavigationView {
+                List {
+                    ForEach(self.publicCardInfoList, id: \.self) { publicCardInfo in
+                        let title = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)?.cardTitle
+                        Text(title ?? "UNKNOWN")
                     }
+                    .onAppear(perform:  {
+                        let cardInfoList = realm.objects(CardInfo.self)
+                        
+                        self.publicCardInfoList = cardInfoList.where {
+                            $0.isPrivate == false
+                        }
+                        
+                        if (self.publicCardInfoList.count > 0) {
+                            self.isExist = true
+                        }
+                        
+                    })
+                }
+                .navigationTitle("Public Box")
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: OnDemandView(AddNewCardView())) {
+                            Text("Add")
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                let cardInfoList = realm.objects(CardInfo.self)
+                
+                self.publicCardInfoList = cardInfoList.where {
+                    $0.isPrivate == false
+                }
+                
+                if (self.publicCardInfoList.count > 0) {
+                    self.isExist = true
+                }
+            }
+        }
+        else {
+            NavigationView {
+                VStack (alignment: .leading) {
+                    Text("This is the Public Box which contains public cards!")
+                        .foregroundColor(.none)
+                    Text("Press 'Add' to write a new card!")
+                }
+                .padding()
+                .navigationTitle("Public Box")
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: OnDemandView(AddNewCardView())) {
+                            Text("Add")
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                let cardInfoList = realm.objects(CardInfo.self)
+                
+                self.publicCardInfoList = cardInfoList.where {
+                    $0.isPrivate == false
+                }
+                
+                if (self.publicCardInfoList.count > 0) {
+                    self.isExist = true
                 }
             }
         }

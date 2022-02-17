@@ -20,12 +20,13 @@ class Card: Object {
     @Persisted var cardContents: String
 }
     
-class CardConfig: Object {
+class CardInfo: Object {
     @Persisted(primaryKey: true) var cardUUID: String
     
     @Persisted var isPrivate: Bool
     @Persisted var isEncrypt: Bool
     @Persisted var isCloud: Bool
+    @Persisted var isChecked: Bool
 }
 
 //How to handle this key?

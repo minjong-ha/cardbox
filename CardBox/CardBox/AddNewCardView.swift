@@ -12,29 +12,8 @@ import CoreLocation
 import CoreLocationUI
 import RealmSwift
 
-//TODO: is this necessary? test it
-class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    let manager = CLLocationManager()
-
-    @Published var location: CLLocationCoordinate2D?
-
-    override init() {
-        super.init()
-        manager.delegate = self
-    }
-
-    func requestLocation() {
-        manager.requestLocation()
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = locations.first?.coordinate
-    }
-}
-
 struct AddNewCardView: View {
     @Environment(\.dismiss) var dismiss
-	@StateObject var locationManager = LocationManager()
     
 	//Card Data
     @State var uuid: String =  ""
@@ -47,6 +26,7 @@ struct AddNewCardView: View {
     @State var isPrivate: Bool = false //if true, proceed private card creation. not public
 	@State var isEncrypt: Bool = false //if true, the card requires individual decrpytion
 	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
+    @State var isChecked: Bool = false //if ture, the card contents will be exposed with delete line
 
 	@State var key: String = "" //work with self.isPrivate!
     
@@ -98,21 +78,19 @@ struct AddNewCardView: View {
                 Text("Contents")
                 TextEditor(text: $contents)
                     .textFieldStyle(.roundedBorder)
-                //TextField("Contents", text: $contents)
-                    //.textFieldStyle(.roundedBorder)
             }
             
             //TODO: this is for empty space for now. find right way! (https://stackoverflow.com/questions/60324478/how-to-add-blank-space-at-the-bottom-of-a-form-in-swiftui)
 			//TODO: study about the padding (https://www.hackingwithswift.com/quick-start/swiftui/how-to-control-spacing-around-individual-views-using-padding)
-            Text("(empty space)")
-                .hidden()
+            //Text("(empty space)")
+                //.hidden()
             
             Button(action: {
                 //TODO: fix try! error (https://www.selmanalpdundar.com/solution-of-realm-migration-error-code-10.html)
 				let realm = try! Realm()
 
 				let card = Card()
-                let card_config = CardConfig()
+                let cardInfo = CardInfo()
 
                 let uuid = NSUUID().uuidString
                 self.uuid = uuid
@@ -124,15 +102,15 @@ struct AddNewCardView: View {
 				card.cardDate = self.date
 				card.cardContents = self.contents
 
-                card_config.cardUUID = self.uuid
-				card_config.isPrivate = self.isPrivate
-				card_config.isEncrypt = self.isEncrypt
-				card_config.isCloud = self.isCloud
+                cardInfo.cardUUID = self.uuid
+				cardInfo.isPrivate = self.isPrivate
+				cardInfo.isEncrypt = self.isEncrypt
+				cardInfo.isCloud = self.isCloud
 
 				//TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
                 try! realm.write {
                     realm.add(card, update: .modified)
-                    realm.add(card_config, update: .modified)
+                    realm.add(cardInfo, update: .modified)
                     //realm.add(card, update: true)
                     //realm.add(card_authority, update: true)
                 }
@@ -159,17 +137,16 @@ struct AddNewCardView: View {
             let dateFormatter = DateFormatter()
 
 			//TODO: get address from latitude and longitude (https://devsc.tistory.com/82) 
-			if let location = locationManager.location {
-				self.location = "\(location.latitude) \(location.longitude)"
-			}
-			print("location: ", location.latitude, location.longitude)
-            
 			//TODO: configurable date format? add new ConfigView + data + interaction
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" 
             
             print("DEBUG: AddCardView onAppear()")
             self.date = dateFormatter.string(from: today)
         }
+        .onDisappear(perform:  {
+            print("DEBUG: AddNewCard View onDisappear")
+            
+        })
     }
 }
 
