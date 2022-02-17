@@ -59,7 +59,6 @@ struct AddNewCardView: View {
     }
     
 	//TODO: check onAppear can use in body
-    
     var body: some View {
         VStack (alignment: .center) {
              VStack(alignment: .leading) {
@@ -94,6 +93,8 @@ struct AddNewCardView: View {
             
             VStack(alignment: .leading) {
 				//TODO: character limit + TextEditor Background color problem (https://stackoverflow.com/questions/56476007/swiftui-textfield-max-length)
+				//(https://stackoverflow.com/questions/65459579/texteditor-added-swiftui)
+				//default text: (https://stackoverflow.com/questions/62741851/how-to-add-placeholder-text-to-texteditor-in-swiftui) // ZStack
                 Text("Contents")
                 TextEditor(text: $contents)
                     .textFieldStyle(.roundedBorder)
@@ -161,6 +162,7 @@ struct AddNewCardView: View {
 			if let location = locationManager.location {
 				self.location = "\(location.latitude) \(location.longitude)"
 			}
+			print("location: ", location.latitude, location.longitude)
             
 			//TODO: configurable date format? add new ConfigView + data + interaction
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" 

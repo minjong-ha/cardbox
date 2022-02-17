@@ -11,35 +11,32 @@ import Combine
 import RealmSwift
 
 struct PublicBoxTabView: View {
-	//var countCards: Int = 0
-    //var publicCards: Results<Card>
-    
-    var publicCards: Results<Card>
-    
+
+	var countPublicCardList: Int
+    var publicCardList: Results<Card>
     
     init() {
         print("DEBUG: load PublicBoxTabView")
         
         let realm = try! Realm()
-        self.publicCards = realm.objects(Card.self)
-        let count = publicCards.count
-        
-        //TODO: filter isPrivate==false only (public cards)
-        let cardConfigs = realm.objects(CardConfig.self)
-        
-        print("DEBUG: nr_cards: ", count)
-        for card in publicCards {
-            print("DEBUG: Card is ", card.cardTitle)
-        }
-        
-        
-		//let cards = realm.objects(Card.self)
-		//publicCards = cards.where {
-			//$0.isPrivate == false
-		//}
-		//TODO: Check it!
-        //countCards = publicCards.accessibilityElementCount()
-		//print("DEBUG: countCards is \(countCards)")
+
+		let cardList = realm.objects(Card.self)
+        let configList = realm.objects(CardConfig.self)
+
+		let publicConfigList = configs.where {
+			$0.isPrivate == false
+		}
+
+		//TODO: check this plot, grammar
+		for publicConfig in publicConfigs {
+			let publicUUID = publicConfig.cardUUID
+			let publicCard = realm.object(ofTypes: Person.self, forPrimaryKey: publicUUID)
+			self.publicCardList.append(publicCard)
+		}
+		print("publicCardList: ", self.publicCardList.count)
+		for publicCard in publicCardList {
+			print("Public Card: ", publicCard.title)
+		}
     }
     
 	//TODO: add button for var body: some View
@@ -47,7 +44,7 @@ struct PublicBoxTabView: View {
         //TODO: replace it with vertical list cards from RealmSwift
 		//TODO: create new View ==> CardView.swift to show the Card (will support modify and delete)
 		//TODO: onAppear load Cards List and update countCards
-		//if Card exist in Realm --> List Card (https://www.hackingwithswift.com/quick-start/swiftui/composing-views-to-create-a-list-row)
+		//if Card exist in Realm --> List Card (https://www.hackingwithswift.com/quick-start/swiftui/composing-views-to-create-a-list-row) (https://peterfriese.dev/posts/swiftui-listview-part4/)
 		//else print current info screen
         NavigationView {
             VStack (alignment: .leading) {
