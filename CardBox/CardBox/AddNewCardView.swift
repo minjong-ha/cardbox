@@ -86,11 +86,9 @@ struct AddNewCardView: View {
                 //.hidden()
             
             Button(action: {
-                //TODO: fix try! error (https://www.selmanalpdundar.com/solution-of-realm-migration-error-code-10.html)
 				let realm = try! Realm()
 
 				let card = Card()
-                let cardInfo = CardInfo()
 
                 let uuid = NSUUID().uuidString
                 self.uuid = uuid
@@ -102,15 +100,14 @@ struct AddNewCardView: View {
 				card.cardDate = self.date
 				card.cardContents = self.contents
 
-                cardInfo.cardUUID = self.uuid
-				cardInfo.isPrivate = self.isPrivate
-				cardInfo.isEncrypt = self.isEncrypt
-				cardInfo.isCloud = self.isCloud
+                card.cardUUID = self.uuid
+				card.isPrivate = self.isPrivate
+				card.isEncrypt = self.isEncrypt
+				card.isCloud = self.isCloud
 
 				//TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
                 try! realm.write {
                     realm.add(card, update: .modified)
-                    realm.add(cardInfo, update: .modified)
                     //realm.add(card, update: true)
                     //realm.add(card_authority, update: true)
                 }
