@@ -26,8 +26,7 @@ struct PublicBoxTabView: View {
     @State var publicCardCellList: Array<PublicCardCell> = []
     
     init() {
-        print()
-        print("DEBUG: INIT()")
+        //print("DEBUG: INIT()")
         
         let cardList = realm.objects(Card.self)
         self.publicCardList = cardList.where {
@@ -41,14 +40,14 @@ struct PublicBoxTabView: View {
             
             for publicCard in self.publicCardList {
                 let publicCardCell = PublicCardCell.init(cardUUID: publicCard.cardUUID, cardTag: publicCard.cardTag, cardTitle: publicCard.cardTitle)
-                print("DEBUG: ", publicCardCell.cardUUID, publicCardCell.cardTag, publicCardCell.cardTitle)
+                //print("DEBUG: ", publicCardCell.cardUUID, publicCardCell.cardTag, publicCardCell.cardTitle)
                 self.publicCardCellList.append(publicCardCell)
             }
         }
     }
     
     private func onAppearUpdate() {
-        print("DEBUG: onAppearUpdate()")
+        //print("DEBUG: onAppearUpdate()")
         let cardList = realm.objects(Card.self)
         self.publicCardList = cardList.where {
             $0.isPrivate == false
@@ -95,13 +94,16 @@ struct PublicBoxTabView: View {
             NavigationView {
                 List {
                     ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        HStack {
-                            Text(publicCardCell.cardTag)
-                            Text(publicCardCell.cardTitle)
+                        NavigationLink(destination: OnDemandView(CardView())) {
+                            HStack {
+                                Text(publicCardCell.cardTag)
+                                Text(publicCardCell.cardTitle)
+                            }
                         }
                     }
                     .onDelete(perform: self.onDeleteCard)
                     .onAppear(perform: self.onAppearUpdate)
+                    .background(Color.clear)
                 }
                 .navigationTitle("Public Box")
                 .toolbar {
