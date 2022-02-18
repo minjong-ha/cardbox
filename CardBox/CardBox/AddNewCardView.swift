@@ -34,7 +34,7 @@ struct AddNewCardView: View {
         print("DEBUG: load AddNewCardView")
         //TODO: fully understand Realm migration and make auto figure
         //TODO: before then, manually remove swift file for containers...
-        print(Realm.Configuration.defaultConfiguration.fileURL)
+        print("DEBUG: ", Realm.Configuration.defaultConfiguration.fileURL)
         print("hello?")
     }
     

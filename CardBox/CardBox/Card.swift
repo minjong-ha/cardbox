@@ -10,6 +10,15 @@ import RealmSwift
 
 //TODO: add func() for Object interaction?
 //TODO: update schema caution (https://docs.mongodb.com/realm/sdk/swift/examples/modify-an-object-schema/)
+
+struct CardCell {
+    var cardUUID: String
+    var cardTitle: String
+    var cardTag: String
+    var cardLocation: String
+    var cardDate: String
+    var cardContents: String
+}
 class Card: Object {
     @Persisted(primaryKey: true) var cardUUID: String
 
@@ -19,7 +28,7 @@ class Card: Object {
     @Persisted var cardDate: String
     @Persisted var cardContents: String
 }
-    
+
 class CardInfo: Object {
     @Persisted(primaryKey: true) var cardUUID: String
     
