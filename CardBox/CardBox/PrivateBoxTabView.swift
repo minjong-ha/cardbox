@@ -18,7 +18,6 @@ struct PrivateBoxTabView: View {
     }
     
     var body: some View {
-        //What is ZStack?
         NavigationView {
             VStack (alignment: .leading) {
                 Text("This is the Private Box which contains secret cards!")
