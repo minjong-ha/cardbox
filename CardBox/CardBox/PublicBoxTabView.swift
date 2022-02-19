@@ -4,69 +4,65 @@
 //
 //  Created by 하민종 on 2022/02/12.
 //
-
 import SwiftUI
 import FoldingCell
 import Combine
 import RealmSwift
 
-struct PublicCardCell: Hashable {
-    var cardUUID: String // primary key
-    
-    var cardTag: String
-    var cardTitle: String
-}
-
 struct PublicBoxTabView: View {
     
     let realm = try! Realm()
     
-    @State var publicCardList: Results<Card>
     @State var isPublicExist: Bool = false
-    @State var publicCardCellList: Array<PublicCardCell> = []
+    @State var publicCardCellList: Array<CardCell> = []
     
     init() {
         //print("DEBUG: INIT()")
         
-        let cardList = realm.objects(Card.self)
-        self.publicCardList = cardList.where {
+        let cardInfoList = realm.objects(CardInfo.self)
+        let publicCardInfoList = cardInfoList.where {
             $0.isPrivate == false
         }
         
-        if (self.publicCardList.count > 0) {
+        //if (self.publicCardList.count > 0) {
+        if (publicCardInfoList.count > 0) {
             self.isPublicExist = true
-            
             self.publicCardCellList.removeAll()
             
-            for publicCard in self.publicCardList {
-                let publicCardCell = PublicCardCell.init(cardUUID: publicCard.cardUUID, cardTag: publicCard.cardTag, cardTitle: publicCard.cardTitle)
-                //print("DEBUG: ", publicCardCell.cardUUID, publicCardCell.cardTag, publicCardCell.cardTitle)
-                self.publicCardCellList.append(publicCardCell)
-            }
-        }
-    }
-    
-    private func onAppearUpdate() {
-        //print("DEBUG: onAppearUpdate()")
-        let cardList = realm.objects(Card.self)
-        self.publicCardList = cardList.where {
-            $0.isPrivate == false
-        }
-        
-        if (self.publicCardList.count > 0) {
-            self.isPublicExist = true
             
-            self.publicCardCellList.removeAll()
-            
-            for publicCard in self.publicCardList {
-                let publicCardCell = PublicCardCell.init(cardUUID: publicCard.cardUUID, cardTag: publicCard.cardTag, cardTitle: publicCard.cardTitle)
-                print("DEBUG: ", publicCard.cardTitle, publicCardCell.cardTitle, publicCard.cardTag, publicCardCell.cardTag)
+            for publicCardInfo in publicCardInfoList {
+                let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
+                let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle)
                 self.publicCardCellList.append(publicCardCell)
             }
         }
         else {
             self.isPublicExist = false
         }
+    }
+    
+    private func onAppearUpdate() {
+        
+        let cardInfoList = realm.objects(CardInfo.self)
+        let publicCardInfoList = cardInfoList.where {
+            $0.isPrivate == false
+        }
+        
+        //if (self.publicCardList.count > 0) {
+        if (publicCardInfoList.count > 0) {
+            self.isPublicExist = true
+            self.publicCardCellList.removeAll()
+            
+            for publicCardInfo in publicCardInfoList {
+                let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
+                let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle)
+                self.publicCardCellList.append(publicCardCell)
+            }
+        }
+        else {
+            self.isPublicExist = false
+        }
+        //print("DEBUG: onAppearUpdate()")
     }
     
     private func onDeleteCard(at indexSet: IndexSet) {
@@ -76,10 +72,12 @@ struct PublicBoxTabView: View {
                 print("DEBUG: try to delete ", index, "cell_", publicCardCell.cardUUID, publicCardCell.cardTag, publicCardCell.cardTitle)
                 
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
+                let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
                 print("DEBUG: deleting RealmObject ", publicCard?.cardTitle)
                 
                 if(publicCard != nil) {
                     realm.delete(publicCard!)
+                    realm.delete(publicCardInfo!)
                 }
                 else {
                     print("DEBUG: There is no matched RealmObject")
@@ -94,7 +92,7 @@ struct PublicBoxTabView: View {
             NavigationView {
                 List {
                     ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        NavigationLink(destination: OnDemandView(CardView())) {
+                        NavigationLink(destination: OnDemandView(CardView(cardCell: publicCardCell, localTag: "", localDate: "", localContents: "", localLocation: ""))) {
                             HStack {
                                 Text(publicCardCell.cardTag)
                                 Text(publicCardCell.cardTitle)
