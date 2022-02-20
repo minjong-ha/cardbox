@@ -63,7 +63,7 @@ The "local" parameter enables users could keep their cards only in the local mac
 The "cloud" parameter enables users could sync their cards with the server (it could be the icloud).
 
 
-### 3. Notes
+### 3. Cards
 
 Each cards has its name, tag, day and etc.
 One of the interesting parts of card is it automatically resize the texts depending on its size.
