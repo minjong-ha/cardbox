@@ -89,6 +89,7 @@ struct AddNewCardView: View {
 				let realm = try! Realm()
 
 				let card = Card()
+                let cardInfo = CardInfo()
 
                 let uuid = NSUUID().uuidString
                 self.uuid = uuid
@@ -100,16 +101,15 @@ struct AddNewCardView: View {
 				card.cardDate = self.date
 				card.cardContents = self.contents
 
-                card.cardUUID = self.uuid
-				card.isPrivate = self.isPrivate
-				card.isEncrypt = self.isEncrypt
-				card.isCloud = self.isCloud
+                cardInfo.cardUUID = self.uuid
+				cardInfo.isPrivate = self.isPrivate
+				cardInfo.isEncrypt = self.isEncrypt
+                cardInfo.isCloud = self.isCloud
 
 				//TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
                 try! realm.write {
                     realm.add(card, update: .modified)
-                    //realm.add(card, update: true)
-                    //realm.add(card_authority, update: true)
+                    realm.add(cardInfo, update: .modified)
                 }
                 
                 print("DEBUG: Add New Card! Button Action")

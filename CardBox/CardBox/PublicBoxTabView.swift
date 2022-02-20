@@ -92,7 +92,7 @@ struct PublicBoxTabView: View {
             NavigationView {
                 List {
                     ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        NavigationLink(destination: OnDemandView(CardView(cardCell: publicCardCell, localTag: "", localDate: "", localContents: "", localLocation: ""))) {
+                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: "", localTag: "", localDate: "", localContents: "", localLocation: ""))) {
                             HStack {
                                 Text(publicCardCell.cardTag)
                                 Text(publicCardCell.cardTitle)

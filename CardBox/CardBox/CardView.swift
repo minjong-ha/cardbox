@@ -8,30 +8,43 @@
 import SwiftUI
 import RealmSwift
 
+//TODO: change architecture local --> RealmObject load
 struct CardView: View {
-    @State var cardCell: CardCell
+    @State var cardUUID: String
     
+    @State var localTitle: String
     @State var localTag: String
     @State var localDate: String
     @State var localContents: String
     @State var localLocation: String
     
+    @Environment(\.colorScheme) var colorScheme
+    
     //TODO: Change cardCell.inValue to localValue for textfield text
     private func onAppearUpdate() {
-        if (self.cardCell.cardTitle == "") {
-            self.cardCell.cardTitle = "Empty Title"
+        let realm = try! Realm()
+        
+        let card = realm.object(ofType: Card.self, forPrimaryKey: self.cardUUID)
+        self.localTitle = card!.cardTitle
+        self.localTag = card!.cardTag
+        self.localLocation = card!.cardLocation
+        self.localDate = card!.cardDate
+        self.localContents = card!.cardContents
+        
+        if (self.localTitle == "") {
+            self.localTitle = "Empty Title"
         }
-        if (self.cardCell.cardTag == "") {
-            self.cardCell.cardTag = "Empty Tag"
+        if (self.localTag == "") {
+            self.localTag = "No Tag"
         }
-        if (self.cardCell.cardLocation == "") {
-            self.cardCell.cardLocation = "No Location"
+        if (self.localLocation == "") {
+            self.localLocation = "No Location Info"
         }
-        if (self.cardCell.cardDate == "") {
-            self.cardCell.cardDate = "No Date"
+        if (self.localDate == "") {
+            self.localDate = "No Date Info"
         }
-        if (self.cardCell.cardContents == "") {
-            self.cardCell.cardContents = "Empty Contents"
+        if (self.localContents == "") {
+            self.localContents = "No Contents Data"
         }
     }
     
@@ -40,27 +53,41 @@ struct CardView: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
                     Text("Tag")
-                    TextField(self.cardCell.cardTag, text: $localTag)
+                        .font(.title2)
+                        .bold()
+                    TextField(self.localTag, text: $localTag)
                         .textFieldStyle(.roundedBorder)
                         .disabled(true)
                 }
                 VStack(alignment: .leading) {
                     Text("Date")
-                    TextField(self.cardCell.cardTag, text: $localDate)
+                        .font(.title2)
+                        .bold()
+                    TextField(self.localDate, text: $localDate)
                         .textFieldStyle(.roundedBorder)
                         .disabled(true)
-                        .foregroundColor(.clear)
-                    
                 }
             }
-            .frame(width: .infinity)
-            Text(self.cardCell.cardLocation)
-                    .font(.title)
-            Text(self.cardCell.cardContents)
-                    .font(.title)
+            VStack (alignment: .leading) {
+                Text("Location")
+                    .font(.title2)
+                    .bold()
+                TextField(self.localLocation, text: $localLocation)
+                    .textFieldStyle(.roundedBorder)
+                    .disabled(true)
+            }
+            VStack (alignment: .leading) {
+                Text("Contents")
+                    .font(.title2)
+                    .bold()
+                TextEditor(text: $localContents)
+                    .textFieldStyle(.roundedBorder)
+                    .disabled(true)
+            }
+            
         }
         .onAppear(perform: self.onAppearUpdate)
-        .navigationTitle(self.cardCell.cardTitle)
+        .navigationTitle(self.localTitle)
     }
 }
 
