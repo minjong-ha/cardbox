@@ -8,7 +8,6 @@
 import SwiftUI
 import RealmSwift
 
-//TODO: change architecture local --> RealmObject load
 struct CardView: View {
     @State var cardUUID: String
     
@@ -17,12 +16,11 @@ struct CardView: View {
     @State var localDate: String
     @State var localContents: String
     @State var localLocation: String
-
+    
 	@State var isEditState: Bool
     
     @Environment(\.colorScheme) var colorScheme
     
-    //TODO: Change cardCell.inValue to localValue for textfield text
     private func onAppearUpdate() {
         let realm = try! Realm()
         
@@ -52,6 +50,21 @@ struct CardView: View {
     
     var body: some View {
         VStack(alignment: .center) {
+            if (self.isEditState) {
+                VStack (alignment: .leading) {
+                    Text("Title")
+                        .font(.title2)
+                        .bold()
+                        .opacity(self.isEditState ? 1 : 0)
+                        .transition(.slide)
+                    TextField(self.localTitle, text: $localTitle)
+                        .textFieldStyle(.roundedBorder)
+                        .disabled(self.isEditState == false)
+                        .opacity(self.isEditState ? 1 : 0)
+                        .transition(.slide)
+                }
+            }
+            
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
                     Text("Tag")
@@ -59,7 +72,7 @@ struct CardView: View {
                         .bold()
                     TextField(self.localTag, text: $localTag)
                         .textFieldStyle(.roundedBorder)
-                        .disabled(true)
+                        .disabled(self.isEditState == false)
                 }
                 VStack(alignment: .leading) {
                     Text("Date")
@@ -67,7 +80,7 @@ struct CardView: View {
                         .bold()
                     TextField(self.localDate, text: $localDate)
                         .textFieldStyle(.roundedBorder)
-                        .disabled(true)
+                        .disabled(self.isEditState == false)
                 }
             }
             VStack (alignment: .leading) {
@@ -76,7 +89,7 @@ struct CardView: View {
                     .bold()
                 TextField(self.localLocation, text: $localLocation)
                     .textFieldStyle(.roundedBorder)
-                    .disabled(true)
+                    .disabled(self.isEditState == false)
             }
             VStack (alignment: .leading) {
                 Text("Contents")
@@ -84,17 +97,51 @@ struct CardView: View {
                     .bold()
                 TextEditor(text: $localContents)
                     .textFieldStyle(.roundedBorder)
-                    .disabled(true)
+                    .disabled(self.isEditState == false)
             }
-			//HStact for three toggle switch
+            
+            //HStact for three toggle switch
             
         }
         .onAppear(perform: self.onAppearUpdate)
-        .navigationTitle(self.localTitle) // am i have to make it editable? title textField will be appear when the edit button enabled?
-		//Add NavigationTab Button on right top : Edit
-		//When I press the edit button, edit button becomes Confirm
-		//The TextField and TextEditor becomes enable
-		//the toggle button (SwiftUI Toggle) will be appear (using "transition") from bottom (it will be added to the AddNewCardView either)
+        .navigationTitle(self.localTitle)
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                if (self.isEditState) {
+                    Button (action: {
+                        withAnimation {
+                            self.isEditState.toggle()
+                            
+                            let realm = try! Realm()
+                            let card = Card()
+                            
+                            card.cardUUID = self.cardUUID
+                            card.cardTitle = self.localTitle
+                            card.cardTag = self.localTag
+                            card.cardLocation = self.localLocation
+                            card.cardDate = self.localDate
+                            card.cardContents = self.localContents
+                            
+                            try! realm.write {
+                                realm.add(card, update: .modified)
+                            }
+                        }
+                    }) {
+                        Text("Confirm")
+                    }
+                }
+                else {
+                    Button (action: {
+                        withAnimation {
+                            self.isEditState.toggle()
+                        }
+                    }) {
+                        Text("Edit")
+                    }
+                }
+            }
+        }
+        //the toggle button (SwiftUI Toggle) will be appear (using "transition") from bottom (it will be added to the AddNewCardView either)
     }
 }
 
