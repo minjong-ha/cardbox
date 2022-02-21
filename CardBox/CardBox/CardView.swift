@@ -21,6 +21,8 @@ struct CardView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
+    let defaultTitle: String = "Empty Title"
+    
     private func onAppearUpdate() {
         let realm = try! Realm()
         
