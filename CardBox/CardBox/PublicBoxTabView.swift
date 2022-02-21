@@ -63,6 +63,11 @@ struct PublicBoxTabView: View {
             self.isPublicExist = false
         }
         //print("DEBUG: onAppearUpdate()")
+        //=======================================================
+        UITableView.appearance().backgroundColor = .clear  // List background Color
+        //UITableViewCell.appearance().backgroundColor = .black
+        //UITableView.appearance().tableFooterView = UIView()
+        //=======================================================
     }
     
     private func onDeleteCard(at indexSet: IndexSet) {
@@ -93,8 +98,7 @@ struct PublicBoxTabView: View {
             NavigationView {
                 List {
                     ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        //NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: "", localTag: "", localDate: "", localContents: "", localLocation: ""))) {
-                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: "", localTag: "", localDate: "", localContents: "", localLocation: "", isEditState: false))) {
+                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", isEditState: false))) {
                             HStack {
                                 Text(publicCardCell.cardTag)
                                 Text(publicCardCell.cardTitle)
@@ -102,9 +106,9 @@ struct PublicBoxTabView: View {
                         }
                     }
                     .onDelete(perform: self.onDeleteCard)
-                    .onAppear(perform: self.onAppearUpdate)
-                    .background(Color.clear)
+                    //.listRowBackground(Color.gray)
                 }
+                .onAppear(perform: self.onAppearUpdate)
                 .navigationTitle("Public Box")
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
