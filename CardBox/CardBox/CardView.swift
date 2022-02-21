@@ -86,6 +86,7 @@ struct CardView: View {
                     .textFieldStyle(.roundedBorder)
                     .disabled(true)
             }
+			//HStact for three toggle switch
             
         }
         .onAppear(perform: self.onAppearUpdate)
