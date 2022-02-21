@@ -17,6 +17,8 @@ struct CardView: View {
     @State var localDate: String
     @State var localContents: String
     @State var localLocation: String
+
+	@State var isEditState: Bool
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -87,7 +89,11 @@ struct CardView: View {
             
         }
         .onAppear(perform: self.onAppearUpdate)
-        .navigationTitle(self.localTitle)
+        .navigationTitle(self.localTitle) // am i have to make it editable? title textField will be appear when the edit button enabled?
+		//Add NavigationTab Button on right top : Edit
+		//When I press the edit button, edit button becomes Confirm
+		//The TextField and TextEditor becomes enable
+		//the toggle button (SwiftUI Toggle) will be appear (using "transition") from bottom (it will be added to the AddNewCardView either)
     }
 }
 
