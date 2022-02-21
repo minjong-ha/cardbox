@@ -87,12 +87,14 @@ struct PublicBoxTabView: View {
         self.onAppearUpdate()
     }
     
+    //TODO: bind with hidden https://stackoverflow.com/questions/56490250/dynamically-hiding-view-in-swiftui
     var body: some View {
         if (self.isPublicExist) {
             NavigationView {
                 List {
                     ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: "", localTag: "", localDate: "", localContents: "", localLocation: ""))) {
+                        //NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: "", localTag: "", localDate: "", localContents: "", localLocation: ""))) {
+                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: "", localTag: "", localDate: "", localContents: "", localLocation: "", isEditState: false))) {
                             HStack {
                                 Text(publicCardCell.cardTag)
                                 Text(publicCardCell.cardTitle)
