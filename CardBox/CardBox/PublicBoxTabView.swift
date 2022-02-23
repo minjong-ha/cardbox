@@ -64,7 +64,7 @@ struct PublicBoxTabView: View {
         }
         //print("DEBUG: onAppearUpdate()")
         //=======================================================
-        UITableView.appearance().backgroundColor = .clear  // List background Color
+        //UITableView.appearance().backgroundColor = .clear  // List background Color
         //UITableViewCell.appearance().backgroundColor = .black
         //UITableView.appearance().tableFooterView = UIView()
         //=======================================================
@@ -98,7 +98,8 @@ struct PublicBoxTabView: View {
             NavigationView {
                 List {
                     ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", isEditState: false))) {
+                        //NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", isEditState: false))) {
+                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: false, localEncrypt: false, localCloud: false, localChecked: false, isEditState: false))) {
                             HStack {
                                 Text(publicCardCell.cardTag)
                                 Text(publicCardCell.cardTitle)

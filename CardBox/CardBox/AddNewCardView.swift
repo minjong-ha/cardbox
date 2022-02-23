@@ -40,6 +40,7 @@ struct AddNewCardView: View {
     
 	//TODO: check onAppear can use in body
     var body: some View {
+        ScrollView() {
         VStack (alignment: .center) {
              VStack(alignment: .leading) {
                  Text("Title")
@@ -77,13 +78,23 @@ struct AddNewCardView: View {
 				//default text: (https://stackoverflow.com/questions/62741851/how-to-add-placeholder-text-to-texteditor-in-swiftui) // ZStack
                 Text("Contents")
                 TextEditor(text: $contents)
-                    .textFieldStyle(.roundedBorder)
+                    .cornerRadius(10.0)
+                    .shadow(radius: 3.0)
+                    .frame(height: UIScreen.main.bounds.size.height / 4)
             }
             
             //TODO: this is for empty space for now. find right way! (https://stackoverflow.com/questions/60324478/how-to-add-blank-space-at-the-bottom-of-a-form-in-swiftui)
 			//TODO: study about the padding (https://www.hackingwithswift.com/quick-start/swiftui/how-to-control-spacing-around-individual-views-using-padding)
             //Text("(empty space)")
                 //.hidden()
+            
+            //TODO: add help icon and description
+            VStack (alignment: .leading) {
+                Toggle("Private?", isOn: $isPrivate)
+                Toggle("Encrypted?", isOn: $isEncrypt)
+                Toggle("Cloud?", isOn: $isCloud)
+                Toggle("Checked?", isOn: $isChecked)
+            }
             
             Button(action: {
 				let realm = try! Realm()
@@ -102,9 +113,11 @@ struct AddNewCardView: View {
 				card.cardContents = self.contents
 
                 cardInfo.cardUUID = self.uuid
-				cardInfo.isPrivate = self.isPrivate
+				//cardInfo.isPrivate = self.isPrivate
+                cardInfo.isPrivate = false
 				cardInfo.isEncrypt = self.isEncrypt
                 cardInfo.isCloud = self.isCloud
+                cardInfo.isChecked = self.isChecked
 
 				//TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
                 try! realm.write {
@@ -127,6 +140,7 @@ struct AddNewCardView: View {
                     .font(.system(size: 20))
             }
             .buttonStyle(.bordered)
+        }
         }
         .navigationTitle("Add a new Card")
         .onAppear {
