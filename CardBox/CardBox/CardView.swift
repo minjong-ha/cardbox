@@ -119,12 +119,15 @@ struct CardView: View {
                 Toggle("Encrypted?", isOn: $localEncrypt)
                     .opacity(self.isEditState ? 1: 0)
                     .transition(.slide)
+					.tint(.yellow)
                 Toggle("Cloud?", isOn: $localEncrypt)
                     .opacity(self.isEditState ? 1: 0)
                     .transition(.slide)
+					.tint(.blue)
                 Toggle("Checked?", isOn: $localChecked)
                     .opacity(self.isEditState ? 1: 0)
                     .transition(.slide)
+					.tint(.orange)
             }
         }
         }
@@ -139,6 +142,7 @@ struct CardView: View {
                             
                             let realm = try! Realm()
                             let card = Card()
+							let cardInfo = CardInfo()
                             
                             card.cardUUID = self.cardUUID
                             card.cardTitle = self.localTitle
@@ -146,9 +150,16 @@ struct CardView: View {
                             card.cardLocation = self.localLocation
                             card.cardDate = self.localDate
                             card.cardContents = self.localContents
+
+							cardInfo.cardUUID = self.cardUUID
+							cardInfo.isPrivate = self.localPrivate
+							cardInfo.isEncrypt = self.localEncrypt
+							cardInfo.isCloud = self.localCloud
+							cardInfo.isChecked = self.localChecked
                             
                             try! realm.write {
                                 realm.add(card, update: .modified)
+								realm.add(cardInfo, update: .modified)
                             }
                         }
                     }) {

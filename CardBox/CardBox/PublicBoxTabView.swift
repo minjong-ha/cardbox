@@ -15,6 +15,7 @@ struct PublicBoxTabView: View {
     
     @State var isPublicExist: Bool = false
     @State var publicCardCellList: Array<CardCell> = []
+	@State var publicInfoList: Array<CardInfoCell> = []
     
     init() {
         //print("DEBUG: INIT()")
@@ -33,6 +34,8 @@ struct PublicBoxTabView: View {
             for publicCardInfo in publicCardInfoList {
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
                 let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle)
+				let publicInfoCell = CardInfoCell.init(cardUUID: publicCardInfo.cardUUID, isPrivate: publicCardInfo.isPrivate, isEncrypt: publicCardInfo.isEncrypt, isCloud: publicCardInfo.isCloud, isChecked: publicCardInfo.isChecked)
+				publicCardCell.cardInfo = publicInfoCell
                 self.publicCardCellList.append(publicCardCell)
             }
         }
