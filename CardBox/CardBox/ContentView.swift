@@ -14,6 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selection) {
+			//TODO: onGesture Touch/Facd ID? if failed, do not lead it PrivateBoxTabView()!
             PrivateBoxTabView()
                 .tabItem {
                     Image(systemName: self.selection == 0 ? "lock.open" : "lock")

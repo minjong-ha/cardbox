@@ -42,8 +42,13 @@ struct PublicBoxTabView: View {
         else {
             self.isPublicExist = false
         }
-    }
-    
+		//=======================================================
+		//UITableView.appearance().backgroundColor = .clear  // List background Color
+		//UITableViewCell.appearance().backgroundColor = .black
+		//UITableView.appearance().tableFooterView = UIView()
+		//=======================================================
+	}
+
     private func onAppearUpdate() {
         
         let cardInfoList = realm.objects(CardInfo.self)
@@ -66,11 +71,6 @@ struct PublicBoxTabView: View {
             self.isPublicExist = false
         }
         //print("DEBUG: onAppearUpdate()")
-        //=======================================================
-        //UITableView.appearance().backgroundColor = .clear  // List background Color
-        //UITableViewCell.appearance().backgroundColor = .black
-        //UITableView.appearance().tableFooterView = UIView()
-        //=======================================================
     }
     
     private func onDeleteCard(at indexSet: IndexSet) {
