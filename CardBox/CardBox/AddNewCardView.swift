@@ -92,8 +92,11 @@ struct AddNewCardView: View {
             VStack (alignment: .leading) {
                 Toggle("Private?", isOn: $isPrivate)
                 Toggle("Encrypted?", isOn: $isEncrypt)
+					.tint(.yellow)
                 Toggle("Cloud?", isOn: $isCloud)
+					.tint(.blue)
                 Toggle("Checked?", isOn: $isChecked)
+					.tint(.orange)
             }
             
             Button(action: {

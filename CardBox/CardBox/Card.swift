@@ -18,6 +18,17 @@ struct CardCell: Hashable {
     var cardLocation: String = ""
     var cardDate: String = ""
     var cardContents: String = ""
+
+	var cardInfo: CardInfoCell
+}
+
+struct CardInfoCell: Hashable {
+	var cardUUID: String = ""
+
+	var isPrivate: Bool = false
+	var isEncrypt: Bool = false
+	var isCloud: Bool = false
+	var isChecked: Bool = false
 }
 
 class Card: Object {
