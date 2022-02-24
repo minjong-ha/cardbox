@@ -17,6 +17,12 @@ struct CardView: View {
     @State var localContents: String
     @State var localLocation: String
     
+    @State var localPrivate: Bool
+    @State var localEncrypt: Bool
+    @State var localCloud: Bool
+    @State var localChecked: Bool
+    
+    
 	@State var isEditState: Bool
     
     @Environment(\.colorScheme) var colorScheme
@@ -51,6 +57,7 @@ struct CardView: View {
     }
     
     var body: some View {
+        ScrollView() {
         VStack(alignment: .center) {
             if (self.isEditState) {
                 VStack (alignment: .leading) {
@@ -98,12 +105,28 @@ struct CardView: View {
                     .font(.title2)
                     .bold()
                 TextEditor(text: $localContents)
-                    .textFieldStyle(.roundedBorder)
+                    .cornerRadius(10.0)
+                    .shadow(radius: 3.0)
+                    .frame(height: UIScreen.main.bounds.size.height / 4)
                     .disabled(self.isEditState == false)
             }
             
             //HStact for three toggle switch
-            
+            VStack (alignment: .leading) {
+                Toggle("Private?", isOn: $localPrivate)
+                    .opacity(self.isEditState ? 1: 0)
+                    .transition(.slide)
+                Toggle("Encrypted?", isOn: $localEncrypt)
+                    .opacity(self.isEditState ? 1: 0)
+                    .transition(.slide)
+                Toggle("Cloud?", isOn: $localEncrypt)
+                    .opacity(self.isEditState ? 1: 0)
+                    .transition(.slide)
+                Toggle("Checked?", isOn: $localChecked)
+                    .opacity(self.isEditState ? 1: 0)
+                    .transition(.slide)
+            }
+        }
         }
         .onAppear(perform: self.onAppearUpdate)
         .navigationTitle(self.localTitle)
