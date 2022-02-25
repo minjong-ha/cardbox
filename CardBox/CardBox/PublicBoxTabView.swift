@@ -97,6 +97,7 @@ struct PublicBoxTabView: View {
     
     //TODO: bind with hidden https://stackoverflow.com/questions/56490250/dynamically-hiding-view-in-swiftui
 	//TODO: no seperate NavigationView... We need integrated View. 
+	//TODO: one NavigationView, two seperate isPublicExist operations
     var body: some View {
         if (self.isPublicExist) {
             NavigationView {
