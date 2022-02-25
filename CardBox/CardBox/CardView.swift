@@ -120,7 +120,7 @@ struct CardView: View {
                     .opacity(self.isEditState ? 1: 0)
                     .transition(.slide)
 					.tint(.yellow)
-                Toggle("Cloud?", isOn: $localEncrypt)
+                Toggle("Cloud?", isOn: $localCloud)
                     .opacity(self.isEditState ? 1: 0)
                     .transition(.slide)
 					.tint(.blue)
