@@ -82,7 +82,7 @@ struct PublicBoxTabView: View {
                 
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
                 let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
-                print("DEBUG: deleting RealmObject ", publicCard?.cardTitle)
+                print("DEBUG: deleting RealmObject ", publicCard!.cardTitle)
                 
                 if(publicCard != nil) {
                     realm.delete(publicCard!)
@@ -96,20 +96,14 @@ struct PublicBoxTabView: View {
         self.onAppearUpdate()
     }
     
-    //TODO: bind with hidden https://stackoverflow.com/questions/56490250/dynamically-hiding-view-in-swiftui
-    //TODO: no seperate NavigationView... We need integrated View.
-    //TODO: one NavigationView, two seperate isPublicExist operations
     var body: some View {
         NavigationView {
             ZStack() {
                 List {
                     ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        //NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", isEditState: false))) {
                         NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                             HStack {
-                                Text("\(publicCardCell.cardTag) \(publicCardCell.cardTitle)")
-                                //Text(publicCardCell.cardTag)
-                                //Text(publicCardCell.cardTitle)
+                                Label("\(publicCardCell.cardTag) \(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                             }
                         }
                     }
@@ -119,6 +113,7 @@ struct PublicBoxTabView: View {
                 .opacity(self.isPublicExist ? 1 : 0)
                 .transition(.slide)
                 .shadow(radius: 3.0)
+                .listStyle(.grouped)
                 
                 VStack(alignment: .leading) {
                     Text("This is the Public Box which contains public cards!")
@@ -138,53 +133,6 @@ struct PublicBoxTabView: View {
                 }
             }
         }
-        
-        /*
-        if (self.isPublicExist) {
-            NavigationView {
-                List {
-                    ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        //NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", isEditState: false))) {
-                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
-                            HStack {
-                                Text(publicCardCell.cardTag)
-                                Text(publicCardCell.cardTitle)
-                            }
-                        }
-                    }
-                    .onDelete(perform: self.onDeleteCard)
-                    //.listRowBackground(Color.gray)
-                }
-                .onAppear(perform: self.onAppearUpdate)
-                .navigationTitle("Public Box")
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: OnDemandView(AddNewCardView())) {
-                            Text("Add")
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            NavigationView {
-                VStack (alignment: .leading) {
-                    Text("This is the Public Box which contains public cards!")
-                    Text("Press 'Add' to write a new card!")
-                }
-                .padding()
-                .navigationTitle("Public Box")
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: OnDemandView(AddNewCardView())) {
-                            Text("Add")
-                        }
-                    }
-                }
-                .onAppear(perform: self.onAppearUpdate)
-            }
-        }
-        */
     }
 }
 
