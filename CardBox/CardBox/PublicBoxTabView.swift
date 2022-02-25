@@ -42,7 +42,8 @@ struct PublicBoxTabView: View {
             self.isPublicExist = false
         }
 		//=======================================================
-		//UITableView.appearance().backgroundColor = .clear  // List background Color
+		UITableView.appearance().backgroundColor = .clear  // List background Color
+        //UITableView.appearance().separatorStyle = .none // List Cell separator style
 		//UITableViewCell.appearance().backgroundColor = .black
 		//UITableView.appearance().tableFooterView = UIView()
 		//=======================================================
@@ -96,9 +97,49 @@ struct PublicBoxTabView: View {
     }
     
     //TODO: bind with hidden https://stackoverflow.com/questions/56490250/dynamically-hiding-view-in-swiftui
-	//TODO: no seperate NavigationView... We need integrated View. 
-	//TODO: one NavigationView, two seperate isPublicExist operations
+    //TODO: no seperate NavigationView... We need integrated View.
+    //TODO: one NavigationView, two seperate isPublicExist operations
     var body: some View {
+        NavigationView {
+            ZStack() {
+                List {
+                    ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
+                        //NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", isEditState: false))) {
+                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
+                            HStack {
+                                Text("\(publicCardCell.cardTag) \(publicCardCell.cardTitle)")
+                                //Text(publicCardCell.cardTag)
+                                //Text(publicCardCell.cardTitle)
+                            }
+                        }
+                    }
+                    .onDelete(perform: self.onDeleteCard)
+                    //.listRowBackground(Color.gray)
+                }
+                .opacity(self.isPublicExist ? 1 : 0)
+                .transition(.slide)
+                .shadow(radius: 3.0)
+                
+                VStack(alignment: .leading) {
+                    Text("This is the Public Box which contains public cards!")
+                    Text("Press 'Add' to write a new card!")
+                }
+                .opacity(self.isPublicExist ? 0 : 1)
+                .transition(.slide)
+                
+            }
+            .onAppear(perform: self.onAppearUpdate)
+            .navigationTitle("Public Box")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: OnDemandView(AddNewCardView())) {
+                        Text("Add")
+                    }
+                }
+            }
+        }
+        
+        /*
         if (self.isPublicExist) {
             NavigationView {
                 List {
@@ -143,6 +184,7 @@ struct PublicBoxTabView: View {
                 .onAppear(perform: self.onAppearUpdate)
             }
         }
+        */
     }
 }
 
