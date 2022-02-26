@@ -108,8 +108,8 @@ struct PublicBoxTabView: View {
                         }
                     }
                     .onDelete(perform: self.onDeleteCard)
-                    //.listRowBackground(Color.gray)
                 }
+                .frame(width: (UIScreen.main.bounds.size.width * 0.9))
                 .opacity(self.isPublicExist ? 1 : 0)
                 .transition(.slide)
                 .shadow(radius: 3.0)
