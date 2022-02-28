@@ -150,19 +150,27 @@ struct AddNewCardView: View {
             
             //TODO: get address from latitude and longitude (https://devsc.tistory.com/82)
             //TODO: configurable date format? add new ConfigView + data + interaction
+			//REF: (https://www.andyibanez.com/posts/using-corelocation-with-swiftui/)
+
             
             let latitude = CLLocationManager().location?.coordinate.latitude
             let longitude = CLLocationManager().location?.coordinate.longitude
             self.location = "\(latitude) \(longitude)"
+
+
+			var authorizationStatus = CLLocationManager().authorizationStatus
             
             let findLocation = CLLocation(latitude: 37.576029, longitude: 126.976920)
             let geocoder = CLGeocoder()
-            let locale = Locale(identifier: "Ko-kr") //원하는 언어의 나라 코드를 넣어주시면 됩니다.
-            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
-                if let address: [CLPlacemark] = placemarks {
-                    if let name: String = address.last?.name { print(name) } //전체 주소
-                }
-            })
+            let locale = Locale(identifier: "en_US_POSIX") 
+			switch authorizationStatus {
+				case .authorizedAlways, .authorizedWhenInUse:
+				geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
+						if let address: [CLPlacemark] = placemarks {
+						if let name: String = address.last?.name { print(name) } //전체 주소
+					}
+				})
+			}
         }
         .onDisappear(perform:  {
             print("DEBUG: AddNewCard View onDisappear")
