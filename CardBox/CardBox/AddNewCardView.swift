@@ -170,7 +170,15 @@ struct AddNewCardView: View {
 						if let name: String = address.last?.name { print(name) } //전체 주소
 					}
 				})
-			}
+            case .notDetermined:
+                print("NOTDETERMINED")
+            case .restricted:
+                print("NOTDETERMINED")
+            case .denied:
+                print("NOTDETERMINED")
+            @unknown default:
+                print("NOTDETERMINED")
+            }
         }
         .onDisappear(perform:  {
             print("DEBUG: AddNewCard View onDisappear")
