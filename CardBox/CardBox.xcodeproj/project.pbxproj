@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C07394B27C05B2F000AB324 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C07394A27C05B2F000AB324 /* CardView.swift */; };
+		1CB4531327BD37F1007CE24F /* PublicBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */; };
+		1CB4531527BD37F7007CE24F /* PrivateBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */; };
+		1CB4531727BD37FD007CE24F /* OnDemandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531627BD37FD007CE24F /* OnDemandView.swift */; };
+		1CB4531927BD380A007CE24F /* FoldingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531827BD380A007CE24F /* FoldingCell.swift */; };
+		1CB4531B27BD380F007CE24F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531A27BD380F007CE24F /* Card.swift */; };
+		1CB4531D27BD3813007CE24F /* AddNewCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531C27BD3813007CE24F /* AddNewCardView.swift */; };
 		1CF3EDE827B7453900B6559F /* CardBoxApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EDE727B7453900B6559F /* CardBoxApp.swift */; };
 		1CF3EDEA27B7453900B6559F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EDE927B7453900B6559F /* ContentView.swift */; };
 		1CF3EDEC27B7453B00B6559F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CF3EDEB27B7453B00B6559F /* Assets.xcassets */; };
@@ -38,6 +45,13 @@
 
 /* Begin PBXFileReference section */
 		0F96BECD7A30FCC651D100F2 /* Pods-CardBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBox.debug.xcconfig"; path = "Target Support Files/Pods-CardBox/Pods-CardBox.debug.xcconfig"; sourceTree = "<group>"; };
+		1C07394A27C05B2F000AB324 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBoxTabView.swift; sourceTree = "<group>"; };
+		1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateBoxTabView.swift; sourceTree = "<group>"; };
+		1CB4531627BD37FD007CE24F /* OnDemandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnDemandView.swift; sourceTree = "<group>"; };
+		1CB4531827BD380A007CE24F /* FoldingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoldingCell.swift; sourceTree = "<group>"; };
+		1CB4531A27BD380F007CE24F /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		1CB4531C27BD3813007CE24F /* AddNewCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewCardView.swift; sourceTree = "<group>"; };
 		1CF3EDE427B7453900B6559F /* CardBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CF3EDE727B7453900B6559F /* CardBoxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxApp.swift; sourceTree = "<group>"; };
 		1CF3EDE927B7453900B6559F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +142,13 @@
 				1CF3EE1127B7482F00B6559F /* CardBox.entitlements */,
 				1CF3EDE727B7453900B6559F /* CardBoxApp.swift */,
 				1CF3EDE927B7453900B6559F /* ContentView.swift */,
+				1CB4531A27BD380F007CE24F /* Card.swift */,
+				1C07394A27C05B2F000AB324 /* CardView.swift */,
+				1CB4531C27BD3813007CE24F /* AddNewCardView.swift */,
+				1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */,
+				1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */,
+				1CB4531627BD37FD007CE24F /* OnDemandView.swift */,
+				1CB4531827BD380A007CE24F /* FoldingCell.swift */,
 				1CF3EDEB27B7453B00B6559F /* Assets.xcassets */,
 				1CF3EDED27B7453B00B6559F /* Preview Content */,
 			);
@@ -180,6 +201,7 @@
 				1CF3EDE027B7453900B6559F /* Sources */,
 				1CF3EDE127B7453900B6559F /* Frameworks */,
 				1CF3EDE227B7453900B6559F /* Resources */,
+				5066323F655AA7D656922BAC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -217,6 +239,7 @@
 				1CF3EDFA27B7453B00B6559F /* Sources */,
 				1CF3EDFB27B7453B00B6559F /* Frameworks */,
 				1CF3EDFC27B7453B00B6559F /* Resources */,
+				FFC759CB795C242A3AF02761 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -298,6 +321,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5066323F655AA7D656922BAC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CardBox/Pods-CardBox-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CardBox/Pods-CardBox-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CardBox/Pods-CardBox-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9C0FE738125E0CC5CDB789BB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -364,6 +404,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FFC759CB795C242A3AF02761 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CardBox-CardBoxUITests/Pods-CardBox-CardBoxUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CardBox-CardBoxUITests/Pods-CardBox-CardBoxUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CardBox-CardBoxUITests/Pods-CardBox-CardBoxUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -371,8 +428,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CB4531527BD37F7007CE24F /* PrivateBoxTabView.swift in Sources */,
+				1C07394B27C05B2F000AB324 /* CardView.swift in Sources */,
+				1CB4531327BD37F1007CE24F /* PublicBoxTabView.swift in Sources */,
+				1CB4531B27BD380F007CE24F /* Card.swift in Sources */,
 				1CF3EDEA27B7453900B6559F /* ContentView.swift in Sources */,
+				1CB4531727BD37FD007CE24F /* OnDemandView.swift in Sources */,
 				1CF3EDE827B7453900B6559F /* CardBoxApp.swift in Sources */,
+				1CB4531927BD380A007CE24F /* FoldingCell.swift in Sources */,
+				1CB4531D27BD3813007CE24F /* AddNewCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,10 +603,11 @@
 				DEVELOPMENT_TEAM = VC9MJ6V547;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -574,10 +639,11 @@
 				DEVELOPMENT_TEAM = VC9MJ6V547;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
