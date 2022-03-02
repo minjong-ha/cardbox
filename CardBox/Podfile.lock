@@ -1,3 +1,26 @@
-PODFILE CHECKSUM: 3c546ee9e6cdd660a28f35ad4dfdb8be111da2c4
+PODS:
+  - FoldingCell (5.0.2)
+  - Realm (10.22.0):
+    - Realm/Headers (= 10.22.0)
+  - Realm/Headers (10.22.0)
+  - RealmSwift (10.22.0):
+    - Realm (= 10.22.0)
+
+DEPENDENCIES:
+  - FoldingCell
+  - RealmSwift
+
+SPEC REPOS:
+  trunk:
+    - FoldingCell
+    - Realm
+    - RealmSwift
+
+SPEC CHECKSUMS:
+  FoldingCell: f92eb5fb9842319e7cd08c71533c98408b785099
+  Realm: d9e4e5877095a6722145811f56fe89a531c9659d
+  RealmSwift: e4191b4b957fcfcbed23751ec65eec98f8173ab5
+
+PODFILE CHECKSUM: 8b0852ab37ba4f9ac9977d04f3213683156a5340
 
 COCOAPODS: 1.11.2

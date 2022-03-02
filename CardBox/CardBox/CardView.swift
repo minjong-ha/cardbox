@@ -67,6 +67,7 @@ struct CardView: View {
                         .opacity(self.isEditState ? 1 : 0)
                         .transition(.slide)
                     TextField(self.localTitle, text: $localTitle)
+                        //.shadow(radius: 3.0)
                         .textFieldStyle(.roundedBorder)
                         .disabled(self.isEditState == false)
                         .opacity(self.isEditState ? 1 : 0)
@@ -82,6 +83,7 @@ struct CardView: View {
                     TextField(self.localTag, text: $localTag)
                         .textFieldStyle(.roundedBorder)
                         .disabled(self.isEditState == false)
+                        //.shadow(radius: 3.0)
                 }
                 VStack(alignment: .leading) {
                     Text("Date")
@@ -90,6 +92,8 @@ struct CardView: View {
                     TextField(self.localDate, text: $localDate)
                         .textFieldStyle(.roundedBorder)
                         .disabled(self.isEditState == false)
+                        //.shadow(radius: 3.0)
+                    
                 }
             }
             VStack (alignment: .leading) {
@@ -99,6 +103,8 @@ struct CardView: View {
                 TextField(self.localLocation, text: $localLocation)
                     .textFieldStyle(.roundedBorder)
                     .disabled(self.isEditState == false)
+                    //.shadow(radius: 3.0)
+                
             }
             VStack (alignment: .leading) {
                 Text("Contents")
@@ -108,6 +114,7 @@ struct CardView: View {
                     .cornerRadius(10.0)
                     .shadow(radius: 3.0)
                     .frame(height: UIScreen.main.bounds.size.height / 4)
+                    .frame(width: (UIScreen.main.bounds.size.width * 0.9))
                     .disabled(self.isEditState == false)
             }
             
@@ -120,7 +127,7 @@ struct CardView: View {
                     .opacity(self.isEditState ? 1: 0)
                     .transition(.slide)
 					.tint(.yellow)
-                Toggle("Cloud?", isOn: $localEncrypt)
+                Toggle("Cloud?", isOn: $localCloud)
                     .opacity(self.isEditState ? 1: 0)
                     .transition(.slide)
 					.tint(.blue)
