@@ -101,7 +101,7 @@ struct AddNewCardView: View {
                     VStack(alignment: .leading) {
                         //TODO: replace it to the datepicker!
 						//TODO: https://developer.apple.com/forums/thread/126990
-						//TODO: https://stackoverflow.com/questions/56489107/using-swiftui-how-can-i-add-datepicker-only-while-textfield-is-in-editing-mode
+                        //TODO: https://stackoverflow.com/questions/56489107/using-swiftui-how-can-i-add-datepicker-only-while-textfield-is-in-editing-mode
                         Text("Date")
                         TextField("Date", text: $date)
                             .textFieldStyle(.roundedBorder)
@@ -206,6 +206,7 @@ struct AddNewCardView: View {
                     print("DEBUG:", self.date)
                     print("DEBUG:", self.contents)
                     
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                     self.dismiss()
                 }) {
                     Text("Add")
@@ -221,8 +222,9 @@ struct AddNewCardView: View {
             self.date = dateFormatter.string(from: today)
         }
         .onDisappear(perform:  {
-            print("DEBUG: AddNewCard View onDisappear")
             
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            print("DEBUG: AddNewCard View onDisappear")
         })
     }
 }
