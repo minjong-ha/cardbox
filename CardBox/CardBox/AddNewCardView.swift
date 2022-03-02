@@ -11,8 +11,33 @@ import Combine
 import CoreLocation
 import RealmSwift
 
+class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    @Published var authorizationStatus: CLAuthorizationStatus
+    
+    private let locationManager: CLLocationManager
+    
+    override init() {
+        locationManager = CLLocationManager()
+        authorizationStatus = locationManager.authorizationStatus
+        
+        super.init()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+    }
+    
+    func requestPermission() {
+        locationManager.requestWhenInUseAuthorization()
+    }
+
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        authorizationStatus = manager.authorizationStatus
+    }
+}
+
 struct AddNewCardView: View {
     @Environment(\.dismiss) var dismiss
+    @StateObject var locationViewModel = LocationViewModel()
     
 	//Card Data
     @State var uuid: String =  ""
@@ -32,6 +57,26 @@ struct AddNewCardView: View {
     init() {
         print("DEBUG: load AddNewCardView")
         print("DEBUG: ", Realm.Configuration.defaultConfiguration.fileURL)
+    }
+    
+    func setLocation() {
+        let latitude = CLLocationManager().location?.coordinate.latitude
+        let longitude = CLLocationManager().location?.coordinate.longitude
+        
+        let geocoder = CLGeocoder()
+        let locale = Locale(identifier: "en_US_POSIX")
+        
+        if (latitude != nil && longitude != nil) {
+            let findLocation = CLLocation(latitude: latitude!, longitude: longitude!)
+            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
+                if let address: [CLPlacemark] = placemarks {
+                    if let name: String = address.last?.name { self.location = name }
+                }
+            })
+        }
+        else {
+            self.location = "Unable to get Location"
+        }
     }
     
 	//TODO: check onAppear can use in body
@@ -99,6 +144,31 @@ struct AddNewCardView: View {
         .navigationTitle("Add a new Card")
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
+                //TODO: more accurate interact
+                Button(action: {
+                    var authorizationStatus = CLLocationManager().authorizationStatus
+                    
+                    switch authorizationStatus {
+                    case .notDetermined:
+                        self.locationViewModel.requestPermission()
+                        self.setLocation()
+                    case .restricted:
+                        self.locationViewModel.requestPermission()
+                        self.setLocation()
+                    case .denied:
+                        self.locationViewModel.requestPermission()
+                        self.setLocation()
+                    case .authorizedAlways:
+                        self.setLocation()
+                    case .authorizedWhenInUse:
+                        self.setLocation()
+                    case .authorized:
+                        self.setLocation()
+                    }
+                }) {
+                    Image(systemName: "map")
+                }
+
                 Button(action: {
                     let realm = try! Realm()
                     
@@ -136,12 +206,10 @@ struct AddNewCardView: View {
                     print("DEBUG:", self.date)
                     print("DEBUG:", self.contents)
                     
-                    //TODO: refresh parent view when AddNewCardView dismiss -> use onAppear in parent view
                     self.dismiss()
                 }) {
                     Text("Add")
                 }
-                //.buttonStyle(.bordered)
             }
         }
         .onAppear {
@@ -151,36 +219,6 @@ struct AddNewCardView: View {
             
             print("DEBUG: AddCardView onAppear()")
             self.date = dateFormatter.string(from: today)
-            
-            //TODO: get address from latitude and longitude (https://devsc.tistory.com/82)
-            //TODO: configurable date format? add new ConfigView + data + interaction
-			//TODO: Location Permission for App (https://www.andyibanez.com/posts/using-corelocation-with-swiftui/)
-
-            let latitude = CLLocationManager().location?.coordinate.latitude
-            let longitude = CLLocationManager().location?.coordinate.longitude
-            self.location = "\(latitude) \(longitude)"
-
-			var authorizationStatus = CLLocationManager().authorizationStatus
-            
-            let findLocation = CLLocation(latitude: 37.576029, longitude: 126.976920)
-            let geocoder = CLGeocoder()
-            let locale = Locale(identifier: "en_US_POSIX") 
-			switch authorizationStatus {
-				case .authorizedAlways, .authorizedWhenInUse:
-				geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
-						if let address: [CLPlacemark] = placemarks {
-						if let name: String = address.last?.name { print(name) } //전체 주소
-					}
-				})
-            case .notDetermined:
-                print("NOTDETERMINED")
-            case .restricted:
-                print("NOTDETERMINED")
-            case .denied:
-                print("NOTDETERMINED")
-            @unknown default:
-                print("NOTDETERMINED")
-            }
         }
         .onDisappear(perform:  {
             print("DEBUG: AddNewCard View onDisappear")
