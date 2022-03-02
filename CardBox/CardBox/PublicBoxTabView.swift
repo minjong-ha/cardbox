@@ -96,6 +96,8 @@ struct PublicBoxTabView: View {
         self.onAppearUpdate()
     }
     
+	//TODO: pull down search bar (https://stackoverflow.com/questions/66254485/how-to-make-a-pull-down-search-bar-in-swiftui)
+	//TODO: create dynamic section for List (https://stackoverflow.com/questions/58574847/how-to-dynamically-create-sections-in-a-swiftui-list-foreach-and-avoid-unable-t)
     var body: some View {
         NavigationView {
             ZStack() {
