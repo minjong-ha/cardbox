@@ -55,6 +55,8 @@ struct AddNewCardView: View {
                     
                     VStack(alignment: .leading) {
                         //TODO: replace it to the datepicker!
+						//TODO: https://developer.apple.com/forums/thread/126990
+						//TODO: https://stackoverflow.com/questions/56489107/using-swiftui-how-can-i-add-datepicker-only-while-textfield-is-in-editing-mode
                         Text("Date")
                         TextField("Date", text: $date)
                             .textFieldStyle(.roundedBorder)
@@ -69,6 +71,8 @@ struct AddNewCardView: View {
                 }
                 
                 VStack(alignment: .leading) {
+					//TODO: move textfield up when the keyboard pop (https://stackoverflow.com/questions/56491881/move-textfield-up-when-the-keyboard-has-appeared-in-swiftui)
+					//TODO: add next button for keyboard (https://stackoverflow.com/questions/58673159/how-to-move-to-next-textfield-in-swiftui)
                     //TODO: character limit + TextEditor Background color problem (https://stackoverflow.com/questions/56476007/swiftui-textfield-max-length)
                     //(https://stackoverflow.com/questions/65459579/texteditor-added-swiftui)
                     //default text: (https://stackoverflow.com/questions/62741851/how-to-add-placeholder-text-to-texteditor-in-swiftui) // ZStack
@@ -150,13 +154,11 @@ struct AddNewCardView: View {
             
             //TODO: get address from latitude and longitude (https://devsc.tistory.com/82)
             //TODO: configurable date format? add new ConfigView + data + interaction
-			//REF: (https://www.andyibanez.com/posts/using-corelocation-with-swiftui/)
+			//TODO: Location Permission for App (https://www.andyibanez.com/posts/using-corelocation-with-swiftui/)
 
-            
             let latitude = CLLocationManager().location?.coordinate.latitude
             let longitude = CLLocationManager().location?.coordinate.longitude
             self.location = "\(latitude) \(longitude)"
-
 
 			var authorizationStatus = CLLocationManager().authorizationStatus
             
