@@ -51,8 +51,10 @@ struct AddNewCardView: View {
 	@State var isEncrypt: Bool = false //if true, the card requires individual decrpytion
 	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
     @State var isChecked: Bool = false //if ture, the card contents will be exposed with delete line
-
-	@State var key: String = "" //work with self.isPrivate!
+    
+    @State var key: String = "" //work with self.isPrivate!
+    
+    @State var currentDate = Date.now
     
     init() {
         print("DEBUG: load AddNewCardView")
@@ -103,8 +105,12 @@ struct AddNewCardView: View {
 						//TODO: https://developer.apple.com/forums/thread/126990
                         //TODO: https://stackoverflow.com/questions/56489107/using-swiftui-how-can-i-add-datepicker-only-while-textfield-is-in-editing-mode
                         Text("Date")
-                        TextField("Date", text: $date)
-                            .textFieldStyle(.roundedBorder)
+                        HStack(alignment: .center) {
+                            DatePicker("", selection: $currentDate, displayedComponents: .date)
+                            DatePicker("", selection: $currentDate, displayedComponents: .hourAndMinute)
+                        }
+                        //TextField("Date", text: $date)
+                         //   .textFieldStyle(.roundedBorder)
                     }
                 }
                 
@@ -182,7 +188,12 @@ struct AddNewCardView: View {
                     card.cardTitle = self.title
                     card.cardTag = self.tag
                     card.cardLocation = self.location
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+                    self.date = dateFormatter.string(from: self.currentDate)
                     card.cardDate = self.date
+                    
                     card.cardContents = self.contents
                     
                     cardInfo.cardUUID = self.uuid
@@ -219,7 +230,8 @@ struct AddNewCardView: View {
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
             
             print("DEBUG: AddCardView onAppear()")
-            self.date = dateFormatter.string(from: today)
+            self.date = dateFormatter.string(from: self.currentDate)
+            //self.date = dateFormatter.string(from: today)
         }
         .onDisappear(perform:  {
             
