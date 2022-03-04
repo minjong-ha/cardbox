@@ -116,7 +116,34 @@ struct AddNewCardView: View {
                 
                 VStack(alignment: .leading) {
                     //TODO: autofill current location! as String!
-                    Text("Location")
+                    HStack (alignment: .center) {
+                        Text("Location")
+                        //TODO: more accurate interact
+                        Button(action: {
+                            var authorizationStatus = CLLocationManager().authorizationStatus
+                            
+                            switch authorizationStatus {
+                            case .notDetermined:
+                                self.locationViewModel.requestPermission()
+                                self.setLocation()
+                            case .restricted:
+                                self.locationViewModel.requestPermission()
+                                self.setLocation()
+                            case .denied:
+                                self.locationViewModel.requestPermission()
+                                self.setLocation()
+                            case .authorizedAlways:
+                                self.setLocation()
+                            case .authorizedWhenInUse:
+                                self.setLocation()
+                            case .authorized:
+                                self.setLocation()
+                            }
+                        }) {
+                            Image(systemName: "map")
+                        }
+                        
+                    }
                     TextField("Location", text: $location)
                         .textFieldStyle(.roundedBorder)
                 }
@@ -150,31 +177,7 @@ struct AddNewCardView: View {
         .navigationTitle("Add a new Card")
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                //TODO: more accurate interact
-                Button(action: {
-                    var authorizationStatus = CLLocationManager().authorizationStatus
-                    
-                    switch authorizationStatus {
-                    case .notDetermined:
-                        self.locationViewModel.requestPermission()
-                        self.setLocation()
-                    case .restricted:
-                        self.locationViewModel.requestPermission()
-                        self.setLocation()
-                    case .denied:
-                        self.locationViewModel.requestPermission()
-                        self.setLocation()
-                    case .authorizedAlways:
-                        self.setLocation()
-                    case .authorizedWhenInUse:
-                        self.setLocation()
-                    case .authorized:
-                        self.setLocation()
-                    }
-                }) {
-                    Image(systemName: "map")
-                }
-
+                
                 Button(action: {
                     let realm = try! Realm()
                     
@@ -233,11 +236,12 @@ struct AddNewCardView: View {
             self.date = dateFormatter.string(from: self.currentDate)
             //self.date = dateFormatter.string(from: today)
         }
+        /*
         .onDisappear(perform:  {
-            
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             print("DEBUG: AddNewCard View onDisappear")
         })
+        */
     }
 }
 
