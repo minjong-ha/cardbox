@@ -61,6 +61,8 @@ struct AddNewCardView: View {
         print("DEBUG: ", Realm.Configuration.defaultConfiguration.fileURL)
     }
     
+ 
+    
     func setLocation() {
         let latitude = CLLocationManager().location?.coordinate.latitude
         let longitude = CLLocationManager().location?.coordinate.longitude
@@ -87,17 +89,32 @@ struct AddNewCardView: View {
             VStack (alignment: .center) {
                 VStack(alignment: .leading) {
                     Text("Title")
+                        .bold()
                     TextField("Title", text: $title)
                         .textFieldStyle(.roundedBorder)
                 }
                 
                 HStack(alignment: .center) {
                     VStack(alignment: .leading) {
-                        //TODO: dropdown for tag, exist tag + new tag(appear additional add tag field) (https://medium.com/geekculture/custom-drop-down-text-field-in-swiftui-a748d2cebbeb) (https://stackoverflow.com/questions/59821797/is-there-a-way-to-populate-a-textfield-in-a-drop-down-manner-in-swiftui)
-                        //TODO: add textfield for new view (alert) (https://stackoverflow.com/questions/56726663/how-to-add-a-textfield-to-alert-in-swiftui)
+                        //TODO: Dropdown with Menu{} in SwiftUI
                         Text("Tag")
+                            .bold()
                         TextField("Tag", text: $tag)
                             .textFieldStyle(.roundedBorder)
+                        Menu {
+                            Text("A")
+                            Text("A")
+                            Text("A")
+                            Text("A")
+                            Text("A")
+                            Button(action: {
+                                
+                            }) {
+                                Text("BUTTON")
+                            }
+                        } label: {
+                            Text("Test Menu")
+                        }
                     }
                     
                     VStack(alignment: .leading) {
@@ -105,6 +122,7 @@ struct AddNewCardView: View {
 						//TODO: https://developer.apple.com/forums/thread/126990
                         //TODO: https://stackoverflow.com/questions/56489107/using-swiftui-how-can-i-add-datepicker-only-while-textfield-is-in-editing-mode
                         Text("Date")
+                            .bold()
                         HStack(alignment: .center) {
                             DatePicker("", selection: $currentDate, displayedComponents: .date)
                             DatePicker("", selection: $currentDate, displayedComponents: .hourAndMinute)
@@ -118,6 +136,7 @@ struct AddNewCardView: View {
                     //TODO: autofill current location! as String!
                     HStack (alignment: .center) {
                         Text("Location")
+                            .bold()
                         //TODO: more accurate interact
                         Button(action: {
                             var authorizationStatus = CLLocationManager().authorizationStatus
@@ -155,6 +174,7 @@ struct AddNewCardView: View {
                     //(https://stackoverflow.com/questions/65459579/texteditor-added-swiftui)
                     //default text: (https://stackoverflow.com/questions/62741851/how-to-add-placeholder-text-to-texteditor-in-swiftui) // ZStack
                     Text("Contents")
+                        .bold()
                     TextEditor(text: $contents)
                         .cornerRadius(10.0)
                         .shadow(radius: 3.0)
