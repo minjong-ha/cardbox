@@ -117,16 +117,15 @@ struct AddNewCardView: View {
                             Button(action: {
                                 //REFERENCE: UIHOSTINGCONTROLLER is very simillar with mail app write new mail
                                 //TODO: alert with textfield
-                                let alertController = UIAlertController(title: "Contry", message: "Write contrt code here", preferredStyle: .alert)
+                                let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
                                 
                                 alertController.addTextField { (textField : UITextField!) -> Void in
-                                    textField.placeholder = "Country code"
+                                    textField.placeholder = "New Tag"
                                 }
                                 
                                 let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
-                                    
                                     let secondTextField = alertController.textFields![0] as UITextField
-                                    if (secondTextField.text! == nil) {
+                                    if (secondTextField.text == "") {
                                         Alert(title: Text("Alert"), message: Text("Tag should not be empty!"), dismissButton: .cancel())
                                     }
                                     else {
@@ -233,49 +232,58 @@ struct AddNewCardView: View {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 
                 Button(action: {
-                    let realm = try! Realm()
-                    
-                    let card = Card()
-                    let cardInfo = CardInfo()
-                    
-                    let uuid = NSUUID().uuidString
-                    self.uuid = uuid
-                    
-                    card.cardUUID = self.uuid
-                    card.cardTitle = self.title
-                    card.cardTag = self.tag
-                    card.cardLocation = self.location
-                    
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-                    self.date = dateFormatter.string(from: self.currentDate)
-                    card.cardDate = self.date
-                    
-                    card.cardContents = self.contents
-                    
-                    cardInfo.cardUUID = self.uuid
-                    //cardInfo.isPrivate = self.isPrivate
-                    cardInfo.isPrivate = false
-                    cardInfo.isEncrypt = self.isEncrypt
-                    cardInfo.isCloud = self.isCloud
-                    cardInfo.isChecked = self.isChecked
-                    
-                    //TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
-                    try! realm.write {
-                        realm.add(card, update: .modified)
-                        realm.add(cardInfo, update: .modified)
+                    if (self.tag.isEmpty) {
+                        let alertController = UIAlertController(title: "Warning", message: "Tag should not be empty!!!", preferredStyle: .alert)
+                        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
+                        alertController.addAction(cancelAction)
+                        
+                        UIApplication.shared.windows.first?.rootViewController?.present(alertController, animated: true, completion: nil)
                     }
-                    
-                    print("DEBUG: Add New Card! Button Action")
-                    print("DEBUG:", self.uuid)
-                    print("DEBUG:", self.title)
-                    print("DEBUG:", self.tag)
-                    print("DEBUG:", self.location)
-                    print("DEBUG:", self.date)
-                    print("DEBUG:", self.contents)
-                    
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                    self.dismiss()
+                    else {
+                        let realm = try! Realm()
+                        
+                        let card = Card()
+                        let cardInfo = CardInfo()
+                        
+                        let uuid = NSUUID().uuidString
+                        self.uuid = uuid
+                        
+                        card.cardUUID = self.uuid
+                        card.cardTitle = self.title
+                        card.cardTag = self.tag
+                        card.cardLocation = self.location
+                        
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+                        self.date = dateFormatter.string(from: self.currentDate)
+                        card.cardDate = self.date
+                        
+                        card.cardContents = self.contents
+                        
+                        cardInfo.cardUUID = self.uuid
+                        //cardInfo.isPrivate = self.isPrivate
+                        cardInfo.isPrivate = false
+                        cardInfo.isEncrypt = self.isEncrypt
+                        cardInfo.isCloud = self.isCloud
+                        cardInfo.isChecked = self.isChecked
+                        
+                        //TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
+                        try! realm.write {
+                            realm.add(card, update: .modified)
+                            realm.add(cardInfo, update: .modified)
+                        }
+                        
+                        print("DEBUG: Add New Card! Button Action")
+                        print("DEBUG:", self.uuid)
+                        print("DEBUG:", self.title)
+                        print("DEBUG:", self.tag)
+                        print("DEBUG:", self.location)
+                        print("DEBUG:", self.date)
+                        print("DEBUG:", self.contents)
+                        
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        self.dismiss()
+                    }
                 }) {
                     Text("Add")
                 }
