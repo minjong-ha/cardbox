@@ -54,14 +54,18 @@ struct AddNewCardView: View {
     
     @State var key: String = "" //work with self.isPrivate!
     
+    //=====
     @State var currentDate = Date.now
+    @State var tagList: Array<String> = []
+    let realm = try! Realm()
+    //=====
     
     init() {
         print("DEBUG: load AddNewCardView")
         print("DEBUG: ", Realm.Configuration.defaultConfiguration.fileURL)
+        
+        
     }
-    
- 
     
     func setLocation() {
         let latitude = CLLocationManager().location?.coordinate.latitude
@@ -97,23 +101,46 @@ struct AddNewCardView: View {
                 HStack(alignment: .center) {
                     VStack(alignment: .leading) {
                         //TODO: Dropdown with Menu{} in SwiftUI
+                        //TODO: add Tag to Card RealmObject first
                         Text("Tag")
                             .bold()
-                        TextField("Tag", text: $tag)
-                            .textFieldStyle(.roundedBorder)
+                        //TextField("Tag", text: $tag)
+                            //.textFieldStyle(.roundedBorder)
                         Menu {
-                            Text("A")
-                            Text("A")
-                            Text("A")
-                            Text("A")
-                            Text("A")
                             Button(action: {
+                                //REFERENCE: UIHOSTINGCONTROLLER is very simillar with mail app write new mail
+                                //TODO: alert with textfield
+                                let alertController = UIAlertController(title: "Contry", message: "Write contrt code here", preferredStyle: .alert)
                                 
+                                alertController.addTextField { (textField : UITextField!) -> Void in
+                                    textField.placeholder = "Country code"
+                                }
+                                
+                                let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
+                                    
+                                    let secondTextField = alertController.textFields![0] as UITextField
+                                    if (secondTextField.text! == nil) {
+                                        Alert(title: Text("Alert"), message: Text("Tag should not be empty!"), dismissButton: .cancel())
+                                    }
+                                    else {
+                                        self.tag = secondTextField.text!
+                                        print("county code :  \(secondTextField.text!)")
+                                    }
+                                })
+                                
+                                let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
+                                
+                                alertController.addAction(saveAction)
+                                alertController.addAction(cancelAction)
+                                
+                                UIApplication.shared.windows.first?.rootViewController?.present(alertController, animated: true, completion: nil)
                             }) {
-                                Text("BUTTON")
+                                Text("+ Add New Tag")
                             }
                         } label: {
-                            Text("Test Menu")
+                            TextField("Tag", text: $tag)
+                                .textFieldStyle(.roundedBorder)
+                                .multilineTextAlignment(.leading)
                         }
                     }
                     
@@ -255,6 +282,24 @@ struct AddNewCardView: View {
             print("DEBUG: AddCardView onAppear()")
             self.date = dateFormatter.string(from: self.currentDate)
             //self.date = dateFormatter.string(from: today)
+            
+            //=====
+            let cardInfoList = realm.objects(CardInfo.self)
+            
+            if (cardInfoList.count > 0) {
+                for cardInfo in cardInfoList {
+                    let card = realm.object(ofType: Card.self, forPrimaryKey: cardInfo.cardUUID)
+                    let cardTag : String = card!.cardTag
+                    let cardTitle : String = card!.cardTitle
+                    
+                    print("DEBUG: ", cardTag, cardTitle)
+                    if (!self.tagList.contains(cardTag)) {
+                        self.tagList.append(cardTag)
+                    }
+                }
+            }
+            print(self.tagList.count)
+            //=====
         }
         /*
         .onDisappear(perform:  {
@@ -263,7 +308,7 @@ struct AddNewCardView: View {
         })
         */
     }
-}
+  }
 
 struct AddNewCardView_Previews: PreviewProvider {
     static var previews: some View {
