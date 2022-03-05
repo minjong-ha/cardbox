@@ -36,10 +36,10 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
 }
 
 struct AddNewCardView: View {
+    
     @Environment(\.dismiss) var dismiss
     @StateObject var locationViewModel = LocationViewModel()
     
-	//Card Data
     @State var uuid: String =  ""
     @State var title: String = ""
     @State var tag: String = ""
@@ -52,19 +52,15 @@ struct AddNewCardView: View {
 	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
     @State var isChecked: Bool = false //if ture, the card contents will be exposed with delete line
     
-    @State var key: String = "" //work with self.isPrivate!
-    
-    //=====
     @State var currentDate = Date.now
     @State var tagList: Array<String> = []
     let realm = try! Realm()
     
-    @State var encryptedPassword = ""
+    @State var encryptedPassword = "" // key
     
     @State var isTitleExist: Bool = false
     @State var isTagExist: Bool = false
     @State var isPasswordExist: Bool = false
-    //=====
     
     init() {
         print("DEBUG: load AddNewCardView")
@@ -80,7 +76,6 @@ struct AddNewCardView: View {
         self.date = dateFormatter.string(from: self.currentDate)
         //self.date = dateFormatter.string(from: today)
         
-        //=====
         let cardInfoList = realm.objects(CardInfo.self)
         
         if (cardInfoList.count > 0) {
@@ -96,7 +91,6 @@ struct AddNewCardView: View {
             }
         }
         print(self.tagList.count)
-        //=====
     }
     
     private func realmUpdateCard() {
@@ -258,8 +252,8 @@ struct AddNewCardView: View {
                 }
                 
                 VStack(alignment: .leading) {
-					//TODO: move textfield up when the keyboard pop (https://stackoverflow.com/questions/56491881/move-textfield-up-when-the-keyboard-has-appeared-in-swiftui)
-					//TODO: add next button for keyboard (https://stackoverflow.com/questions/58673159/how-to-move-to-next-textfield-in-swiftui)
+                    //TODO: move textfield up when the keyboard pop (https://stackoverflow.com/questions/56491881/move-textfield-up-when-the-keyboard-has-appeared-in-swiftui)
+                    //TODO: add next button for keyboard (https://stackoverflow.com/questions/58673159/how-to-move-to-next-textfield-in-swiftui)
                     //TODO: character limit + TextEditor Background color problem (https://stackoverflow.com/questions/56476007/swiftui-textfield-max-length)
                     //TODO: Dynamic height textEditor (https://stackoverflow.com/questions/62620613/dynamic-row-hight-containing-texteditor-inside-a-list-in-swiftui)
                     //(https://stackoverflow.com/questions/65459579/texteditor-added-swiftui)
@@ -275,13 +269,7 @@ struct AddNewCardView: View {
                 
                 VStack (alignment: .leading) {
                     HStack (alignment: .center) {
-                        Toggle("Private?", isOn: $isPrivate)
-                            .onTapGesture {
-                                withAnimation {
-                                    self.isPrivate.toggle()
-                                }
-                            }
-                        
+                        Text("Private?")
                         Button (action: {
                             let alertController = UIAlertController(title: "Private?", message: "If the 'Private' is active,\nthe card will be located in PrivateBox, not PublicBox", preferredStyle: .alert)
                             let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
@@ -291,18 +279,17 @@ struct AddNewCardView: View {
                         }) {
                             Image(systemName: "questionmark.circle")
                         }
+                        
+                        Toggle("", isOn: $isPrivate)
+                            .onTapGesture {
+                                withAnimation {
+                                    self.isPrivate.toggle()
+                                }
+                            }
                     }
                     if (self.isPrivate) {
                         HStack (alignment: .center) {
-                            Toggle("Encrypted?", isOn: $isEncrypt)
-                                .onTapGesture {
-                                    withAnimation {
-                                        self.isEncrypt.toggle()
-                                    }
-                                }
-                                .tint(.yellow)
-                                .opacity(self.isPrivate ? 1 : 0)
-                                .transition(.slide)
+                            Text("Encrypted?")
                             Button (action: {
                                 let alertController = UIAlertController(title: "Encrypted?", message: "If the 'Encrypt' is active,\nthe card will be encrypted with the 'Password'", preferredStyle: .alert)
                                 let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
@@ -312,19 +299,32 @@ struct AddNewCardView: View {
                             }) {
                                 Image(systemName: "questionmark.circle")
                             }
+                            
+                            Toggle("", isOn: $isEncrypt)
+                                .onTapGesture {
+                                    withAnimation {
+                                        self.isEncrypt.toggle()
+                                    }
+                                }
+                                .tint(.yellow)
+                                .opacity(self.isPrivate ? 1 : 0)
+                                .transition(.slide)
+                            
                         }
                     }
                     if (self.isEncrypt) {
                         VStack(alignment: .leading) {
                             Text("Password")
                             SecureField("Enter a Password", text: $encryptedPassword)
+                                .textFieldStyle(.roundedBorder)
+                                .cornerRadius(10)
+                                .shadow(radius: 3)
                                 .opacity(self.isEncrypt ? 1 : 0)
                                 .transition(.scale)
                         }
                     }
                     HStack (alignment: .center) {
-                        Toggle("Cloud?", isOn: $isCloud)
-                            .tint(.blue)
+                        Text("Cloud?")
                         Button (action: {
                             let alertController = UIAlertController(title: "Cloud?", message: "If the 'Cloud' is active,\nthe card will be backup automatically in the iCloud", preferredStyle: .alert)
                             let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
@@ -334,10 +334,13 @@ struct AddNewCardView: View {
                         }) {
                             Image(systemName: "questionmark.circle")
                         }
+                        
+                        Toggle("", isOn: $isCloud)
+                            .tint(.blue)
+                        
                     }
                     HStack (alignment: .center) {
-                        Toggle("Checked?", isOn: $isChecked)
-                            .tint(.orange)
+                        Text("Checked?")
                         Button (action: {
                             let alertController = UIAlertController(title: "Checked?", message: "If the 'Checked is active,\nthe card will be lined in the Box", preferredStyle: .alert)
                             let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
@@ -347,10 +350,14 @@ struct AddNewCardView: View {
                         }) {
                             Image(systemName: "questionmark.circle")
                         }
+                        
+                        Toggle("", isOn: $isChecked)
+                            .tint(.orange)
+                        
                     }
                 }
             }
-        }
+          }
         .navigationTitle("Add a new Card")
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -371,13 +378,19 @@ struct AddNewCardView: View {
                     }
                     else {
                         self.realmUpdateCard()
-                        
-                        //UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         self.dismiss()
                     }
                 }) {
                     Text("Add")
                 }
+            }
+            ToolbarItemGroup(placement: .keyboard) {
+                Button(action: {
+                    UIApplication.shared.keyWindow?.endEditing(true)
+                }) {
+                   Text("Done")
+                }
+                Spacer()
             }
         }
         .onAppear {
