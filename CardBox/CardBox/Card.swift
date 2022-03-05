@@ -39,14 +39,6 @@ class Card: Object {
     @Persisted var cardLocation: String
     @Persisted var cardDate: String
     @Persisted var cardContents: String
-    
-    /*
-    @Persisted var isPrivate: Bool
-    @Persisted var isEncrypt: Bool
-     @Persisted var isCloud: Bool
-     @Persisted var isChecked: Bool
-     */
-
 }
 
 class CardInfo: Object {
@@ -62,12 +54,6 @@ class CardInfo: Object {
 //FUTURE WORKS
 class CardKey: Object {
 	@Persisted(primaryKey: true) var cardUUID: String
-
 	@Persisted var key: String
 }
 
-//for user defined tag
-//FUTURE WORKS
-class TagList: Object {
-	@Persisted var tag: String
-}

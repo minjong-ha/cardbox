@@ -107,6 +107,13 @@ struct AddNewCardView: View {
                         //TextField("Tag", text: $tag)
                             //.textFieldStyle(.roundedBorder)
                         Menu {
+                            ForEach(self.tagList, id: \.self) { cardTag in
+                                Button(action: {
+                                    self.tag = cardTag
+                                }) {
+                                    Text(cardTag)
+                                }
+                            }
                             Button(action: {
                                 //REFERENCE: UIHOSTINGCONTROLLER is very simillar with mail app write new mail
                                 //TODO: alert with textfield
