@@ -11,6 +11,8 @@ import Combine
 import CoreLocation
 import RealmSwift
 
+
+
 class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var authorizationStatus: CLAuthorizationStatus
     
@@ -39,6 +41,7 @@ struct AddNewCardView: View {
     
     @Environment(\.dismiss) var dismiss
     @StateObject var locationViewModel = LocationViewModel()
+    @Namespace var contentsID
     
     @State var uuid: String =  ""
     @State var title: String = ""
@@ -157,6 +160,7 @@ struct AddNewCardView: View {
     
 	//TODO: check onAppear can use in body
     var body: some View {
+        ScrollViewReader { value in
         ScrollView() {
             VStack (alignment: .center) {
                 VStack(alignment: .leading) {
@@ -252,20 +256,19 @@ struct AddNewCardView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    //TODO: move textfield up when the keyboard pop (https://stackoverflow.com/questions/56491881/move-textfield-up-when-the-keyboard-has-appeared-in-swiftui)
-                    //TODO: add next button for keyboard (https://stackoverflow.com/questions/58673159/how-to-move-to-next-textfield-in-swiftui)
-                    //TODO: character limit + TextEditor Background color problem (https://stackoverflow.com/questions/56476007/swiftui-textfield-max-length)
-                    //TODO: Dynamic height textEditor (https://stackoverflow.com/questions/62620613/dynamic-row-hight-containing-texteditor-inside-a-list-in-swiftui)
-                    //(https://stackoverflow.com/questions/65459579/texteditor-added-swiftui)
-                    //default text: (https://stackoverflow.com/questions/62741851/how-to-add-placeholder-text-to-texteditor-in-swiftui) // ZStack
                     Text("Contents")
                         .bold()
                     TextEditor(text: $contents)
                         .cornerRadius(10.0)
-                        .shadow(radius: 3.0)
+                        .textFieldStyle(.roundedBorder)
+                        .shadow(radius: 2.0)
                         .frame(height: UIScreen.main.bounds.size.height / 4)
                         .frame(width: (UIScreen.main.bounds.size.width * 0.9))
+                        .onTapGesture {
+                            withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
+                        }
                 }
+                .id(self.contentsID)
                 
                 VStack (alignment: .leading) {
                     HStack (alignment: .center) {
@@ -286,6 +289,8 @@ struct AddNewCardView: View {
                                     self.isPrivate.toggle()
                                 }
                             }
+                        
+                        Spacer(minLength: UIScreen.main.bounds.size.width * 0.05)
                     }
                     if (self.isPrivate) {
                         HStack (alignment: .center) {
@@ -310,6 +315,7 @@ struct AddNewCardView: View {
                                 .opacity(self.isPrivate ? 1 : 0)
                                 .transition(.slide)
                             
+                            Spacer(minLength: UIScreen.main.bounds.size.width * 0.05)
                         }
                     }
                     if (self.isEncrypt) {
@@ -318,9 +324,8 @@ struct AddNewCardView: View {
                             SecureField("Enter a Password", text: $encryptedPassword)
                                 .textFieldStyle(.roundedBorder)
                                 .cornerRadius(10)
-                                .shadow(radius: 3)
                                 .opacity(self.isEncrypt ? 1 : 0)
-                                .transition(.scale)
+                                .transition(.slide)
                         }
                     }
                     HStack (alignment: .center) {
@@ -338,6 +343,8 @@ struct AddNewCardView: View {
                         Toggle("", isOn: $isCloud)
                             .tint(.blue)
                         
+                        Spacer(minLength: UIScreen.main.bounds.size.width * 0.05)
+                        
                     }
                     HStack (alignment: .center) {
                         Text("Checked?")
@@ -354,10 +361,13 @@ struct AddNewCardView: View {
                         Toggle("", isOn: $isChecked)
                             .tint(.orange)
                         
+                        Spacer(minLength: UIScreen.main.bounds.size.width * 0.05)
+                        
                     }
                 }
             }
-          }
+        }
+        }
         .navigationTitle("Add a new Card")
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -396,8 +406,8 @@ struct AddNewCardView: View {
         .onAppear {
             self.onAppearUpdate()
         }
-    }
   }
+}
 
 struct AddNewCardView_Previews: PreviewProvider {
     static var previews: some View {
