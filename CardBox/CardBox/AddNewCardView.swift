@@ -11,8 +11,6 @@ import Combine
 import CoreLocation
 import RealmSwift
 
-
-
 class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var authorizationStatus: CLAuthorizationStatus
     
@@ -43,6 +41,12 @@ struct AddNewCardView: View {
     @StateObject var locationViewModel = LocationViewModel()
     @Namespace var contentsID
     
+    private enum Field: Int, CaseIterable {
+        case title, location, contents, password
+    }
+    
+    @FocusState private var focusedKeyboard: Field?
+    
     @State var uuid: String =  ""
     @State var title: String = ""
     @State var tag: String = ""
@@ -65,10 +69,12 @@ struct AddNewCardView: View {
     @State var isTagExist: Bool = false
     @State var isPasswordExist: Bool = false
     
+    /*
     init() {
         print("DEBUG: load AddNewCardView")
         print("DEBUG: ", Realm.Configuration.defaultConfiguration.fileURL)
     }
+     */
     
     private func onAppearUpdate() {
         let today = Date()
@@ -168,6 +174,7 @@ struct AddNewCardView: View {
                         .bold()
                     TextField("Title", text: $title)
                         .textFieldStyle(.roundedBorder)
+                        .focused($focusedKeyboard, equals: .title)
                 }
                 
                 HStack(alignment: .center) {
@@ -253,6 +260,7 @@ struct AddNewCardView: View {
                     }
                     TextField("Location", text: $location)
                         .textFieldStyle(.roundedBorder)
+                        .focused($focusedKeyboard, equals: .location)
                 }
                 
                 VStack(alignment: .leading) {
@@ -267,6 +275,7 @@ struct AddNewCardView: View {
                         .onTapGesture {
                             withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
                         }
+                        .focused($focusedKeyboard, equals: .contents)
                 }
                 .id(self.contentsID)
                 
@@ -326,6 +335,7 @@ struct AddNewCardView: View {
                                 .cornerRadius(10)
                                 .opacity(self.isEncrypt ? 1 : 0)
                                 .transition(.slide)
+                                .focused($focusedKeyboard, equals: .password)
                         }
                     }
                     HStack (alignment: .center) {
@@ -396,7 +406,7 @@ struct AddNewCardView: View {
             }
             ToolbarItemGroup(placement: .keyboard) {
                 Button(action: {
-                    UIApplication.shared.keyWindow?.endEditing(true)
+                    self.focusedKeyboard = nil
                 }) {
                    Text("Done")
                 }
