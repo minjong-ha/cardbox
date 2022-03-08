@@ -25,6 +25,8 @@ struct CardView: View {
     
 	@State var isEditState: Bool
     
+    @State var currentDate = Date.now
+    
     @Environment(\.colorScheme) var colorScheme
     
     let defaultTitle: String = "Empty Title"
@@ -36,7 +38,12 @@ struct CardView: View {
         self.localTitle = card!.cardTitle
         self.localTag = card!.cardTag
         self.localLocation = card!.cardLocation
+        
         self.localDate = card!.cardDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        self.currentDate = dateFormatter.date(from: self.localDate)!
+        
         self.localContents = card!.cardContents
         
         if (self.localTitle == "") {
@@ -89,11 +96,12 @@ struct CardView: View {
                     Text("Date")
                         .font(.title2)
                         .bold()
-                    TextField(self.localDate, text: $localDate)
-                        .textFieldStyle(.roundedBorder)
-                        .disabled(self.isEditState == false)
-                        //.shadow(radius: 3.0)
-                    
+                    HStack(alignment: .center) {
+                        DatePicker("", selection: $currentDate, displayedComponents: .date)
+                            .disabled(self.isEditState == false)
+                        DatePicker("", selection: $currentDate, displayedComponents: .hourAndMinute)
+                            .disabled(self.isEditState == false)
+                    }
                 }
             }
             VStack (alignment: .leading) {
@@ -155,7 +163,12 @@ struct CardView: View {
                             card.cardTitle = self.localTitle
                             card.cardTag = self.localTag
                             card.cardLocation = self.localLocation
+                            
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+                            self.localDate = dateFormatter.string(from: self.currentDate)
                             card.cardDate = self.localDate
+                            
                             card.cardContents = self.localContents
 
 							cardInfo.cardUUID = self.cardUUID
