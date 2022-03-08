@@ -603,7 +603,9 @@
 				DEVELOPMENT_TEAM = VC9MJ6V547;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "You can fill 'Location' by pressing the map button";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "You can fill 'Location' by pressing the map button";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "You can fill 'Location' by pressing the map button";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -639,7 +641,9 @@
 				DEVELOPMENT_TEAM = VC9MJ6V547;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "You can fill 'Location' by pressing the map button";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "You can fill 'Location' by pressing the map button";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "You can fill 'Location' by pressing the map button";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
