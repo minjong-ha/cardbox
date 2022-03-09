@@ -20,30 +20,10 @@ struct PublicBoxTabView: View {
     @State var isEditing = false
     @State private var searchText: String = ""
     
+    @State var tagList: Array<String> = []
+    
     init() {
-        //print("DEBUG: INIT()")
-        
-        let cardInfoList = realm.objects(CardInfo.self)
-        let publicCardInfoList = cardInfoList.where {
-            $0.isPrivate == false
-        }
-        
-        //if (self.publicCardList.count > 0) {
-        if (publicCardInfoList.count > 0) {
-            self.isPublicExist = true
-            self.publicCardCellList.removeAll()
-            
-            
-            for publicCardInfo in publicCardInfoList {
-                let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
-                let publicInfoCell = CardInfoCell.init(cardUUID: publicCard!.cardUUID, isPrivate: publicCardInfo.isPrivate, isEncrypt: publicCardInfo.isEncrypt, isCloud: publicCardInfo.isCloud, isChecked: publicCardInfo.isChecked)
-                let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle, cardLocation: publicCard!.cardLocation, cardDate: publicCard!.cardDate, cardContents: publicCard!.cardContents, cardInfo: publicInfoCell)
-                self.publicCardCellList.append(publicCardCell)
-            }
-        }
-        else {
-            self.isPublicExist = false
-        }
+        //SwiftUI does not like load in init(). Use onAppear() instead
 		//=======================================================
 		UITableView.appearance().backgroundColor = .clear  // List background Color
         //UITableView.appearance().separatorStyle = .none // List Cell separator style
@@ -68,13 +48,17 @@ struct PublicBoxTabView: View {
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
                 let publicInfoCell = CardInfoCell.init(cardUUID: publicCard!.cardUUID, isPrivate: publicCardInfo.isPrivate, isEncrypt: publicCardInfo.isEncrypt, isCloud: publicCardInfo.isCloud, isChecked: publicCardInfo.isChecked)
                 let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle, cardLocation: publicCard!.cardLocation, cardDate: publicCard!.cardDate, cardContents: publicCard!.cardContents, cardInfo: publicInfoCell)
+                let cardTag : String = publicCard!.cardTag
+                
                 self.publicCardCellList.append(publicCardCell)
+                if (!self.tagList.contains(cardTag)) {
+                    self.tagList.append(cardTag)
+                }
             }
         }
         else {
             self.isPublicExist = false
         }
-        //print("DEBUG: onAppearUpdate()")
     }
     
     private func onDeleteCard(at indexSet: IndexSet) {
@@ -133,17 +117,25 @@ struct PublicBoxTabView: View {
                             .onTapGesture {
                                 self.isEditing = true
                             }
+                            .opacity(self.isPublicExist ? 1 : 0)
                     }
                     
                     List {
-                        ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                            NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
-                                HStack {
-                                    Label("\(publicCardCell.cardTag) \(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                        ForEach(self.tagList, id: \.self) { section in
+                            Section(header: Text(section).bold(), content:  {
+                                let sectionCardCellList = self.publicCardCellList.filter { card in
+                                    return card.cardTag == section
                                 }
-                            }
+                                ForEach(sectionCardCellList, id: \.self) { publicCardCell in
+                                    NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
+                                        HStack {
+                                            Label("\(publicCardCell.cardTag) \(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                                        }
+                                    }
+                                }
+                                .onDelete(perform: self.onDeleteCard)
+                            }) //Section closer
                         }
-                        .onDelete(perform: self.onDeleteCard)
                     }
                     .frame(width: (UIScreen.main.bounds.size.width * 0.9))
                     .opacity(self.isPublicExist ? 1 : 0)
