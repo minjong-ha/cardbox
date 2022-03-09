@@ -17,6 +17,9 @@ struct PublicBoxTabView: View {
     @State var publicCardCellList: Array<CardCell> = []
 	@State var publicInfoList: Array<CardInfoCell> = []
     
+    @State var isEditing = false
+    @State private var searchText: String = ""
+    
     init() {
         //print("DEBUG: INIT()")
         
@@ -97,25 +100,57 @@ struct PublicBoxTabView: View {
     }
     
 	//TODO: pull down search bar (https://stackoverflow.com/questions/66254485/how-to-make-a-pull-down-search-bar-in-swiftui)
-	//TODO: create dynamic section for List (https://stackoverflow.com/questions/58574847/how-to-dynamically-create-sections-in-a-swiftui-list-foreach-and-avoid-unable-t)
+    //TODO: create dynamic section for List (https://stackoverflow.com/questions/58574847/how-to-dynamically-create-sections-in-a-swiftui-list-foreach-and-avoid-unable-t)
     var body: some View {
         NavigationView {
             ZStack() {
-                List {
-                    ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
-                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
-                            HStack {
-                                Label("\(publicCardCell.cardTag) \(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                VStack {
+                    HStack {
+                        TextField("Search ...", text: $searchText)
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .overlay(
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(.gray)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                        .padding(.leading, 8)
+                                    
+                                    if isEditing {
+                                        Button(action: {
+                                            self.searchText = ""
+                                        }) {
+                                            Image(systemName: "multiply.circle.fill")
+                                                .foregroundColor(.gray)
+                                                .padding(.trailing, 8)
+                                        }
+                                    }
+                                }
+                            )
+                            .padding(.horizontal, 10)
+                            .onTapGesture {
+                                self.isEditing = true
+                            }
+                    }
+                    
+                    List {
+                        ForEach(self.publicCardCellList, id: \.self) { publicCardCell in
+                            NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
+                                HStack {
+                                    Label("\(publicCardCell.cardTag) \(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                                }
                             }
                         }
+                        .onDelete(perform: self.onDeleteCard)
                     }
-                    .onDelete(perform: self.onDeleteCard)
+                    .frame(width: (UIScreen.main.bounds.size.width * 0.9))
+                    .opacity(self.isPublicExist ? 1 : 0)
+                    .transition(.slide)
+                    .shadow(radius: 3.0)
+                    .listStyle(.grouped)
                 }
-                .frame(width: (UIScreen.main.bounds.size.width * 0.9))
-                .opacity(self.isPublicExist ? 1 : 0)
-                .transition(.slide)
-                .shadow(radius: 3.0)
-                .listStyle(.grouped)
                 
                 VStack(alignment: .leading) {
                     Text("This is the Public Box which contains public cards!")
@@ -123,7 +158,6 @@ struct PublicBoxTabView: View {
                 }
                 .opacity(self.isPublicExist ? 0 : 1)
                 .transition(.slide)
-                
             }
             .onAppear(perform: self.onAppearUpdate)
             .navigationTitle("Public Box")
