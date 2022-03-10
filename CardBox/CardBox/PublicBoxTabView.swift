@@ -9,6 +9,9 @@ import FoldingCell
 import Combine
 import RealmSwift
 
+
+//TODO: remove white edge(edgesafeArea) https://www.hohyeonmoon.com/blog/swiftui-tutorial-view/
+
 struct PublicBoxTabView: View {
     
     let realm = try! Realm()
