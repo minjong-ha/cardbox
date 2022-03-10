@@ -129,7 +129,7 @@ struct PublicBoxTabView: View {
                                 ForEach(sectionCardCellList, id: \.self) { publicCardCell in
                                     NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                         HStack {
-                                            Label("\(publicCardCell.cardTag) \(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                                            Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                         }
                                     }
                                 }
