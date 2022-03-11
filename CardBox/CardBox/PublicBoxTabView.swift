@@ -25,6 +25,8 @@ struct PublicBoxTabView: View {
     
     @State var tagList: Array<String> = []
     
+    @FocusState private var isFocused: Bool
+    
     init() {
         //SwiftUI does not like load in init(). Use onAppear() instead
 		//=======================================================
@@ -45,6 +47,7 @@ struct PublicBoxTabView: View {
         //if (self.publicCardList.count > 0) {
         if (publicCardInfoList.count > 0) {
             self.isPublicExist = true
+            self.publicCardCellList.removeAll()
             self.publicCardCellList.removeAll()
             
             for publicCardInfo in publicCardInfoList {
@@ -86,8 +89,6 @@ struct PublicBoxTabView: View {
         self.onAppearUpdate()
     }
     
-	//TODO: pull down search bar (https://stackoverflow.com/questions/66254485/how-to-make-a-pull-down-search-bar-in-swiftui)
-    //TODO: create dynamic section for List (https://stackoverflow.com/questions/58574847/how-to-dynamically-create-sections-in-a-swiftui-list-foreach-and-avoid-unable-t)
     var body: some View {
         NavigationView {
             ZStack() {
@@ -98,6 +99,10 @@ struct PublicBoxTabView: View {
                             .padding(.horizontal, 25)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
+                            .focused($isFocused)
+                            .onTapGesture {
+                                self.isEditing = true
+                            }
                             .overlay(
                                 HStack {
                                     Image(systemName: "magnifyingglass")
@@ -108,6 +113,8 @@ struct PublicBoxTabView: View {
                                     if isEditing {
                                         Button(action: {
                                             self.searchText = ""
+                                            self.isEditing = false
+                                            self.isFocused = false
                                         }) {
                                             Image(systemName: "multiply.circle.fill")
                                                 .foregroundColor(.gray)
@@ -117,34 +124,43 @@ struct PublicBoxTabView: View {
                                 }
                             )
                             .padding(.horizontal, 10)
-                            .onTapGesture {
-                                self.isEditing = true
-                            }
                             .opacity(self.isPublicExist ? 1 : 0)
                     }
                     
                     List {
                         ForEach(self.tagList, id: \.self) { section in
-                            Section(header: Text(section).bold(), content:  {
+                            Section(header: Text(section).bold().font(.title3), content:  {
                                 let sectionCardCellList = self.publicCardCellList.filter { card in
                                     return card.cardTag == section
                                 }
-                                ForEach(sectionCardCellList, id: \.self) { publicCardCell in
-                                    NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
-                                        HStack {
-                                            Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                                if (sectionCardCellList.count > 0) {
+                                    ForEach(sectionCardCellList, id: \.self) { publicCardCell in
+                                        if (self.searchText == "") {
+                                            NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
+                                                HStack {
+                                                    Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            if (publicCardCell.cardTitle.contains(self.searchText)) {
+                                                NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
+                                                    HStack {
+                                                        Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
+                                    .onDelete(perform: self.onDeleteCard)
                                 }
-                                .onDelete(perform: self.onDeleteCard)
-                            }) //Section closer
+                            })
                         }
                     }
-                    .frame(width: (UIScreen.main.bounds.size.width * 0.9))
+                    .frame(width: (UIScreen.main.bounds.size.width * 0.95))
                     .opacity(self.isPublicExist ? 1 : 0)
                     .transition(.slide)
                     .shadow(radius: 3.0)
-                    .listStyle(.grouped)
                 }
                 
                 VStack(alignment: .leading) {
@@ -164,7 +180,7 @@ struct PublicBoxTabView: View {
                 }
             }
         }
-		.edgesIgnoringSafeArea(.all)
+		//.edgesIgnoringSafeArea(.all)
     }
 }
 
