@@ -48,7 +48,7 @@ struct PublicBoxTabView: View {
         if (publicCardInfoList.count > 0) {
             self.isPublicExist = true
             self.publicCardCellList.removeAll()
-            self.publicCardCellList.removeAll()
+            self.tagList.removeAll()
             
             for publicCardInfo in publicCardInfoList {
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
