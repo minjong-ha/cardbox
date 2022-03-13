@@ -93,6 +93,8 @@ struct PublicBoxTabView: View {
         NavigationView {
             ZStack() {
                 VStack {
+                   //TODO: compare custom searchbar with searchable() in SwiftUI
+                    /*
                     HStack {
                         TextField("Search ...", text: $searchText)
                             .padding(7)
@@ -126,6 +128,7 @@ struct PublicBoxTabView: View {
                             .padding(.horizontal, 10)
                             .opacity(self.isPublicExist ? 1 : 0)
                     }
+                     */
                     
                     List {
                         ForEach(self.tagList, id: \.self) { section in
@@ -144,11 +147,13 @@ struct PublicBoxTabView: View {
                                         }
                                         else {
                                             if (publicCardCell.cardTitle.contains(self.searchText)) {
+                                       
                                                 NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                                     HStack {
                                                         Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                                     }
                                                 }
+                                        
                                             }
                                         }
                                     }
@@ -157,6 +162,7 @@ struct PublicBoxTabView: View {
                             })
                         }
                     }
+                    .searchable(text: $searchText)
                     .frame(width: (UIScreen.main.bounds.size.width * 0.95))
                     .opacity(self.isPublicExist ? 1 : 0)
                     .transition(.slide)
