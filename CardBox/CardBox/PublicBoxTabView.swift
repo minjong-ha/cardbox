@@ -184,7 +184,7 @@ struct PublicBoxTabView: View {
                         Text("Add")
                     }
                 }
-            }
+                            }
         }
 		//.edgesIgnoringSafeArea(.all)
     }

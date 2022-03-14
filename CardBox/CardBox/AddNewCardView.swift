@@ -409,12 +409,12 @@ struct AddNewCardView: View {
                 }
             }
             ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
                 Button(action: {
                     self.isFocused = false
                 }) {
                    Text("Done")
                 }
-                Spacer()
             }
         }
         .onAppear {
