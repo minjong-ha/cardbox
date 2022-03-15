@@ -22,6 +22,7 @@ struct PublicBoxTabView: View {
     
     @State var isEditing = false
     @State private var searchText: String = ""
+    @State private var searchTag: String = ""
     
     @State var tagList: Array<String> = []
     
@@ -30,7 +31,7 @@ struct PublicBoxTabView: View {
     init() {
         //SwiftUI does not like load in init(). Use onAppear() instead
 		//=======================================================
-		UITableView.appearance().backgroundColor = .clear  // List background Color
+        UITableView.appearance().backgroundColor = .clear  // List background Color
         //UITableView.appearance().separatorStyle = .none // List Cell separator style
 		//UITableViewCell.appearance().backgroundColor = .black
 		//UITableView.appearance().tableFooterView = UIView()
@@ -93,43 +94,6 @@ struct PublicBoxTabView: View {
         NavigationView {
             ZStack() {
                 VStack {
-                   //TODO: compare custom searchbar with searchable() in SwiftUI
-                    /*
-                    HStack {
-                        TextField("Search ...", text: $searchText)
-                            .padding(7)
-                            .padding(.horizontal, 25)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            .focused($isFocused)
-                            .onTapGesture {
-                                self.isEditing = true
-                            }
-                            .overlay(
-                                HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(.gray)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        .padding(.leading, 8)
-                                    
-                                    if isEditing {
-                                        Button(action: {
-                                            self.searchText = ""
-                                            self.isEditing = false
-                                            self.isFocused = false
-                                        }) {
-                                            Image(systemName: "multiply.circle.fill")
-                                                .foregroundColor(.gray)
-                                                .padding(.trailing, 8)
-                                        }
-                                    }
-                                }
-                            )
-                            .padding(.horizontal, 10)
-                            .opacity(self.isPublicExist ? 1 : 0)
-                    }
-                     */
-                    
                     List {
                         ForEach(self.tagList, id: \.self) { section in
                             Section(header: Text(section).bold().font(.title3), content:  {
@@ -147,13 +111,13 @@ struct PublicBoxTabView: View {
                                         }
                                         else {
                                             if (publicCardCell.cardTitle.contains(self.searchText)) {
-                                       
+                                                
                                                 NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                                     HStack {
                                                         Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                                     }
                                                 }
-                                        
+                                                
                                             }
                                         }
                                     }
@@ -180,13 +144,26 @@ struct PublicBoxTabView: View {
             .navigationTitle("Public Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Menu {
+                        ForEach(self.tagList, id: \.self) { cardTag in
+                            Button(action: {
+                                self.searchTag = cardTag
+                            }) {
+                                Text(cardTag)
+                            }
+                        }
+                    } label: {
+                        TextField("Select Tag to search...", text: $searchTag)
+                            .textFieldStyle(.roundedBorder)
+                            .multilineTextAlignment(.leading)
+                    }
+
                     NavigationLink(destination: OnDemandView(AddNewCardView())) {
                         Text("Add")
                     }
                 }
-                            }
+                                }
         }
-		//.edgesIgnoringSafeArea(.all)
     }
 }
 
