@@ -161,9 +161,10 @@ struct PublicBoxTabView: View {
                     NavigationLink(destination: OnDemandView(AddNewCardView())) {
                         Text("Add")
                     }
-                }
-                                }
-        }
+				}
+			}
+		}
+		.padding()
     }
 }
 
