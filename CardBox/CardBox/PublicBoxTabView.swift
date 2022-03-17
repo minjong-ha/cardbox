@@ -139,32 +139,18 @@ struct PublicBoxTabView: View {
                 }
                 .opacity(self.isPublicExist ? 0 : 1)
                 .transition(.slide)
+                .padding()
             }
             .onAppear(perform: self.onAppearUpdate)
             .navigationTitle("Public Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Menu {
-                        ForEach(self.tagList, id: \.self) { cardTag in
-                            Button(action: {
-                                self.searchTag = cardTag
-                            }) {
-                                Text(cardTag)
-                            }
-                        }
-                    } label: {
-                        TextField("Select Tag to search...", text: $searchTag)
-                            .textFieldStyle(.roundedBorder)
-                            .multilineTextAlignment(.leading)
-                    }
-
                     NavigationLink(destination: OnDemandView(AddNewCardView())) {
                         Text("Add")
                     }
 				}
 			}
 		}
-		.padding()
     }
 }
 
