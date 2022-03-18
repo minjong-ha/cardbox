@@ -99,3 +99,7 @@ Cardbox supports powerful sorting functions.
   * https://github.com/Ramotion/paper-switch: local/cloud indicator candidate
   * https://github.com/Ramotion/fluid-slider (android support)
   * https://github.com/Ramotion/garland-view : card representation candidate
+
+## Notion
+  * [Project Management](https://seen-fact-e72.notion.site/CardBox-bb5bce7e77c8452887465d6e9a5a35fd)
+  * [Project Document](https://seen-fact-e72.notion.site/3eecd6b7806747cf9046dd37e7f5e2d8?v=285285f2604d484eb4c3b93a400b9bcf)
