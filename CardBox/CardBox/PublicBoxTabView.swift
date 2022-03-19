@@ -69,6 +69,7 @@ struct PublicBoxTabView: View {
     }
     
     private func onDeleteCard(at indexSet: IndexSet) {
+    //private func onDeleteCard(at indexSet: IndexSet, in: Int) {
         try! realm.write {
             indexSet.forEach({ index in
                 let publicCardCell = self.publicCardCellList[index]
@@ -77,7 +78,8 @@ struct PublicBoxTabView: View {
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
                 let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
                 print("DEBUG: deleting RealmObject ", publicCard!.cardTitle)
-                
+            
+                /*
                 if(publicCard != nil) {
                     realm.delete(publicCard!)
                     realm.delete(publicCardInfo!)
@@ -85,6 +87,7 @@ struct PublicBoxTabView: View {
                 else {
                     print("DEBUG: There is no matched RealmObject")
                 }
+                */
             })
         }
         self.onAppearUpdate()
@@ -111,7 +114,6 @@ struct PublicBoxTabView: View {
                                         }
                                         else {
                                             if (publicCardCell.cardTitle.contains(self.searchText)) {
-                                                
                                                 NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                                     HStack {
                                                         Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
@@ -131,6 +133,7 @@ struct PublicBoxTabView: View {
                     .opacity(self.isPublicExist ? 1 : 0)
                     .transition(.slide)
                     .shadow(radius: 3.0)
+                    .listStyle(SidebarListStyle())
                 }
                 
                 VStack(alignment: .leading) {
