@@ -44,13 +44,11 @@ struct PublicBoxTabView: View {
             $0.isPrivate == false
         }
         
-        //if (self.publicCardList.count > 0) {
         if (publicCardInfoList.count > 0) {
             self.isPublicExist = true
             self.sectionList.removeAll()
             
             for publicCardInfo in publicCardInfoList {
-                
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
                 let publicInfoCell = CardInfoCell.init(cardUUID: publicCard!.cardUUID, isPrivate: publicCardInfo.isPrivate, isEncrypt: publicCardInfo.isEncrypt, isCloud: publicCardInfo.isCloud, isChecked: publicCardInfo.isChecked)
                 let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle, cardLocation: publicCard!.cardLocation, cardDate: publicCard!.cardDate, cardContents: publicCard!.cardContents, cardInfo: publicInfoCell)
@@ -79,8 +77,11 @@ struct PublicBoxTabView: View {
                     if (!isExist) {
                         self.sectionList[index].cardCellList.append(publicCardCell)
                     }
-                    
                 }
+            }
+            
+            self.sectionList.sort {
+                $0.cardTag < $1.cardTag
             }
         }
         else {
@@ -131,7 +132,6 @@ struct PublicBoxTabView: View {
                                                     Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                                 }
                                             }
-                                            
                                         }
                                     }
                                 }
