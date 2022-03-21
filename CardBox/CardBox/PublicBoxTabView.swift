@@ -67,25 +67,8 @@ struct PublicBoxTabView: View {
                     self.sectionList.append(newSection)
                 }
                 else {
-					//is this check necessary? 
-					//anyway, the cards in the publicCardInfoList are unique
-					//this is duplicated action! it should not be happen!
                     let index = self.sectionList.firstIndex(where: { $0.cardTag == cardTag })!
 					self.sectionList[index].cardCellList.append(publicCardCell)
-
-					//if i try to manage my Array independent from Realm, it could be required...
-					/*
-                    var isExist = false
-                    let index = self.sectionList.firstIndex(where: { $0.cardTag == cardTag })!
-					for card in self.sectionList[index].cardCellList {
-                        if (card.cardUUID == publicCardCell.cardUUID) {
-                            isExist = true
-                        }
-                    }
-                    if (!isExist) {
-                        self.sectionList[index].cardCellList.append(publicCardCell)
-                    }
-					*/
                 }
             }
             
@@ -106,12 +89,12 @@ struct PublicBoxTabView: View {
                 let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
                 print("DEBUG: deleting RealmObject ", publicCard!.cardTitle)
 
-				let sectionIndex = self.sectionList.firstIndex(where: { $0.cardTag == publicCard.cardTag  } )
+                let sectionIndex = self.sectionList.firstIndex(where: { $0.cardTag == publicCard!.cardTag  } )
                 
                 if(publicCard != nil) {
                     realm.delete(publicCard!)
                     realm.delete(publicCardInfo!)
-					self.sectionList[sectionIndex].cardCellList.remove(at: index)
+                    self.sectionList[sectionIndex!].cardCellList.remove(at: index)
                 }
                 else {
                     print("DEBUG: There is no matched RealmObject!")
