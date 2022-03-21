@@ -105,10 +105,13 @@ struct PublicBoxTabView: View {
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
                 let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
                 print("DEBUG: deleting RealmObject ", publicCard!.cardTitle)
+
+				let sectionIndex = self.sectionList.firstIndex(where: { $0.cardTag == publicCard.cardTag  } )
                 
                 if(publicCard != nil) {
                     realm.delete(publicCard!)
                     realm.delete(publicCardInfo!)
+					self.sectionList[sectionIndex].cardCellList.remove(at: index)
                 }
                 else {
                     print("DEBUG: There is no matched RealmObject!")
