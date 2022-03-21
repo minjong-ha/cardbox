@@ -67,9 +67,17 @@ struct PublicBoxTabView: View {
                     self.sectionList.append(newSection)
                 }
                 else {
+					//is this check necessary? 
+					//anyway, the cards in the publicCardInfoList are unique
+					//this is duplicated action! it should not be happen!
+                    let index = self.sectionList.firstIndex(where: { $0.cardTag == cardTag })!
+					self.sectionList[index].cardCellList.append(publicCardCell)
+
+					//if i try to manage my Array independent from Realm, it could be required...
+					/*
                     var isExist = false
                     let index = self.sectionList.firstIndex(where: { $0.cardTag == cardTag })!
-                    for card in self.sectionList[index].cardCellList {
+					for card in self.sectionList[index].cardCellList {
                         if (card.cardUUID == publicCardCell.cardUUID) {
                             isExist = true
                         }
@@ -77,6 +85,7 @@ struct PublicBoxTabView: View {
                     if (!isExist) {
                         self.sectionList[index].cardCellList.append(publicCardCell)
                     }
+					*/
                 }
             }
             
