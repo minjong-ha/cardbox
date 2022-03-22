@@ -108,8 +108,21 @@ struct PublicBoxTabView: View {
         NavigationView {
             ZStack() {
                 VStack {
+                    //filter dropdown box for the sections=========================
+                    //ALL and each section
+                    Menu {
+                        Text("Test Menu")
+                        Text("Test Menu")
+                        Text("Test Menu")
+                        Text("Test Menu")
+                    } label: {
+                        TextField("Test Menu for sections", text: $searchText)
+                            .textFieldStyle(.roundedBorder)
+                    }
+                    //filter dropdown box for the sections=========================
                     List {
                         ForEach (self.sectionList, id: \.self) { section in
+                            //change header to custom View (Text + Menu)
                             Section(header: Text(section.cardTag).bold().font(.title3), content:  {
                                 ForEach(section.cardCellList, id: \.self) { publicCardCell in
                                     if (self.searchText == "") {
@@ -136,8 +149,8 @@ struct PublicBoxTabView: View {
                             })
                         }
                     }
-                    .searchable(text: $searchText)
-                    .frame(width: (UIScreen.main.bounds.size.width * 0.95))
+                    //.searchable(text: $searchText)
+                    .frame(width: (UIScreen.main.bounds.size.width * 0.98))
                     .opacity(self.isPublicExist ? 1 : 0)
                     .transition(.slide)
                     .shadow(radius: 3.0)
@@ -150,18 +163,52 @@ struct PublicBoxTabView: View {
                 }
                 .opacity(self.isPublicExist ? 0 : 1)
                 .transition(.slide)
-                .padding()
             }
             .onAppear(perform: self.onAppearUpdate)
-            .navigationTitle("Public Box")
+            .navigationBarTitle("Public Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     NavigationLink(destination: OnDemandView(AddNewCardView())) {
                         Text("Add")
                     }
-				}
-			}
-		}
+                }
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    HStack {
+                        TextField("Search ...", text: $searchText)
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .focused($isFocused)
+                            .onTapGesture {
+                                self.isEditing = true
+                            }
+                            .frame(width: (UIScreen.main.bounds.size.width * 0.70))
+                            .overlay(
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(.gray)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                        .padding(.leading, 8)
+                                    
+                                    if isEditing {
+                                        Button(action: {
+                                            self.searchText = ""
+                                            self.isEditing = false
+                                            self.isFocused = false
+                                        }) {
+                                            Image(systemName: "multiply.circle.fill")
+                                                .foregroundColor(.gray)
+                                                .padding(.trailing, 8)
+                                        }
+                                    }
+                                }
+                            )
+                            .opacity(self.isPublicExist ? 1 : 0)
+                    }
+                }
+            }
+        }
     }
 }
 
