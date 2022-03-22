@@ -31,6 +31,12 @@ struct CardInfoCell: Hashable {
 	var isChecked: Bool = false
 }
 
+struct SectionCell: Hashable {
+    var cardTag: String = ""
+    
+    var cardCellList: Array<CardCell> = []
+}
+
 class Card: Object {
     @Persisted(primaryKey: true) var cardUUID: String
 
