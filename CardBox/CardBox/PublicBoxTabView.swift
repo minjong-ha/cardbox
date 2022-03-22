@@ -9,22 +9,42 @@ import FoldingCell
 import Combine
 import RealmSwift
 
+struct SectionTitleView: View {
+    @State private var sectionText: String
+    
+    init() {
+        self.sectionText = ""
+    }
+    
+    var body: some View {
+        HStack {
+            Text("Section Test")
+            Menu {
+                Text("Test Menu")
+                Text("Test Menu")
+                Text("Test Menu")
+                Text("Test Menu")
+            } label : {
+                TextField("Sorting.....", text: $sectionText)
+            }
+        }
+    }
+}
 
 //TODO: remove white edge(edgesafeArea) https://www.hohyeonmoon.com/blog/swiftui-tutorial-view/
 
 struct PublicBoxTabView: View {
     
-    let realm = try! Realm()
+    @State private var sectionList: Array<SectionCell> = []
     
-    @State var isPublicExist: Bool = false
-    @State var publicCardCellList: Array<CardCell> = []
-	@State var publicInfoList: Array<CardInfoCell> = []
+    private let realm = try! Realm()
     
-    @State var isEditing = false
+    @State private var isPublicExist: Bool = false
+    @State private var tagList: Array<String> = []
+    
+    @State private var isEditing = false
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
-    
-    @State var tagList: Array<String> = []
     
     @FocusState private var isFocused: Bool
     
@@ -45,11 +65,10 @@ struct PublicBoxTabView: View {
             $0.isPrivate == false
         }
         
-        //if (self.publicCardList.count > 0) {
+        self.sectionList.removeAll()
+        
         if (publicCardInfoList.count > 0) {
             self.isPublicExist = true
-            self.publicCardCellList.removeAll()
-            self.tagList.removeAll()
             
             for publicCardInfo in publicCardInfoList {
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
@@ -57,10 +76,26 @@ struct PublicBoxTabView: View {
                 let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle, cardLocation: publicCard!.cardLocation, cardDate: publicCard!.cardDate, cardContents: publicCard!.cardContents, cardInfo: publicInfoCell)
                 let cardTag : String = publicCard!.cardTag
                 
-                self.publicCardCellList.append(publicCardCell)
-                if (!self.tagList.contains(cardTag)) {
-                    self.tagList.append(cardTag)
+                var isExist = false
+                for section in self.sectionList {
+                    if (section.cardTag == cardTag) {
+                        isExist = true
+                    }
                 }
+                if (!isExist) {
+                    var newSection = SectionCell.init()
+                    newSection.cardTag = cardTag
+                    newSection.cardCellList.append(publicCardCell)
+                    self.sectionList.append(newSection)
+                }
+                else {
+                    let index = self.sectionList.firstIndex(where: { $0.cardTag == cardTag })!
+					self.sectionList[index].cardCellList.append(publicCardCell)
+                }
+            }
+            
+            self.sectionList.sort {
+                $0.cardTag < $1.cardTag
             }
         }
         else {
@@ -68,22 +103,23 @@ struct PublicBoxTabView: View {
         }
     }
     
-    private func onDeleteCard(at indexSet: IndexSet) {
+    private func onDeleteCard(at indexSet: IndexSet, in section: SectionCell) {
         try! realm.write {
-            indexSet.forEach({ index in
-                let publicCardCell = self.publicCardCellList[index]
-                print("DEBUG: try to delete ", index, "cell_", publicCardCell.cardUUID, publicCardCell.cardTag, publicCardCell.cardTitle)
-                
+            indexSet.forEach ({ index in
+                let publicCardCell = section.cardCellList[index]
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
                 let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
                 print("DEBUG: deleting RealmObject ", publicCard!.cardTitle)
+
+                let sectionIndex = self.sectionList.firstIndex(where: { $0.cardTag == publicCard!.cardTag  } )
                 
                 if(publicCard != nil) {
                     realm.delete(publicCard!)
                     realm.delete(publicCardInfo!)
+                    self.sectionList[sectionIndex!].cardCellList.remove(at: index)
                 }
                 else {
-                    print("DEBUG: There is no matched RealmObject")
+                    print("DEBUG: There is no matched RealmObject!")
                 }
             })
         }
@@ -94,43 +130,70 @@ struct PublicBoxTabView: View {
         NavigationView {
             ZStack() {
                 VStack {
+                    //filter dropdown box for the sections=========================
+                    //ALL and each section
+                    HStack (alignment: .center) {
+                        Menu {
+                            //change Text to Button
+                            Text("ALL")
+                            Text("Section 1")
+                            Text("Section 2")
+                            Text("Section 3")
+                            Text("... and on and on")
+                        } label: {
+                            TextField("Select Section", text: $searchText)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: (UIScreen.main.bounds.size.width * 0.4))
+                                .multilineTextAlignment(.leading)
+                        }
+                        
+                        Menu {
+                            Text("ABC ascending")
+                            Text("ABC descending")
+                            Text("Date ascending")
+                            Text("Date descending")
+                        } label: {
+                            TextField("Sorting....", text: $searchText)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: (UIScreen.main.bounds.size.width * 0.4))
+                                .multilineTextAlignment(.leading)
+                        }
+                    }
+                    //filter dropdown box for the sections=========================
                     List {
-                        ForEach(self.tagList, id: \.self) { section in
-                            Section(header: Text(section).bold().font(.title3), content:  {
-                                let sectionCardCellList = self.publicCardCellList.filter { card in
-                                    return card.cardTag == section
-                                }
-                                if (sectionCardCellList.count > 0) {
-                                    ForEach(sectionCardCellList, id: \.self) { publicCardCell in
-                                        if (self.searchText == "") {
+                        ForEach (self.sectionList, id: \.self) { section in
+                            Section(header: Text(section.cardTag).bold().font(.title3), content:  {
+                                ForEach(section.cardCellList, id: \.self) { publicCardCell in
+                                    if (self.searchText == "") {
+                                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
+                                            HStack {
+                                                Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                                            }
+                                        }
+                                        
+                                    }
+                                    else {
+                                        if (publicCardCell.cardTitle.contains(self.searchText)) {
                                             NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                                 HStack {
                                                     Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                                 }
                                             }
                                         }
-                                        else {
-                                            if (publicCardCell.cardTitle.contains(self.searchText)) {
-                                                
-                                                NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
-                                                    HStack {
-                                                        Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
-                                                    }
-                                                }
-                                                
-                                            }
-                                        }
                                     }
-                                    .onDelete(perform: self.onDeleteCard)
+                                }
+                                .onDelete {
+                                    self.onDeleteCard(at: $0, in: section)
                                 }
                             })
                         }
                     }
-                    .searchable(text: $searchText)
-                    .frame(width: (UIScreen.main.bounds.size.width * 0.95))
+                    //.searchable(text: $searchText)
+                    .frame(width: (UIScreen.main.bounds.size.width * 0.98))
                     .opacity(self.isPublicExist ? 1 : 0)
                     .transition(.slide)
                     .shadow(radius: 3.0)
+                    .listStyle(SidebarListStyle())
                 }
                 
                 VStack(alignment: .leading) {
@@ -141,30 +204,50 @@ struct PublicBoxTabView: View {
                 .transition(.slide)
             }
             .onAppear(perform: self.onAppearUpdate)
-            .navigationTitle("Public Box")
+            .navigationBarTitle("Public Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Menu {
-                        ForEach(self.tagList, id: \.self) { cardTag in
-                            Button(action: {
-                                self.searchTag = cardTag
-                            }) {
-                                Text(cardTag)
-                            }
-                        }
-                    } label: {
-                        TextField("Select Tag to search...", text: $searchTag)
-                            .textFieldStyle(.roundedBorder)
-                            .multilineTextAlignment(.leading)
-                    }
-
                     NavigationLink(destination: OnDemandView(AddNewCardView())) {
                         Text("Add")
                     }
-				}
-			}
-		}
-		.padding()
+                }
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    HStack {
+                        TextField("Search ...", text: $searchText)
+                            .padding(7)
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .focused($isFocused)
+                            .onTapGesture {
+                                self.isEditing = true
+                            }
+                            .frame(width: (UIScreen.main.bounds.size.width * 0.70))
+                            .overlay(
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(.gray)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                        .padding(.leading, 8)
+                                    
+                                    if isEditing {
+                                        Button(action: {
+                                            self.searchText = ""
+                                            self.isEditing = false
+                                            self.isFocused = false
+                                        }) {
+                                            Image(systemName: "multiply.circle.fill")
+                                                .foregroundColor(.gray)
+                                                .padding(.trailing, 8)
+                                        }
+                                    }
+                                }
+                            )
+                            .opacity(self.isPublicExist ? 1 : 0)
+                    }
+                }
+            }
+        }
     }
 }
 

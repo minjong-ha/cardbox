@@ -24,7 +24,7 @@ struct PrivateBoxTabView: View {
                 Text("Press 'Add' to write a new secret card!")
                 
             }
-            .padding()
+            //.padding()
             .navigationTitle("Private Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
