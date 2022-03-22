@@ -9,6 +9,27 @@ import FoldingCell
 import Combine
 import RealmSwift
 
+struct SectionTitleView: View {
+    @State private var sectionText: String
+    
+    init() {
+        self.sectionText = ""
+    }
+    
+    var body: some View {
+        HStack {
+            Text("Section Test")
+            Menu {
+                Text("Test Menu")
+                Text("Test Menu")
+                Text("Test Menu")
+                Text("Test Menu")
+            } label : {
+                TextField("Sorting.....", text: $sectionText)
+            }
+        }
+    }
+}
 
 //TODO: remove white edge(edgesafeArea) https://www.hohyeonmoon.com/blog/swiftui-tutorial-view/
 
@@ -44,9 +65,10 @@ struct PublicBoxTabView: View {
             $0.isPrivate == false
         }
         
+        self.sectionList.removeAll()
+        
         if (publicCardInfoList.count > 0) {
             self.isPublicExist = true
-            self.sectionList.removeAll()
             
             for publicCardInfo in publicCardInfoList {
                 let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
@@ -110,19 +132,36 @@ struct PublicBoxTabView: View {
                 VStack {
                     //filter dropdown box for the sections=========================
                     //ALL and each section
-                    Menu {
-                        Text("Test Menu")
-                        Text("Test Menu")
-                        Text("Test Menu")
-                        Text("Test Menu")
-                    } label: {
-                        TextField("Test Menu for sections", text: $searchText)
-                            .textFieldStyle(.roundedBorder)
+                    HStack (alignment: .center) {
+                        Menu {
+                            //change Text to Button
+                            Text("ALL")
+                            Text("Section 1")
+                            Text("Section 2")
+                            Text("Section 3")
+                            Text("... and on and on")
+                        } label: {
+                            TextField("Select Section", text: $searchText)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: (UIScreen.main.bounds.size.width * 0.4))
+                                .multilineTextAlignment(.leading)
+                        }
+                        
+                        Menu {
+                            Text("ABC ascending")
+                            Text("ABC descending")
+                            Text("Date ascending")
+                            Text("Date descending")
+                        } label: {
+                            TextField("Sorting....", text: $searchText)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: (UIScreen.main.bounds.size.width * 0.4))
+                                .multilineTextAlignment(.leading)
+                        }
                     }
                     //filter dropdown box for the sections=========================
                     List {
                         ForEach (self.sectionList, id: \.self) { section in
-                            //change header to custom View (Text + Menu)
                             Section(header: Text(section.cardTag).bold().font(.title3), content:  {
                                 ForEach(section.cardCellList, id: \.self) { publicCardCell in
                                     if (self.searchText == "") {
