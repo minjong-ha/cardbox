@@ -130,36 +130,6 @@ struct PublicBoxTabView: View {
         NavigationView {
             ZStack() {
                 VStack {
-                    //filter dropdown box for the sections=========================
-                    //ALL and each section
-                    HStack (alignment: .center) {
-                        Menu {
-                            //change Text to Button
-                            Text("ALL")
-                            Text("Section 1")
-                            Text("Section 2")
-                            Text("Section 3")
-                            Text("... and on and on")
-                        } label: {
-                            TextField("Select Section", text: $searchText)
-                                .textFieldStyle(.roundedBorder)
-                                .frame(width: (UIScreen.main.bounds.size.width * 0.4))
-                                .multilineTextAlignment(.leading)
-                        }
-                        
-                        Menu {
-                            Text("ABC ascending")
-                            Text("ABC descending")
-                            Text("Date ascending")
-                            Text("Date descending")
-                        } label: {
-                            TextField("Sorting....", text: $searchText)
-                                .textFieldStyle(.roundedBorder)
-                                .frame(width: (UIScreen.main.bounds.size.width * 0.4))
-                                .multilineTextAlignment(.leading)
-                        }
-                    }
-                    //filter dropdown box for the sections=========================
                     List {
                         ForEach (self.sectionList, id: \.self) { section in
                             Section(header: Text(section.cardTag).bold().font(.title3), content:  {
@@ -187,8 +157,8 @@ struct PublicBoxTabView: View {
                                 }
                             })
                         }
+                        .searchable(text: $searchText)
                     }
-                    //.searchable(text: $searchText)
                     .frame(width: (UIScreen.main.bounds.size.width * 0.98))
                     .opacity(self.isPublicExist ? 1 : 0)
                     .transition(.slide)
@@ -211,39 +181,20 @@ struct PublicBoxTabView: View {
                         Text("Add")
                     }
                 }
+                
                 ToolbarItemGroup(placement: .navigationBarLeading) {
-                    HStack {
-                        TextField("Search ...", text: $searchText)
-                            .padding(7)
-                            .padding(.horizontal, 25)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            .focused($isFocused)
-                            .onTapGesture {
-                                self.isEditing = true
-                            }
-                            .frame(width: (UIScreen.main.bounds.size.width * 0.70))
-                            .overlay(
-                                HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(.gray)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        .padding(.leading, 8)
-                                    
-                                    if isEditing {
-                                        Button(action: {
-                                            self.searchText = ""
-                                            self.isEditing = false
-                                            self.isFocused = false
-                                        }) {
-                                            Image(systemName: "multiply.circle.fill")
-                                                .foregroundColor(.gray)
-                                                .padding(.trailing, 8)
-                                        }
-                                    }
-                                }
-                            )
-                            .opacity(self.isPublicExist ? 1 : 0)
+                    Menu {
+                        Text("ALL")
+                    } label: {
+                        Text(Image(systemName: "doc.text.magnifyingglass"))
+                    }
+                    Menu {
+                        Text("title ascending")
+                        Text("title descending")
+                        Text("date ascending")
+                        Text("date descending")
+                    } label: {
+                        Text(Image(systemName: "doc.text.magnifyingglass"))
                     }
                 }
             }
