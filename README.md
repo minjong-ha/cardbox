@@ -5,7 +5,8 @@ It focuses on providing encrypted short card with clear UI/UX.
 
 
 ## File Description
-CardBox: xcode project directory
+CardBox: xcode project directory  
+icons: app icon. (for now it is free flat icon from the internet)
 
 
 ## Overview

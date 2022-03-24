@@ -157,7 +157,7 @@ struct PublicBoxTabView: View {
                                 }
                             })
                         }
-                        .searchable(text: $searchText)
+                        .searchable(text: $searchText) //Reference: https://sarunw.com/posts/searchable-in-swiftui/
                     }
                     .frame(width: (UIScreen.main.bounds.size.width * 0.98))
                     .opacity(self.isPublicExist ? 1 : 0)
