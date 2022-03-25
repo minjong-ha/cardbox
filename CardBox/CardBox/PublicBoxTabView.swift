@@ -9,11 +9,11 @@ import FoldingCell
 import Combine
 import RealmSwift
 
-//TODO: pass sectionVisible: Array<Bool> and make it toggle with arrow button. reference PrivateBox icon toggle!
-//TODO: pass rows for the cards in the section and make it sort depending on the configuration
+//TODO: Button with animation
 struct SectionTitleView: View {
     @State var sectionTitle: String
     @Binding var isVisible: Bool
+    @Binding var cardList: Array<CardCell>
     
     var body: some View {
         //TODO: leading the sectionTitle
@@ -27,44 +27,48 @@ struct SectionTitleView: View {
             
             Menu {
                 Button(action: {
-                    //set section category setup
+                    self.cardList.sort {
+                        $0.cardTitle < $1.cardTitle
+                    }
                 }) {
-                    Text("ABC Ascending")
+                    Text("Title Ascending")
                 }
                 Button(action: {
-                    //set section category setup
+                    self.cardList.sort {
+                        $0.cardTitle > $1.cardTitle
+                    }
+
                 }) {
-                    Text("ABC Descending")
+                    Text("Title Descending")
                 }
                 Button(action: {
-                    //set section category setup
+                    self.cardList.sort {
+                        $0.cardDate < $1.cardDate
+                    }
+                    
                 }) {
                     Text("Date Ascending")
                 }
                 Button(action: {
-                    //set section category setup
+                    self.cardList.sort {
+                        $0.cardDate > $1.cardDate
+                    }
                 }) {
-                    Text("Date Ascending")
+                    Text("Date Descending")
                 }
                 
             } label : {
                 Image(systemName: "arrow.up.arrow.down.square")
-                //TextField("Sorting.....", text: $sectionText)
-                //.multilineTextAlignment(.leading)
             }
             
             Button (action: {
-                //do toggle and for row opacity
-                withAnimation {
-                    self.isVisible.toggle()
-                    print("section isVisible:", self.isVisible)
-                }
+                self.isVisible.toggle()
+                print("section isVisible:", self.isVisible)
             }) {
-                // Image(systemName: self.selection == 0 ? "lock.open" : "lock")
                 Image(systemName: self.isVisible ? "chevron.down" : "chevron.right")
                     
             }
-            .transition(.slide)
+            .transition(.opacity)
         }
     }
 }
@@ -172,7 +176,7 @@ struct PublicBoxTabView: View {
                 VStack {
                     List {
                         ForEach (self.$sectionList, id: \.self) { $section in
-                            Section(header: SectionTitleView(sectionTitle: section.cardTag, isVisible: $section.isVisible), content:  {
+                            Section(header: SectionTitleView(sectionTitle: section.cardTag, isVisible: $section.isVisible, cardList: $section.cardCellList), content:  {
                                 ForEach(section.cardCellList, id: \.self) { publicCardCell in
                                     if (self.searchText == "" && section.isVisible) {
                                         NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
@@ -200,7 +204,7 @@ struct PublicBoxTabView: View {
                         }
                     }
                     .searchable(text: $searchText) //Reference: https://sarunw.com/posts/searchable-in-swiftui/
-                    .transition(.slide)
+                    .transition(.opacity)
                     .shadow(radius: 3.0)
                     .listStyle(PlainListStyle())
                 }
