@@ -9,28 +9,65 @@ import FoldingCell
 import Combine
 import RealmSwift
 
+//TODO: pass sectionVisible: Array<Bool> and make it toggle with arrow button. reference PrivateBox icon toggle!
+//TODO: pass rows for the cards in the section and make it sort depending on the configuration
 struct SectionTitleView: View {
-    @State private var sectionText: String
-    
-    init() {
-        self.sectionText = ""
-    }
+    @State var sectionTitle: String
+    @Binding var isVisible: Bool
     
     var body: some View {
+        //TODO: leading the sectionTitle
+        //TODO: trailing the Menu and Button
         HStack {
-            Text("Section Test")
+            Text(self.sectionTitle)
+                .bold()
+                .font(.title2)
+            
+            Spacer()
+            
             Menu {
-                Text("Test Menu")
-                Text("Test Menu")
-                Text("Test Menu")
-                Text("Test Menu")
+                Button(action: {
+                    //set section category setup
+                }) {
+                    Text("ABC Ascending")
+                }
+                Button(action: {
+                    //set section category setup
+                }) {
+                    Text("ABC Descending")
+                }
+                Button(action: {
+                    //set section category setup
+                }) {
+                    Text("Date Ascending")
+                }
+                Button(action: {
+                    //set section category setup
+                }) {
+                    Text("Date Ascending")
+                }
+                
             } label : {
-                TextField("Sorting.....", text: $sectionText)
+                Image(systemName: "arrow.up.arrow.down.square")
+                //TextField("Sorting.....", text: $sectionText)
+                //.multilineTextAlignment(.leading)
             }
+            
+            Button (action: {
+                //do toggle and for row opacity
+                withAnimation {
+                    self.isVisible.toggle()
+                    print("section isVisible:", self.isVisible)
+                }
+            }) {
+                // Image(systemName: self.selection == 0 ? "lock.open" : "lock")
+                Image(systemName: self.isVisible ? "chevron.down" : "chevron.right")
+                    
+            }
+            .transition(.slide)
         }
     }
 }
-
 //TODO: remove white edge(edgesafeArea) https://www.hohyeonmoon.com/blog/swiftui-tutorial-view/
 
 struct PublicBoxTabView: View {
@@ -48,10 +85,11 @@ struct PublicBoxTabView: View {
     
     @FocusState private var isFocused: Bool
     
+    
     init() {
         //SwiftUI does not like load in init(). Use onAppear() instead
 		//=======================================================
-        UITableView.appearance().backgroundColor = .clear  // List background Color
+        //UITableView.appearance().backgroundColor = .clear  // List background Color
         //UITableView.appearance().separatorStyle = .none // List Cell separator style
 		//UITableViewCell.appearance().backgroundColor = .black
 		//UITableView.appearance().tableFooterView = UIView()
@@ -101,6 +139,7 @@ struct PublicBoxTabView: View {
         else {
             self.isPublicExist = false
         }
+        print("isPublicExist: ", self.isPublicExist)
     }
     
     private func onDeleteCard(at indexSet: IndexSet, in section: SectionCell) {
@@ -128,27 +167,29 @@ struct PublicBoxTabView: View {
     
     var body: some View {
         NavigationView {
-            ZStack() {
+            if (isPublicExist) {
+                //TODO: remove VStack...?
                 VStack {
                     List {
-                        ForEach (self.sectionList, id: \.self) { section in
-                            Section(header: Text(section.cardTag).bold().font(.title3), content:  {
+                        ForEach (self.$sectionList, id: \.self) { $section in
+                            Section(header: SectionTitleView(sectionTitle: section.cardTag, isVisible: $section.isVisible), content:  {
                                 ForEach(section.cardCellList, id: \.self) { publicCardCell in
-                                    if (self.searchText == "") {
+                                    if (self.searchText == "" && section.isVisible) {
                                         NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                             HStack {
                                                 Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                             }
                                         }
-                                        
+                                        .transition(.opacity)
                                     }
                                     else {
-                                        if (publicCardCell.cardTitle.contains(self.searchText)) {
+                                        if (publicCardCell.cardTitle.contains(self.searchText) && section.isVisible) {
                                             NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                                 HStack {
                                                     Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                                 }
                                             }
+                                            .transition(.opacity)
                                         }
                                     }
                                 }
@@ -157,44 +198,35 @@ struct PublicBoxTabView: View {
                                 }
                             })
                         }
-                        .searchable(text: $searchText) //Reference: https://sarunw.com/posts/searchable-in-swiftui/
                     }
-                    .frame(width: (UIScreen.main.bounds.size.width * 0.98))
-                    .opacity(self.isPublicExist ? 1 : 0)
+                    .searchable(text: $searchText) //Reference: https://sarunw.com/posts/searchable-in-swiftui/
                     .transition(.slide)
                     .shadow(radius: 3.0)
-                    .listStyle(SidebarListStyle())
+                    .listStyle(PlainListStyle())
                 }
-                
+                .navigationTitle(Text("Public Box"))
+                .onAppear(perform: self.onAppearUpdate)
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: OnDemandView(AddNewCardView())) {
+                            Text("Add")
+                        }
+                    }
+                }
+            }
+            
+            else {
                 VStack(alignment: .leading) {
                     Text("This is the Public Box which contains public cards!")
                     Text("Press 'Add' to write a new card!")
                 }
-                .opacity(self.isPublicExist ? 0 : 1)
-                .transition(.slide)
-            }
-            .onAppear(perform: self.onAppearUpdate)
-            .navigationBarTitle("Public Box")
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: OnDemandView(AddNewCardView())) {
-                        Text("Add")
-                    }
-                }
-                
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    Menu {
-                        Text("ALL")
-                    } label: {
-                        Text(Image(systemName: "doc.text.magnifyingglass"))
-                    }
-                    Menu {
-                        Text("title ascending")
-                        Text("title descending")
-                        Text("date ascending")
-                        Text("date descending")
-                    } label: {
-                        Text(Image(systemName: "doc.text.magnifyingglass"))
+                .onAppear(perform: self.onAppearUpdate)
+                .navigationTitle(Text("Public Box"))
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: OnDemandView(AddNewCardView())) {
+                            Text("Add")
+                        }
                     }
                 }
             }

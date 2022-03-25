@@ -35,6 +35,7 @@ struct SectionCell: Hashable {
     var cardTag: String = ""
     
     var cardCellList: Array<CardCell> = []
+    var isVisible: Bool = true
 }
 
 class Card: Object {
