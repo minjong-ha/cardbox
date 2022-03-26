@@ -28,9 +28,7 @@ struct PrivateBoxTabView: View {
             .navigationTitle("Private Box")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: OnDemandView(AddNewCardView())) {
-                        Text("Add")
-                    }
+                    AddButtonView()
                 }
             }
         }
