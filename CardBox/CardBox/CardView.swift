@@ -29,8 +29,6 @@ struct CardView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    let defaultTitle: String = "Empty Title"
-    
     private func onAppearUpdate() {
         let realm = try! Realm()
         
@@ -146,6 +144,7 @@ struct CardView: View {
             }
         }
         }
+        .padding()
         .onAppear(perform: self.onAppearUpdate)
         .navigationTitle(self.localTitle)
         .toolbar {
@@ -157,7 +156,7 @@ struct CardView: View {
                             
                             let realm = try! Realm()
                             let card = Card()
-							let cardInfo = CardInfo()
+                            let cardInfo = CardInfo()
                             
                             card.cardUUID = self.cardUUID
                             card.cardTitle = self.localTitle
@@ -170,16 +169,16 @@ struct CardView: View {
                             card.cardDate = self.localDate
                             
                             card.cardContents = self.localContents
-
-							cardInfo.cardUUID = self.cardUUID
-							cardInfo.isPrivate = self.localPrivate
-							cardInfo.isEncrypt = self.localEncrypt
-							cardInfo.isCloud = self.localCloud
-							cardInfo.isChecked = self.localChecked
+                            
+                            cardInfo.cardUUID = self.cardUUID
+                            cardInfo.isPrivate = self.localPrivate
+                            cardInfo.isEncrypt = self.localEncrypt
+                            cardInfo.isCloud = self.localCloud
+                            cardInfo.isChecked = self.localChecked
                             
                             try! realm.write {
                                 realm.add(card, update: .modified)
-								realm.add(cardInfo, update: .modified)
+                                realm.add(cardInfo, update: .modified)
                             }
                         }
                     }) {
@@ -197,7 +196,6 @@ struct CardView: View {
                 }
             }
         }
-        //the toggle button (SwiftUI Toggle) will be appear (using "transition") from bottom (it will be added to the AddNewCardView either)
     }
 }
 

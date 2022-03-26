@@ -11,30 +11,6 @@ import Combine
 import CoreLocation
 import RealmSwift
 
-class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
-    @Published var authorizationStatus: CLAuthorizationStatus
-    
-    private let locationManager: CLLocationManager
-    
-    override init() {
-        locationManager = CLLocationManager()
-        authorizationStatus = locationManager.authorizationStatus
-        
-        super.init()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-    }
-    
-    func requestPermission() {
-        locationManager.requestWhenInUseAuthorization()
-    }
-
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        authorizationStatus = manager.authorizationStatus
-    }
-}
-
 struct AddNewCardView: View {
     
     @Environment(\.dismiss) var dismiss
@@ -72,95 +48,6 @@ struct AddNewCardView: View {
     }
      */
     
-    private func onAppearUpdate() {
-        let today = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
-        print("DEBUG: AddCardView onAppear()")
-        self.date = dateFormatter.string(from: self.currentDate)
-        //self.date = dateFormatter.string(from: today)
-        
-        let cardInfoList = realm.objects(CardInfo.self)
-        
-        if (cardInfoList.count > 0) {
-            for cardInfo in cardInfoList {
-                let card = realm.object(ofType: Card.self, forPrimaryKey: cardInfo.cardUUID)
-                let cardTag : String = card!.cardTag
-                let cardTitle : String = card!.cardTitle
-                
-                print("DEBUG: ", cardTag, cardTitle)
-                if (!self.tagList.contains(cardTag)) {
-                    self.tagList.append(cardTag)
-                }
-            }
-        }
-        print(self.tagList.count)
-    }
-    
-    private func realmUpdateCard() {
-        let realm = try! Realm()
-        
-        let card = Card()
-        let cardInfo = CardInfo()
-        
-        let uuid = NSUUID().uuidString
-        self.uuid = uuid
-        
-        card.cardUUID = self.uuid
-        card.cardTitle = self.title
-        card.cardTag = self.tag
-        card.cardLocation = self.location
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        self.date = dateFormatter.string(from: self.currentDate)
-        card.cardDate = self.date
-        
-        card.cardContents = self.contents
-        
-        cardInfo.cardUUID = self.uuid
-        cardInfo.isPrivate = false
-        cardInfo.isEncrypt = self.isEncrypt
-        cardInfo.isCloud = self.isCloud
-        cardInfo.isChecked = self.isChecked
-        
-        //TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
-        try! realm.write {
-            realm.add(card, update: .modified)
-            realm.add(cardInfo, update: .modified)
-        }
-        
-        print("DEBUG: Add New Card! Button Action")
-        print("DEBUG:", self.uuid)
-        print("DEBUG:", self.title)
-        print("DEBUG:", self.tag)
-        print("DEBUG:", self.location)
-        print("DEBUG:", self.date)
-        print("DEBUG:", self.contents)
-    }
-    
-    func setLocation() {
-        let latitude = CLLocationManager().location?.coordinate.latitude
-        let longitude = CLLocationManager().location?.coordinate.longitude
-        
-        let geocoder = CLGeocoder()
-        let locale = Locale(identifier: "en_US_POSIX")
-        
-        if (latitude != nil && longitude != nil) {
-            let findLocation = CLLocation(latitude: latitude!, longitude: longitude!)
-            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
-                if let address: [CLPlacemark] = placemarks {
-                    if let name: String = address.last?.name { self.location = name }
-                }
-            })
-        }
-        else {
-            self.location = "Unable to get Location"
-        }
-    }
-    
-	//TODO: check onAppear can use in body
     var body: some View {
         ScrollViewReader { value in
         ScrollView() {
@@ -192,7 +79,7 @@ struct AddNewCardView: View {
                                     textField.placeholder = "New Tag"
                                 }
                                 
-                                let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
+                                let saveAction = UIAlertAction(title: "Add Tag", style: .default, handler: { alert -> Void in
                                     let secondTextField = alertController.textFields![0] as UITextField
                                     self.tag = secondTextField.text!
                                 })
@@ -224,13 +111,11 @@ struct AddNewCardView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    //TODO: autofill current location! as String!
                     HStack (alignment: .center) {
                         Text("Location")
                             .bold()
-                        //TODO: more accurate interact
                         Button(action: {
-                            var authorizationStatus = CLLocationManager().authorizationStatus
+                            let authorizationStatus = CLLocationManager().authorizationStatus
                             
                             switch authorizationStatus {
                             case .notDetermined:
@@ -379,6 +264,7 @@ struct AddNewCardView: View {
                 }
             }
         }
+        .padding()
         }
         .navigationTitle("Add a new Card")
         .toolbar {
@@ -413,14 +299,104 @@ struct AddNewCardView: View {
                 Button(action: {
                     self.isFocused = false
                 }) {
-                   Text("Done")
+                    Text("Done")
                 }
             }
         }
         .onAppear {
             self.onAppearUpdate()
         }
-  }
+    }
+    
+    private func onAppearUpdate() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        print("DEBUG: AddCardView onAppear()")
+        self.date = dateFormatter.string(from: self.currentDate)
+        //self.date = dateFormatter.string(from: today)
+        
+        let cardInfoList = realm.objects(CardInfo.self)
+        
+        if (cardInfoList.count > 0) {
+            for cardInfo in cardInfoList {
+                let card = realm.object(ofType: Card.self, forPrimaryKey: cardInfo.cardUUID)
+                let cardTag : String = card!.cardTag
+                let cardTitle : String = card!.cardTitle
+                
+                print("DEBUG: ", cardTag, cardTitle)
+                if (!self.tagList.contains(cardTag)) {
+                    self.tagList.append(cardTag)
+                }
+            }
+        }
+        print(self.tagList.count)
+    }
+    
+    private func realmUpdateCard() {
+        let realm = try! Realm()
+        
+        let card = Card()
+        let cardInfo = CardInfo()
+        
+        let uuid = NSUUID().uuidString
+        self.uuid = uuid
+        
+        card.cardUUID = self.uuid
+        card.cardTitle = self.title
+        card.cardTag = self.tag
+        card.cardLocation = self.location
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        self.date = dateFormatter.string(from: self.currentDate)
+        card.cardDate = self.date
+        
+        card.cardContents = self.contents
+        
+        cardInfo.cardUUID = self.uuid
+        cardInfo.isPrivate = false
+        cardInfo.isEncrypt = self.isEncrypt
+        cardInfo.isCloud = self.isCloud
+        cardInfo.isChecked = self.isChecked
+        
+        //TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
+        try! realm.write {
+            realm.add(card, update: .modified)
+            realm.add(cardInfo, update: .modified)
+        }
+        
+        print("DEBUG: Add New Card! Button Action")
+        print("DEBUG:", self.uuid)
+        print("DEBUG:", self.title)
+        print("DEBUG:", self.tag)
+        print("DEBUG:", self.location)
+        print("DEBUG:", self.date)
+        print("DEBUG:", self.contents)
+    }
+    
+    func setLocation() {
+        let latitude = CLLocationManager().location?.coordinate.latitude
+        let longitude = CLLocationManager().location?.coordinate.longitude
+        
+        let geocoder = CLGeocoder()
+        let locale = Locale(identifier: "en_US_POSIX")
+        
+        if (latitude != nil && longitude != nil) {
+            let findLocation = CLLocation(latitude: latitude!, longitude: longitude!)
+            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
+                if let address: [CLPlacemark] = placemarks {
+                    let addr = (address.last?.name)! + ", " + (address.last?.locality)!// + ", " + (address.last?.administrativeArea)!
+                    self.location = addr
+                }
+            })
+        }
+        else {
+            self.location = "Unable to get Location"
+        }
+    }
+    
+
 }
 
 struct AddNewCardView_Previews: PreviewProvider {
