@@ -30,7 +30,6 @@ struct ContentView: View {
                 }
                 .tag(1)
         }
-        .padding()
         .ignoresSafeArea(.keyboard)
     }
 }

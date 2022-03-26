@@ -8,7 +8,6 @@
 import Foundation
 import RealmSwift
 
-//TODO: add func() for Object interaction?
 //TODO: update schema caution (https://docs.mongodb.com/realm/sdk/swift/examples/modify-an-object-schema/)
 struct CardCell: Hashable {
     var cardUUID: String = "" // primary key
@@ -35,6 +34,7 @@ struct SectionCell: Hashable {
     var cardTag: String = ""
     
     var cardCellList: Array<CardCell> = []
+    var isVisible: Bool = true
 }
 
 class Card: Object {
