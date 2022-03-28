@@ -8,7 +8,7 @@
 import SwiftUI
 import RealmSwift
 
-class RealmUpdator {
+class RealmUpdater {
     let realm = try! Realm()
     
     func realmCardUpdate(card: Card) {
@@ -33,6 +33,7 @@ class RealmUpdator {
 class RealmObjectManager {
     func getRealmCard(uuid: String, title: String, tag: String, location:String, date: String, contents: String) -> Card {
         let card = Card()
+        
         card.cardUUID = uuid
         card.cardTitle = title
         card.cardTag = tag
@@ -44,6 +45,7 @@ class RealmObjectManager {
     }
     func getRealmCardInfo(uuid: String, isPrivate: Bool, isEncrypt: Bool, isCloud: Bool, isChecked: Bool) -> CardInfo {
         let cardInfo = CardInfo()
+        
         cardInfo.cardUUID = uuid
         cardInfo.isPrivate = isPrivate
         cardInfo.isEncrypt = isEncrypt
