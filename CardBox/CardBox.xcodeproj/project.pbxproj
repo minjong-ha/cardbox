@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C07394B27C05B2F000AB324 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C07394A27C05B2F000AB324 /* CardView.swift */; };
+		1C17F66027F2F80F00461412 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17F65F27F2F80F00461412 /* AlertView.swift */; };
 		1C2C2A2F27F1737F0034057F /* RealmWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2C2A2E27F1737F0034057F /* RealmWorker.swift */; };
 		1CB4531327BD37F1007CE24F /* PublicBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */; };
 		1CB4531527BD37F7007CE24F /* PrivateBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */; };
@@ -50,6 +51,7 @@
 /* Begin PBXFileReference section */
 		0F96BECD7A30FCC651D100F2 /* Pods-CardBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBox.debug.xcconfig"; path = "Target Support Files/Pods-CardBox/Pods-CardBox.debug.xcconfig"; sourceTree = "<group>"; };
 		1C07394A27C05B2F000AB324 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		1C17F65F27F2F80F00461412 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		1C2C2A2E27F1737F0034057F /* RealmWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmWorker.swift; sourceTree = "<group>"; };
 		1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBoxTabView.swift; sourceTree = "<group>"; };
 		1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateBoxTabView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			children = (
 				1CE7578527EE608400BC91DF /* SectionTitleView.swift */,
 				1CE7578727EE74FF00BC91DF /* AddButtonView.swift */,
+				1C17F65F27F2F80F00461412 /* AlertView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				1CF3EDEA27B7453900B6559F /* ContentView.swift in Sources */,
 				1CE7578B27EE75A100BC91DF /* LocationWorker.swift in Sources */,
 				1CB4531727BD37FD007CE24F /* OnDemandView.swift in Sources */,
+				1C17F66027F2F80F00461412 /* AlertView.swift in Sources */,
 				1CF3EDE827B7453900B6559F /* CardBoxApp.swift in Sources */,
 				1CE7578827EE74FF00BC91DF /* AddButtonView.swift in Sources */,
 				1CB4531927BD380A007CE24F /* FoldingCell.swift in Sources */,
