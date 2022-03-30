@@ -14,9 +14,17 @@ struct SectionTitleView: View {
     
     var body: some View {
         HStack {
-            Text(self.sectionTitle)
-                .bold()
-                .font(.title2)
+            
+            Button(action: {
+                withAnimation {
+                    self.isVisible.toggle()
+                }
+            }) {
+               Text(self.sectionTitle)
+                    .bold()
+                    .font(.title2)
+            }
+            .foregroundColor(.black)
             
             Spacer() // for the button trailing
             
