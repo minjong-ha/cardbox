@@ -46,7 +46,59 @@ class RealmObjectManager {
             realm.delete(cardKey)
         }
     }
-
+    
+    func getRealmCardList() -> Results<Card>? {
+        let cardList = realm.objects(Card.self)
+        
+        if (cardList.count == 0) { return nil }
+        else { return cardList }
+    }
+    
+    func getRealmCardInfoList() -> Results<CardInfo>? {
+        let cardInfoList = realm.objects(CardInfo.self) // return objects
+        
+        if (cardInfoList.count == 0) { return nil}
+        else { return cardInfoList }
+    }
+    
+    func getRealmCardKeyList() -> Results<CardKey>? {
+        let cardKeyList = realm.objects(CardKey.self)
+        
+        if (cardKeyList.count == 0) { return nil }
+        else { return cardKeyList }
+    }
+    
+    func getRealmCard(uuid: String) -> Object? {
+        let card = realm.object(ofType: Card.self, forPrimaryKey: uuid)
+        
+        if (card == nil) { return nil }
+        else { return card! }
+    }
+    
+    func getRealmCardInfo(uuid: String) -> Object? {
+        let cardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: uuid)
+        
+        if(cardInfo == nil) { return nil }
+        else { return cardInfo!}
+    }
+    
+    func getRealmCardKey(uuid: String) -> Object? {
+        let cardKey = realm.object(ofType: CardKey.self, forPrimaryKey: uuid)
+        
+        if(cardKey == nil) { return nil }
+        else { return cardKey! }
+    }
+    
+    func getRealmPublicCardInfoList() -> Results<CardInfo>? {
+        let cardInfoList = self.getRealmCardInfoList()
+        if(cardInfoList!.count == 0) { return nil }
+        
+        let publicCardInfoList = cardInfoList!.where { $0.isPrivate == false }
+        if(publicCardInfoList.count == 0) { return nil }
+        
+        return publicCardInfoList
+    }
+    
     func initRealmCard(uuid: String, title: String, tag: String, location:String, date: String, contents: String) -> Card {
         let card = Card()
         
