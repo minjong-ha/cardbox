@@ -92,27 +92,7 @@ struct AddNewCardView: View {
                         Text("Location")
                             .bold()
                         Button(action: {
-                            let authorizationStatus = CLLocationManager().authorizationStatus
-                            
-                            switch authorizationStatus {
-                            case .notDetermined:
-                                self.locationViewModel.requestPermission()
-                                self.setLocation()
-                            case .restricted:
-                                self.locationViewModel.requestPermission()
-                                self.setLocation()
-                            case .denied:
-                                self.locationViewModel.requestPermission()
-                                self.setLocation()
-                            case .authorizedAlways:
-                                self.setLocation()
-                            case .authorizedWhenInUse:
-                                self.setLocation()
-                            case .authorized:
-                                self.setLocation()
-                            @unknown default:
-                                break
-                            }
+                            self.locationConfig()
                         }) {
                             Image(systemName: "map")
                         }
@@ -120,9 +100,9 @@ struct AddNewCardView: View {
                     }
                     TextField("Location", text: $location)
                         .textFieldStyle(.roundedBorder)
-                                            .focused($isFocused)
-
-                        //.focused($focusedKeyboard, equals: .location)
+                        .focused($isFocused)
+                    
+                    //.focused($focusedKeyboard, equals: .location)
                 }
                 
                 VStack(alignment: .leading) {
@@ -302,7 +282,6 @@ struct AddNewCardView: View {
         
         
         //if isPrivate, else condition required!
-        
         if (cardInfoList!.count > 0) {
             for cardInfo in cardInfoList! {
                 //TODO: refactoring-changing RealmManager()
@@ -379,6 +358,30 @@ struct AddNewCardView: View {
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
         window?.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func locationConfig() {
+        let authorizationStatus = CLLocationManager().authorizationStatus
+        
+        switch authorizationStatus {
+        case .notDetermined:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .restricted:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .denied:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .authorizedAlways:
+            self.setLocation()
+        case .authorizedWhenInUse:
+            self.setLocation()
+        case .authorized:
+            self.setLocation()
+        @unknown default:
+            break
+        }
     }
 }
 
