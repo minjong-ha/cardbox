@@ -101,7 +101,6 @@ struct AddNewCardView: View {
                     TextField("Location", text: $location)
                         .textFieldStyle(.roundedBorder)
                         .focused($isFocused)
-                    
                     //.focused($focusedKeyboard, equals: .location)
                 }
                 
@@ -224,8 +223,6 @@ struct AddNewCardView: View {
                     self.checkAddPossible()
                     let isAddable = self.isFieldEmpty()
                     
-                    //if (!self.isTagExist || !self.isTitleExist || !self.isPasswordExist) {
-                    print("DEBUG: isTagExist, isTitleExist, isPasswordExist", self.isTagExist, self.isTitleExist, self.isPasswordExist)
                     if (isAddable) {
                         AlertManager().isEmptyFieldAlert()
                     }
