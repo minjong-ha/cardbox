@@ -5,6 +5,7 @@
 //  Created by Minjong Ha on 2022/02/19.
 //
 
+import CoreLocation
 import SwiftUI
 import RealmSwift
 
@@ -73,14 +74,20 @@ struct CardView: View {
                         }
                     }
                     VStack (alignment: .leading) {
-                        Text("Location")
-                            .font(.title2)
-                            .bold()
+                        HStack {
+                            Text("Location")
+                                .font(.title2)
+                                .bold()
+                            Button(action: {
+                                self.locationConfig()
+                            }) {
+                                Image(systemName: "map")
+                            }
+                          }
                         TextField(self.localLocation, text: $localLocation)
                             .textFieldStyle(.roundedBorder)
                             .disabled(self.isEditState == false)
                         //.shadow(radius: 3.0)
-                        
                     }
                     VStack (alignment: .leading) {
                         Text("Contents")
@@ -198,6 +205,52 @@ struct CardView: View {
         }
         if (self.localContents == "") {
             self.localContents = "No Contents Data"
+        }
+    }
+    
+    private func locationConfig() {
+        let authorizationStatus = CLLocationManager().authorizationStatus
+        
+        switch authorizationStatus {
+        case .notDetermined:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .restricted:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .denied:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .authorizedAlways:
+            self.setLocation()
+        case .authorizedWhenInUse:
+            self.setLocation()
+        case .authorized:
+            self.setLocation()
+        @unknown default:
+            break
+        }
+    }
+    
+    private func setLocation() {
+        //TODO: refactoring LocationManager()!
+        let latitude = CLLocationManager().location?.coordinate.latitude
+        let longitude = CLLocationManager().location?.coordinate.longitude
+        
+        let geocoder = CLGeocoder()
+        let locale = Locale(identifier: "en_US_POSIX")
+        
+        if (latitude != nil && longitude != nil) {
+            let findLocation = CLLocation(latitude: latitude!, longitude: longitude!)
+            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
+                if let address: [CLPlacemark] = placemarks {
+                    let addr = (address.last?.name)! + ", " + (address.last?.locality)!// + ", " + (address.last?.administrativeArea)!
+                    self.localLocation = addr
+                }
+            })
+        }
+        else {
+            self.localLocation = "Unable to get Location"
         }
     }
 }
