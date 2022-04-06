@@ -99,7 +99,12 @@ struct CardView: View {
                             .frame(height: UIScreen.main.bounds.size.height / 4)
                             .frame(width: (UIScreen.main.bounds.size.width * 0.9))
                             .disabled(self.isEditState == false)
+                            .onTapGesture {
+                                withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
+                            }
+
                     }
+                    .id(self.contentsID)
                     
                     //HStact for three toggle switch
                     VStack (alignment: .leading) {
