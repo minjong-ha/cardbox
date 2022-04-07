@@ -136,6 +136,7 @@ struct CardView: View {
                             withAnimation {
                                 self.isEditState.toggle()
                                 
+                                //TODO: Refactoring with RealmManager
                                 let realm = try! Realm()
                                 let card = Card()
                                 let cardInfo = CardInfo()
