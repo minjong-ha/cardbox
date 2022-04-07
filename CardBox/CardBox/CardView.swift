@@ -137,6 +137,8 @@ struct CardView: View {
                                 self.isEditState.toggle()
                                 
                                 //TODO: Refactoring with RealmManager
+                                    // let card = RealmObjectManager().initRealmCard(uuid: <#T##String#>, title: <#T##String#>, tag: <#T##String#>, location: <#T##String#>, date: <#T##String#>, contents: <#T##String#>)
+                                
                                 let realm = try! Realm()
                                 let card = Card()
                                 let cardInfo = CardInfo()
