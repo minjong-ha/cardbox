@@ -140,26 +140,30 @@ struct CardView: View {
                                     // let card = RealmObjectManager().initRealmCard(uuid: <#T##String#>, title: <#T##String#>, tag: <#T##String#>, location: <#T##String#>, date: <#T##String#>, contents: <#T##String#>)
                                 
                                 let realm = try! Realm()
-                                let card = Card()
+                                //let card = Card()
                                 let cardInfo = CardInfo()
                                 
-                                card.cardUUID = self.cardUUID
-                                card.cardTitle = self.localTitle
-                                card.cardTag = self.localTag
-                                card.cardLocation = self.localLocation
+                                //card.cardUUID = self.cardUUID
+                                //card.cardTitle = self.localTitle
+                                //card.cardTag = self.localTag
+                                //card.cardLocation = self.localLocation
                                 
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
                                 self.localDate = dateFormatter.string(from: self.currentDate)
-                                card.cardDate = self.localDate
+                                //card.cardDate = self.localDate
                                 
-                                card.cardContents = self.localContents
+                                //card.cardContents = self.localContents
                                 
-                                cardInfo.cardUUID = self.cardUUID
-                                cardInfo.isPrivate = self.localPrivate
-                                cardInfo.isEncrypt = self.localEncrypt
-                                cardInfo.isCloud = self.localCloud
-                                cardInfo.isChecked = self.localChecked
+                                let card = RealmObjectManager().initRealmCard(uuid: self.cardUUID, title: self.localTitle, tag: self.localTag, location: self.localLocation, date: self.localLocation, contents: self.localContents)
+                                
+                                //cardInfo.cardUUID = self.cardUUID
+                                //cardInfo.isPrivate = self.localPrivate
+                                //cardInfo.isEncrypt = self.localEncrypt
+                                //cardInfo.isCloud = self.localCloud
+                                //cardInfo.isChecked = self.localChecked
+                                
+                                let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.cardUUID, isPrivate: self.localPrivate, isEncrypt: self.localEncrypt, isCloud: self.localCloud, isChecked: self.localChecked)
                                 
                                 try! realm.write {
                                     realm.add(card, update: .modified)
