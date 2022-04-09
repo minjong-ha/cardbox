@@ -106,7 +106,7 @@ struct CardView: View {
                     }
                     .id(self.contentsID)
                     
-                    //HStact for three toggle switch
+                    //TODO: transplant toggle UI/UX from AddNewCardView
                     VStack (alignment: .leading) {
                         Toggle("Private?", isOn: $localPrivate)
                             .opacity(self.isEditState ? 1: 0)
@@ -136,12 +136,11 @@ struct CardView: View {
                             withAnimation {
                                 self.isEditState.toggle()
                                 
-                                //TODO: Refactoring with RealmManager
                                     // let card = RealmObjectManager().initRealmCard(uuid: <#T##String#>, title: <#T##String#>, tag: <#T##String#>, location: <#T##String#>, date: <#T##String#>, contents: <#T##String#>)
                                 
                                 let realm = try! Realm()
                                 //let card = Card()
-                                let cardInfo = CardInfo()
+                                //let cardInfo = CardInfo()
                                 
                                 //card.cardUUID = self.cardUUID
                                 //card.cardTitle = self.localTitle
@@ -152,7 +151,6 @@ struct CardView: View {
                                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
                                 self.localDate = dateFormatter.string(from: self.currentDate)
                                 //card.cardDate = self.localDate
-                                
                                 //card.cardContents = self.localContents
                                 
                                 let card = RealmObjectManager().initRealmCard(uuid: self.cardUUID, title: self.localTitle, tag: self.localTag, location: self.localLocation, date: self.localLocation, contents: self.localContents)
@@ -165,10 +163,14 @@ struct CardView: View {
                                 
                                 let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.cardUUID, isPrivate: self.localPrivate, isEncrypt: self.localEncrypt, isCloud: self.localCloud, isChecked: self.localChecked)
                                 
+                                RealmObjectManager().realmCardUpdate(card: card)
+                                RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
+                                /*
                                 try! realm.write {
                                     realm.add(card, update: .modified)
                                     realm.add(cardInfo, update: .modified)
                                 }
+                                */
                             }
                         }) {
                             Text("Confirm")
@@ -245,7 +247,6 @@ struct CardView: View {
     }
     
     private func setLocation() {
-        //TODO: refactoring LocationManager()!
         let latitude = CLLocationManager().location?.coordinate.latitude
         let longitude = CLLocationManager().location?.coordinate.longitude
         
