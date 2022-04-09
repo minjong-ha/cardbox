@@ -30,6 +30,7 @@ struct CardView: View {
     @State var isEditState: Bool
     @State var currentDate = Date.now
     
+    @State private var encryptedPassword = "" // key
     
     var body: some View {
         ScrollViewReader { value in
@@ -106,24 +107,96 @@ struct CardView: View {
                     }
                     .id(self.contentsID)
                     
-                    //TODO: transplant toggle UI/UX from AddNewCardView
                     VStack (alignment: .leading) {
-                        Toggle("Private?", isOn: $localPrivate)
-                            .opacity(self.isEditState ? 1: 0)
-                            .transition(.slide)
-                        Toggle("Encrypted?", isOn: $localEncrypt)
-                            .opacity(self.isEditState ? 1: 0)
-                            .transition(.slide)
-                            .tint(.yellow)
-                        Toggle("Cloud?", isOn: $localCloud)
-                            .opacity(self.isEditState ? 1: 0)
-                            .transition(.slide)
-                            .tint(.blue)
-                        Toggle("Checked?", isOn: $localChecked)
-                            .opacity(self.isEditState ? 1: 0)
-                            .transition(.slide)
-                            .tint(.orange)
+                        HStack (alignment: .center) {
+                            Text("Private?")
+                            Button (action: {
+                                AlertManager().isPrivateAlert()
+                            }) {
+                                Image(systemName: "questionmark.circle")
+                            }
+                            
+                            Toggle("", isOn: $localPrivate)
+                                .onTapGesture {
+                                    withAnimation {
+                                        self.localPrivate.toggle()
+                                        if (self.localPrivate == false) {
+                                            self.localEncrypt = false
+                                            self.encryptedPassword.removeAll()
+                                        }
+                                    }
+                                }
+                            
+                            Spacer(minLength: UIScreen.main.bounds.size.width * 0.05)
+                        }
+                        if (self.localPrivate) {
+                            HStack (alignment: .center) {
+                                Text("Encrypted?")
+                                Button (action: {
+                                    AlertManager().isEncryptedAlert()
+                                }) {
+                                    Image(systemName: "questionmark.circle")
+                                }
+                                
+                                Toggle("", isOn: $localEncrypt)
+                                    .onTapGesture {
+                                        withAnimation {
+                                            self.localEncrypt.toggle()
+                                            if (self.localEncrypt == false) {
+                                                self.encryptedPassword.removeAll()
+                                            }
+                                        }
+                                    }
+                                    .tint(.yellow)
+                                    .opacity(self.localPrivate ? 1 : 0)
+                                    .transition(.slide)
+                                
+                                Spacer(minLength: UIScreen.main.bounds.size.width * 0.05)
+                            }
+                        }
+                        if (self.localEncrypt) {
+                            VStack(alignment: .leading) {
+                                Text("Password")
+                                SecureField("Enter a Password", text: $encryptedPassword)
+                                    .textFieldStyle(.roundedBorder)
+                                    .cornerRadius(10)
+                                    .opacity(self.localEncrypt ? 1 : 0)
+                                    .transition(.slide)
+                                // .focused($focusedKeyboard, equals: .password)
+                                    //.focused($localFocused)
+                                
+                            }
+                        }
+                        HStack (alignment: .center) {
+                            Text("Cloud?")
+                            Button (action: {
+                                AlertManager().isCloudAlert()
+                            }) {
+                                Image(systemName: "questionmark.circle")
+                            }
+                            
+                            Toggle("", isOn: $localCloud)
+                                .tint(.blue)
+                            
+                            Spacer(minLength: UIScreen.main.bounds.size.width * 0.05)
+                            
+                        }
+                        HStack (alignment: .center) {
+                            Text("Checked?")
+                            Button (action: {
+                                AlertManager().isCheckedAlert()
+                            }) {
+                                Image(systemName: "questionmark.circle")
+                            }
+                            
+                            Toggle("", isOn: $localChecked)
+                                .tint(.orange)
+                            
+                            Spacer(minLength: UIScreen.main.bounds.size.width * 0.05)
+                            
+                        }
                     }
+
                 }
             }
             .padding()
@@ -134,43 +207,19 @@ struct CardView: View {
                     if (self.isEditState) {
                         Button (action: {
                             withAnimation {
+                                //TODO: refactoring and apply encryptedPassword
                                 self.isEditState.toggle()
-                                
-                                    // let card = RealmObjectManager().initRealmCard(uuid: <#T##String#>, title: <#T##String#>, tag: <#T##String#>, location: <#T##String#>, date: <#T##String#>, contents: <#T##String#>)
-                                
-                                let realm = try! Realm()
-                                //let card = Card()
-                                //let cardInfo = CardInfo()
-                                
-                                //card.cardUUID = self.cardUUID
-                                //card.cardTitle = self.localTitle
-                                //card.cardTag = self.localTag
-                                //card.cardLocation = self.localLocation
                                 
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
                                 self.localDate = dateFormatter.string(from: self.currentDate)
-                                //card.cardDate = self.localDate
-                                //card.cardContents = self.localContents
                                 
                                 let card = RealmObjectManager().initRealmCard(uuid: self.cardUUID, title: self.localTitle, tag: self.localTag, location: self.localLocation, date: self.localLocation, contents: self.localContents)
-                                
-                                //cardInfo.cardUUID = self.cardUUID
-                                //cardInfo.isPrivate = self.localPrivate
-                                //cardInfo.isEncrypt = self.localEncrypt
-                                //cardInfo.isCloud = self.localCloud
-                                //cardInfo.isChecked = self.localChecked
                                 
                                 let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.cardUUID, isPrivate: self.localPrivate, isEncrypt: self.localEncrypt, isCloud: self.localCloud, isChecked: self.localChecked)
                                 
                                 RealmObjectManager().realmCardUpdate(card: card)
                                 RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
-                                /*
-                                try! realm.write {
-                                    realm.add(card, update: .modified)
-                                    realm.add(cardInfo, update: .modified)
-                                }
-                                */
                             }
                         }) {
                             Text("Confirm")
