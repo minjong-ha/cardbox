@@ -207,7 +207,6 @@ struct CardView: View {
                     if (self.isEditState) {
                         Button (action: {
                             withAnimation {
-                                //TODO: refactoring and apply encryptedPassword
                                 self.isEditState.toggle()
                                 
                                 let dateFormatter = DateFormatter()
@@ -218,8 +217,11 @@ struct CardView: View {
                                 
                                 let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.cardUUID, isPrivate: self.localPrivate, isEncrypt: self.localEncrypt, isCloud: self.localCloud, isChecked: self.localChecked)
                                 
+                                let cardKey = RealmObjectManager().initRealmCardKey(uuid: self.cardUUID, key: self.encryptedPassword)
+                                
                                 RealmObjectManager().realmCardUpdate(card: card)
                                 RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
+                                RealmObjectManager().realmCardKeyUpdate(cardKey: cardKey)
                             }
                         }) {
                             Text("Confirm")
