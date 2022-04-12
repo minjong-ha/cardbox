@@ -207,21 +207,7 @@ struct CardView: View {
                     if (self.isEditState) {
                         Button (action: {
                             withAnimation {
-                                self.isEditState.toggle()
-                                
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-                                self.localDate = dateFormatter.string(from: self.currentDate)
-                                
-                                let card = RealmObjectManager().initRealmCard(uuid: self.cardUUID, title: self.localTitle, tag: self.localTag, location: self.localLocation, date: self.localLocation, contents: self.localContents)
-                                
-                                let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.cardUUID, isPrivate: self.localPrivate, isEncrypt: self.localEncrypt, isCloud: self.localCloud, isChecked: self.localChecked)
-                                
-                                let cardKey = RealmObjectManager().initRealmCardKey(uuid: self.cardUUID, key: self.encryptedPassword)
-                                
-                                RealmObjectManager().realmCardUpdate(card: card)
-                                RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
-                                RealmObjectManager().realmCardKeyUpdate(cardKey: cardKey)
+                                self.realmUpdateCard()
                             }
                         }) {
                             Text("Confirm")
@@ -241,7 +227,26 @@ struct CardView: View {
         }
     }
     
-     private func onAppearUpdate() {
+    private func realmUpdateCard() {
+        self.isEditState.toggle()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        self.localDate = dateFormatter.string(from: self.currentDate)
+        
+        let card = RealmObjectManager().initRealmCard(uuid: self.cardUUID, title: self.localTitle, tag: self.localTag, location: self.localLocation, date: self.localLocation, contents: self.localContents)
+        
+        let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.cardUUID, isPrivate: self.localPrivate, isEncrypt: self.localEncrypt, isCloud: self.localCloud, isChecked: self.localChecked)
+        
+        let cardKey = RealmObjectManager().initRealmCardKey(uuid: self.cardUUID, key: self.encryptedPassword)
+        
+        RealmObjectManager().realmCardUpdate(card: card)
+        RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
+        RealmObjectManager().realmCardKeyUpdate(cardKey: cardKey)
+        
+    }
+    
+    private func onAppearUpdate() {
         let realm = try! Realm()
         
         let card = realm.object(ofType: Card.self, forPrimaryKey: self.cardUUID)
