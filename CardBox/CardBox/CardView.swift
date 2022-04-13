@@ -103,6 +103,9 @@ struct CardView: View {
                             .onTapGesture {
                                 withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
                             }
+                            .opacity(self.isEditState ? 1 : 0)
+                        Text(self.localContents)
+                            .opacity(self.isEditState ? 0 : 1)
 
                     }
                     .id(self.contentsID)
@@ -235,9 +238,7 @@ struct CardView: View {
         self.localDate = dateFormatter.string(from: self.currentDate)
         
         let card = RealmObjectManager().initRealmCard(uuid: self.cardUUID, title: self.localTitle, tag: self.localTag, location: self.localLocation, date: self.localLocation, contents: self.localContents)
-        
         let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.cardUUID, isPrivate: self.localPrivate, isEncrypt: self.localEncrypt, isCloud: self.localCloud, isChecked: self.localChecked)
-        
         let cardKey = RealmObjectManager().initRealmCardKey(uuid: self.cardUUID, key: self.encryptedPassword)
         
         RealmObjectManager().realmCardUpdate(card: card)
