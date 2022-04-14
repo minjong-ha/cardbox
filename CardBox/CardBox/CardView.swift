@@ -104,8 +104,11 @@ struct CardView: View {
                                 withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
                             }
                             .opacity(self.isEditState ? 1 : 0)
+                            .transition(.slide)
                         Text(self.localContents)
                             .opacity(self.isEditState ? 0 : 1)
+                            .transition(.slide)
+
 
                     }
                     .id(self.contentsID)
