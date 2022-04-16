@@ -94,22 +94,24 @@ struct CardView: View {
                         Text("Contents")
                             .font(.title2)
                             .bold()
-                        TextEditor(text: $localContents)
-                            .cornerRadius(10.0)
-                            .shadow(radius: 3.0)
-                            .frame(height: UIScreen.main.bounds.size.height / 4)
-                            .frame(width: (UIScreen.main.bounds.size.width * 0.9))
-                            .disabled(self.isEditState == false)
-                            .onTapGesture {
-                                withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
-                            }
-                            .opacity(self.isEditState ? 1 : 0)
-                            .transition(.slide)
-                        Text(self.localContents)
-                            .opacity(self.isEditState ? 0 : 1)
-                            .transition(.slide)
-
-
+                        if(self.isEditState) {
+                            TextEditor(text: $localContents)
+                                .cornerRadius(10.0)
+                                .shadow(radius: 3.0)
+                                .frame(height: UIScreen.main.bounds.size.height / 4)
+                                .frame(width: (UIScreen.main.bounds.size.width * 0.9))
+                                .disabled(self.isEditState == false)
+                                .onTapGesture {
+                                    withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
+                                }
+                                .transition(.slide)
+                        }
+                        else {
+                            Text(self.localContents)
+                                .transition(.slide)
+                        }
+                        
+                        
                     }
                     .id(self.contentsID)
                     
