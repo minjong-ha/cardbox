@@ -43,7 +43,7 @@ struct CardView: View {
                                 .bold()
                                 .opacity(self.isEditState ? 1 : 0)
                                 .transition(.slide)
-                            TextField(self.localTitle, text: $localTitle)
+                            TextField("No Title Info", text: $localTitle)
                             //.shadow(radius: 3.0)
                                 .textFieldStyle(.roundedBorder)
                                 .disabled(self.isEditState == false)
@@ -249,7 +249,6 @@ struct CardView: View {
         RealmObjectManager().realmCardUpdate(card: card)
         RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
         RealmObjectManager().realmCardKeyUpdate(cardKey: cardKey)
-        
     }
     
     private func onAppearUpdate() {
@@ -267,6 +266,7 @@ struct CardView: View {
         
         self.localContents = card!.cardContents
         
+        /*
         if (self.localTitle == "") {
             self.localTitle = "Empty Title"
         }
@@ -282,6 +282,7 @@ struct CardView: View {
         if (self.localContents == "") {
             self.localContents = "No Contents Data"
         }
+         */
     }
     
     private func locationConfig() {
