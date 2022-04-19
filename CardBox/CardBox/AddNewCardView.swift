@@ -14,10 +14,11 @@ import RealmSwift
 struct AddNewCardView: View {
     
     @Environment(\.dismiss) var dismiss
-    @StateObject var locationViewModel = LocationViewModel()
-    @Namespace var contentsID
+    let realm = try! Realm()
     
+    @StateObject var locationViewModel = LocationViewModel()
     @FocusState private var isFocused: Bool
+    @Namespace var contentsID
     
     @State var uuid: String =  ""
     @State var title: String = ""
@@ -31,22 +32,13 @@ struct AddNewCardView: View {
 	@State var isCloud: Bool = false //if true, the card data will be saved in iCloud either
     @State var isChecked: Bool = false //if ture, the card contents will be exposed with delete line
     
-    @State var currentDate = Date.now
-    @State var tagList: Array<String> = []
-    let realm = try! Realm()
-    
-    @State var encryptedPassword = "" // key
+    @State private var currentDate = Date.now
+    @State private var encryptedPassword = "" // key
+    @State private var tagList: Array<String> = []
     
     @State var isTitleExist: Bool = false
     @State var isTagExist: Bool = false
     @State var isPasswordExist: Bool = false
-    
-    /*
-    init() {
-        print("DEBUG: load AddNewCardView")
-        print("DEBUG: ", Realm.Configuration.defaultConfiguration.fileURL)
-    }
-     */
     
     var body: some View {
         ScrollViewReader { value in
@@ -72,24 +64,9 @@ struct AddNewCardView: View {
                                     Text(cardTag)
                                 }
                             }
+                            
                             Button(action: {
-                                let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
-                                
-                                alertController.addTextField { (textField : UITextField!) -> Void in
-                                    textField.placeholder = "New Tag"
-                                }
-                                
-                                let saveAction = UIAlertAction(title: "Add Tag", style: .default, handler: { alert -> Void in
-                                    let secondTextField = alertController.textFields![0] as UITextField
-                                    self.tag = secondTextField.text!
-                                })
-                                
-                                let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-                                
-                                alertController.addAction(saveAction)
-                                alertController.addAction(cancelAction)
-                                
-                                UIApplication.shared.windows.first?.rootViewController?.present(alertController, animated: true, completion: nil)
+                                self.doAddTagAlert()
                             }) {
                                 Text("+ Add New Tag")
                             }
@@ -115,25 +92,7 @@ struct AddNewCardView: View {
                         Text("Location")
                             .bold()
                         Button(action: {
-                            let authorizationStatus = CLLocationManager().authorizationStatus
-                            
-                            switch authorizationStatus {
-                            case .notDetermined:
-                                self.locationViewModel.requestPermission()
-                                self.setLocation()
-                            case .restricted:
-                                self.locationViewModel.requestPermission()
-                                self.setLocation()
-                            case .denied:
-                                self.locationViewModel.requestPermission()
-                                self.setLocation()
-                            case .authorizedAlways:
-                                self.setLocation()
-                            case .authorizedWhenInUse:
-                                self.setLocation()
-                            case .authorized:
-                                self.setLocation()
-                            }
+                            self.locationConfig()
                         }) {
                             Image(systemName: "map")
                         }
@@ -141,9 +100,8 @@ struct AddNewCardView: View {
                     }
                     TextField("Location", text: $location)
                         .textFieldStyle(.roundedBorder)
-                                            .focused($isFocused)
-
-                        //.focused($focusedKeyboard, equals: .location)
+                        .focused($isFocused)
+                    //.focused($focusedKeyboard, equals: .location)
                 }
                 
                 VStack(alignment: .leading) {
@@ -168,11 +126,7 @@ struct AddNewCardView: View {
                     HStack (alignment: .center) {
                         Text("Private?")
                         Button (action: {
-                            let alertController = UIAlertController(title: "Private?", message: "If the 'Private' is active,\nthe card will be located in PrivateBox, not PublicBox", preferredStyle: .alert)
-                            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-                            alertController.addAction(cancelAction)
-                            
-                            UIApplication.shared.windows.first?.rootViewController?.present(alertController, animated: true, completion: nil)
+                            AlertManager().isPrivateAlert()
                         }) {
                             Image(systemName: "questionmark.circle")
                         }
@@ -181,6 +135,10 @@ struct AddNewCardView: View {
                             .onTapGesture {
                                 withAnimation {
                                     self.isPrivate.toggle()
+                                    if (self.isPrivate == false) {
+                                        self.isEncrypt = false
+                                        self.encryptedPassword.removeAll()
+                                    }
                                 }
                             }
                         
@@ -190,11 +148,7 @@ struct AddNewCardView: View {
                         HStack (alignment: .center) {
                             Text("Encrypted?")
                             Button (action: {
-                                let alertController = UIAlertController(title: "Encrypted?", message: "If the 'Encrypt' is active,\nthe card will be encrypted with the 'Password'", preferredStyle: .alert)
-                                let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-                                alertController.addAction(cancelAction)
-                                
-                                UIApplication.shared.windows.first?.rootViewController?.present(alertController, animated: true, completion: nil)
+                                AlertManager().isEncryptedAlert()
                             }) {
                                 Image(systemName: "questionmark.circle")
                             }
@@ -203,6 +157,9 @@ struct AddNewCardView: View {
                                 .onTapGesture {
                                     withAnimation {
                                         self.isEncrypt.toggle()
+                                        if (self.isEncrypt == false) {
+                                            self.encryptedPassword.removeAll()
+                                        }
                                     }
                                 }
                                 .tint(.yellow)
@@ -228,11 +185,7 @@ struct AddNewCardView: View {
                     HStack (alignment: .center) {
                         Text("Cloud?")
                         Button (action: {
-                            let alertController = UIAlertController(title: "Cloud?", message: "If the 'Cloud' is active,\nthe card will be backup automatically in the iCloud", preferredStyle: .alert)
-                            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-                            alertController.addAction(cancelAction)
-                            
-                            UIApplication.shared.windows.first?.rootViewController?.present(alertController, animated: true, completion: nil)
+                            AlertManager().isCloudAlert()
                         }) {
                             Image(systemName: "questionmark.circle")
                         }
@@ -246,11 +199,7 @@ struct AddNewCardView: View {
                     HStack (alignment: .center) {
                         Text("Checked?")
                         Button (action: {
-                            let alertController = UIAlertController(title: "Checked?", message: "If the 'Checked is active,\nthe card will be lined in the Box", preferredStyle: .alert)
-                            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-                            alertController.addAction(cancelAction)
-                            
-                            UIApplication.shared.windows.first?.rootViewController?.present(alertController, animated: true, completion: nil)
+                            AlertManager().isCheckedAlert()
                         }) {
                             Image(systemName: "questionmark.circle")
                         }
@@ -271,20 +220,11 @@ struct AddNewCardView: View {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: {
                     self.isFocused = false
+                    self.checkAddPossible()
+                    let isAddable = self.isFieldEmpty()
                     
-                    if (!self.tag.isEmpty) { self.isTagExist = true }
-                    if (!self.title.isEmpty) { self.isTitleExist = true }
-                    if (self.isEncrypt) {
-                        if (!self.encryptedPassword.isEmpty) { self.isPasswordExist = true }
-                    }
-                    else { self.isPasswordExist = true }
-                    
-                    if (!self.isTagExist || !self.isTitleExist || !self.isPasswordExist) {
-                        let alertController = UIAlertController(title: "Warning!\nThere are empty fields!", message: "Title, Tag, and Password(optional)\nshould not be empty!", preferredStyle: .alert)
-                        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-                        alertController.addAction(cancelAction)
-                        
-                        UIApplication.shared.windows.first?.rootViewController?.present(alertController, animated: true, completion: nil)
+                    if (isAddable) {
+                        AlertManager().isEmptyFieldAlert()
                     }
                     else {
                         self.realmUpdateCard()
@@ -308,74 +248,71 @@ struct AddNewCardView: View {
         }
     }
     
+    private func isFieldEmpty() -> Bool {
+        var ret: Bool = false
+        
+        if (!self.isTagExist || !self.isTitleExist || !self.isPasswordExist) { ret = true }
+        
+        return ret
+    }
+    
+    private func checkAddPossible() {
+        if (!self.tag.isEmpty) { self.isTagExist = true }
+        if (!self.title.isEmpty) { self.isTitleExist = true }
+        
+        if (self.isEncrypt) {
+            if (!self.encryptedPassword.isEmpty) { self.isPasswordExist = true }
+            else { self.isPasswordExist = false}
+        }
+        else {
+            if (self.encryptedPassword.isEmpty) { self.isPasswordExist = true }
+            else { self.isPasswordExist = false }
+        }
+    }
+    
     private func onAppearUpdate() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        //TODO: refactoring-changing RealmManager()
+        //TODO: get Lists and sorting tags depending on the isPrivate....!!!
+        //let cardInfoList = realm.objects(CardInfo.self) // return objects
+        let cardInfoList = RealmObjectManager().getRealmCardInfoList()
+        self.uuid = NSUUID().uuidString
         
-        print("DEBUG: AddCardView onAppear()")
-        self.date = dateFormatter.string(from: self.currentDate)
-        //self.date = dateFormatter.string(from: today)
         
-        let cardInfoList = realm.objects(CardInfo.self)
-        
-        if (cardInfoList.count > 0) {
-            for cardInfo in cardInfoList {
-                let card = realm.object(ofType: Card.self, forPrimaryKey: cardInfo.cardUUID)
+        //if isPrivate, else condition required!
+        if (cardInfoList!.count > 0) {
+            for cardInfo in cardInfoList! {
+                //TODO: refactoring-changing RealmManager()
+                let card = realm.object(ofType: Card.self, forPrimaryKey: cardInfo.cardUUID) //return objects
                 let cardTag : String = card!.cardTag
                 let cardTitle : String = card!.cardTitle
                 
                 print("DEBUG: ", cardTag, cardTitle)
+                //TODO: refactoring ArrayManager required...
                 if (!self.tagList.contains(cardTag)) {
                     self.tagList.append(cardTag)
                 }
             }
+            
+            self.tagList.sort {
+                $0 < $1
+            }
         }
-        print(self.tagList.count)
     }
     
     private func realmUpdateCard() {
-        let realm = try! Realm()
+        self.date = DateManager().getStringfromDate(date: self.currentDate)
         
-        let card = Card()
-        let cardInfo = CardInfo()
+        let card = RealmObjectManager().initRealmCard(uuid: self.uuid, title: self.title, tag: self.tag, location: self.location, date: self.date, contents: self.contents)
+        let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.uuid, isPrivate: false, isEncrypt: self.isEncrypt, isCloud: self.isCloud, isChecked: self.isChecked)
+        let cardKey = RealmObjectManager().initRealmCardKey(uuid: self.uuid, key: self.encryptedPassword)
         
-        let uuid = NSUUID().uuidString
-        self.uuid = uuid
-        
-        card.cardUUID = self.uuid
-        card.cardTitle = self.title
-        card.cardTag = self.tag
-        card.cardLocation = self.location
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        self.date = dateFormatter.string(from: self.currentDate)
-        card.cardDate = self.date
-        
-        card.cardContents = self.contents
-        
-        cardInfo.cardUUID = self.uuid
-        cardInfo.isPrivate = false
-        cardInfo.isEncrypt = self.isEncrypt
-        cardInfo.isCloud = self.isCloud
-        cardInfo.isChecked = self.isChecked
-        
-        //TODO: what if the data is empty(nil)? + make it module in Card and Authority classes
-        try! realm.write {
-            realm.add(card, update: .modified)
-            realm.add(cardInfo, update: .modified)
-        }
-        
-        print("DEBUG: Add New Card! Button Action")
-        print("DEBUG:", self.uuid)
-        print("DEBUG:", self.title)
-        print("DEBUG:", self.tag)
-        print("DEBUG:", self.location)
-        print("DEBUG:", self.date)
-        print("DEBUG:", self.contents)
+        RealmObjectManager().realmCardUpdate(card: card)
+        RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
+        RealmObjectManager().realmCardKeyUpdate(cardKey: cardKey)
     }
     
     func setLocation() {
+        //TODO: refactoring LocationManager()!
         let latitude = CLLocationManager().location?.coordinate.latitude
         let longitude = CLLocationManager().location?.coordinate.longitude
         
@@ -396,12 +333,57 @@ struct AddNewCardView: View {
         }
     }
     
-
+    //TODO: refactoring make it module in AlertView...
+    func doAddTagAlert() {
+        let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "New Tag"
+        }
+        
+        let saveAction = UIAlertAction(title: "Add Tag", style: .default, handler: { alert -> Void in
+            let secondTextField = alertController.textFields![0] as UITextField
+            self.tag = secondTextField.text!
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        window?.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func locationConfig() {
+        let authorizationStatus = CLLocationManager().authorizationStatus
+        
+        switch authorizationStatus {
+        case .notDetermined:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .restricted:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .denied:
+            self.locationViewModel.requestPermission()
+            self.setLocation()
+        case .authorizedAlways:
+            self.setLocation()
+        case .authorizedWhenInUse:
+            self.setLocation()
+        case .authorized:
+            self.setLocation()
+        @unknown default:
+            break
+        }
+    }
 }
 
 struct AddNewCardView_Previews: PreviewProvider {
     static var previews: some View {
-        //AddNewCardView(false: )
-        ContentView()
+        AddNewCardView()
     }
 }
