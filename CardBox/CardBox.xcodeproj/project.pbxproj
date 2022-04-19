@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1C07394B27C05B2F000AB324 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C07394A27C05B2F000AB324 /* CardView.swift */; };
+		1C17F66027F2F80F00461412 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17F65F27F2F80F00461412 /* AlertView.swift */; };
+		1C17F66227F41C6000461412 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17F66127F41C6000461412 /* DateManager.swift */; };
+		1C2C2A2F27F1737F0034057F /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2C2A2E27F1737F0034057F /* RealmManager.swift */; };
 		1CB4531327BD37F1007CE24F /* PublicBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */; };
 		1CB4531527BD37F7007CE24F /* PrivateBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */; };
 		1CB4531727BD37FD007CE24F /* OnDemandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531627BD37FD007CE24F /* OnDemandView.swift */; };
@@ -16,7 +19,7 @@
 		1CB4531D27BD3813007CE24F /* AddNewCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531C27BD3813007CE24F /* AddNewCardView.swift */; };
 		1CE7578627EE608400BC91DF /* SectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE7578527EE608400BC91DF /* SectionTitleView.swift */; };
 		1CE7578827EE74FF00BC91DF /* AddButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE7578727EE74FF00BC91DF /* AddButtonView.swift */; };
-		1CE7578B27EE75A100BC91DF /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE7578A27EE75A100BC91DF /* LocationWorker.swift */; };
+		1CE7578B27EE75A100BC91DF /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE7578A27EE75A100BC91DF /* LocationManager.swift */; };
 		1CF3EDE827B7453900B6559F /* CardBoxApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EDE727B7453900B6559F /* CardBoxApp.swift */; };
 		1CF3EDEA27B7453900B6559F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3EDE927B7453900B6559F /* ContentView.swift */; };
 		1CF3EDEC27B7453B00B6559F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CF3EDEB27B7453B00B6559F /* Assets.xcassets */; };
@@ -49,6 +52,9 @@
 /* Begin PBXFileReference section */
 		0F96BECD7A30FCC651D100F2 /* Pods-CardBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardBox.debug.xcconfig"; path = "Target Support Files/Pods-CardBox/Pods-CardBox.debug.xcconfig"; sourceTree = "<group>"; };
 		1C07394A27C05B2F000AB324 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		1C17F65F27F2F80F00461412 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		1C17F66127F41C6000461412 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
+		1C2C2A2E27F1737F0034057F /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBoxTabView.swift; sourceTree = "<group>"; };
 		1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateBoxTabView.swift; sourceTree = "<group>"; };
 		1CB4531627BD37FD007CE24F /* OnDemandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnDemandView.swift; sourceTree = "<group>"; };
@@ -57,7 +63,7 @@
 		1CB4531C27BD3813007CE24F /* AddNewCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewCardView.swift; sourceTree = "<group>"; };
 		1CE7578527EE608400BC91DF /* SectionTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitleView.swift; sourceTree = "<group>"; };
 		1CE7578727EE74FF00BC91DF /* AddButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonView.swift; sourceTree = "<group>"; };
-		1CE7578A27EE75A100BC91DF /* LocationWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWorker.swift; sourceTree = "<group>"; };
+		1CE7578A27EE75A100BC91DF /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		1CF3EDE427B7453900B6559F /* CardBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CF3EDE727B7453900B6559F /* CardBoxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBoxApp.swift; sourceTree = "<group>"; };
 		1CF3EDE927B7453900B6559F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -125,6 +131,7 @@
 			children = (
 				1CE7578527EE608400BC91DF /* SectionTitleView.swift */,
 				1CE7578727EE74FF00BC91DF /* AddButtonView.swift */,
+				1C17F65F27F2F80F00461412 /* AlertView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -133,9 +140,11 @@
 			isa = PBXGroup;
 			children = (
 				1CB4531A27BD380F007CE24F /* Card.swift */,
-				1CE7578A27EE75A100BC91DF /* LocationWorker.swift */,
+				1CE7578A27EE75A100BC91DF /* LocationManager.swift */,
 				1CB4531627BD37FD007CE24F /* OnDemandView.swift */,
 				1CB4531827BD380A007CE24F /* FoldingCell.swift */,
+				1C2C2A2E27F1737F0034057F /* RealmManager.swift */,
+				1C17F66127F41C6000461412 /* DateManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -454,13 +463,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CB4531527BD37F7007CE24F /* PrivateBoxTabView.swift in Sources */,
+				1C17F66227F41C6000461412 /* DateManager.swift in Sources */,
+				1C2C2A2F27F1737F0034057F /* RealmManager.swift in Sources */,
 				1C07394B27C05B2F000AB324 /* CardView.swift in Sources */,
 				1CB4531327BD37F1007CE24F /* PublicBoxTabView.swift in Sources */,
 				1CE7578627EE608400BC91DF /* SectionTitleView.swift in Sources */,
 				1CB4531B27BD380F007CE24F /* Card.swift in Sources */,
 				1CF3EDEA27B7453900B6559F /* ContentView.swift in Sources */,
-				1CE7578B27EE75A100BC91DF /* LocationWorker.swift in Sources */,
+				1CE7578B27EE75A100BC91DF /* LocationManager.swift in Sources */,
 				1CB4531727BD37FD007CE24F /* OnDemandView.swift in Sources */,
+				1C17F66027F2F80F00461412 /* AlertView.swift in Sources */,
 				1CF3EDE827B7453900B6559F /* CardBoxApp.swift in Sources */,
 				1CE7578827EE74FF00BC91DF /* AddButtonView.swift in Sources */,
 				1CB4531927BD380A007CE24F /* FoldingCell.swift in Sources */,

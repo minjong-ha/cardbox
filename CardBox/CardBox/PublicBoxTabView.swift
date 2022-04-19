@@ -28,17 +28,17 @@ struct PublicBoxTabView: View {
     @State private var searchTag: String = ""
     
     /*
-    init() {
-        //SwiftUI does not like load in init(). Use onAppear() instead
-		//=======================================================
-                //UITabBar.appearance().barTintColor = .red
-        //UITableView.appearance().backgroundColor = .clear  // List background Color
-        //UITableView.appearance().separatorStyle = .none // List Cell separator style
-		//UITableViewCell.appearance().backgroundColor = .black
-		//UITableView.appearance().tableFooterView = UIView()
-		//=======================================================
-	}
-    */
+     init() {
+     //SwiftUI does not like load in init(). Use onAppear() instead
+     //=======================================================
+     //UITabBar.appearance().barTintColor = .red
+     //UITableView.appearance().backgroundColor = .clear  // List background Color
+     //UITableView.appearance().separatorStyle = .none // List Cell separator style
+     //UITableViewCell.appearance().backgroundColor = .black
+     //UITableView.appearance().tableFooterView = UIView()
+     //=======================================================
+     }
+     */
     
     var body: some View {
         NavigationView {
@@ -170,25 +170,16 @@ struct PublicBoxTabView: View {
     }
     
     private func onDeleteCard(at indexSet: IndexSet, in section: SectionCell) {
-        try! realm.write {
-            indexSet.forEach ({ index in
-                let publicCardCell = section.cardCellList[index]
-                let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
-                let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
-                print("DEBUG: deleting RealmObject ", publicCard!.cardTitle)
-                
-                let sectionIndex = self.sectionList.firstIndex(where: { $0.cardTag == publicCard!.cardTag  } )
-                
-                if(publicCard != nil) {
-                    realm.delete(publicCard!)
-                    realm.delete(publicCardInfo!)
-                    self.sectionList[sectionIndex!].cardCellList.remove(at: index)
-                }
-                else {
-                    print("DEBUG: There is no matched RealmObject!")
-                }
-            })
-        }
+        indexSet.forEach ({ index in
+            let publicCardCell = section.cardCellList[index]
+            let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
+            let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
+            let publicCardKey = realm.object(ofType: CardKey.self, forPrimaryKey: publicCardCell.cardUUID)
+            
+            if(publicCard != nil) {RealmObjectManager().realmCardDelete(card: publicCard!)}
+            if(publicCardInfo != nil) {RealmObjectManager().realmCardInfoDelete(cardInfo: publicCardInfo!)}
+            if(publicCardKey != nil) {RealmObjectManager().realmCardKeyDelete(cardKey: publicCardKey!)}
+        })
         self.onAppearUpdate()
     }
 }
