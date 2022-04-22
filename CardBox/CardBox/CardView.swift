@@ -43,7 +43,7 @@ struct CardView: View {
                                 .bold()
                                 .opacity(self.isEditState ? 1 : 0)
                                 .transition(.slide)
-                            TextField("No Title Info", text: $localTitle)
+                            TextField(self.localTitle, text: $localTitle)
                             //.shadow(radius: 3.0)
                                 .textFieldStyle(.roundedBorder)
                                 .disabled(self.isEditState == false)
@@ -85,7 +85,7 @@ struct CardView: View {
                                 Image(systemName: "map")
                             }
                           }
-                        TextField(self.localLocation, text: $localLocation)
+                        TextField("no location info", text: $localLocation)
                             .textFieldStyle(.roundedBorder)
                             .disabled(self.isEditState == false)
                         //.shadow(radius: 3.0)
