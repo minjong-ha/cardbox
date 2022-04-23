@@ -271,30 +271,28 @@ struct AddNewCardView: View {
     }
     
     private func onAppearUpdate() {
-        //TODO: refactoring-changing RealmManager()
-        //TODO: get Lists and sorting tags depending on the isPrivate....!!!
-        //let cardInfoList = realm.objects(CardInfo.self) // return objects
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
         self.uuid = NSUUID().uuidString
         
-        
-        //if isPrivate, else condition required!
-        if (cardInfoList!.count > 0) {
-            for cardInfo in cardInfoList! {
-                //TODO: refactoring-changing RealmManager()
-                let card = realm.object(ofType: Card.self, forPrimaryKey: cardInfo.cardUUID) //return objects
-                let cardTag : String = card!.cardTag
-                let cardTitle : String = card!.cardTitle
-                
-                print("DEBUG: ", cardTag, cardTitle)
-                //TODO: refactoring ArrayManager required...
-                if (!self.tagList.contains(cardTag)) {
-                    self.tagList.append(cardTag)
+        if (cardInfoList == nil) { /*do nothing */ }
+        else {
+            //if isPrivate, else condition required!
+            if (cardInfoList!.count > 0) {
+                for cardInfo in cardInfoList! {
+                    let card = RealmObjectManager().getRealmCard(uuid: cardInfo.cardUUID) as! Card
+                    let cardTag : String = card.cardTag
+                    let cardTitle : String = card.cardTitle
+                    
+                    print("DEBUG: ", cardTag, cardTitle)
+                    //TODO: refactoring ArrayManager required...
+                    if (!self.tagList.contains(cardTag)) {
+                        self.tagList.append(cardTag)
+                    }
                 }
-            }
-            
-            self.tagList.sort {
-                $0 < $1
+                
+                self.tagList.sort {
+                    $0 < $1
+                }
             }
         }
     }
@@ -333,7 +331,6 @@ struct AddNewCardView: View {
         }
     }
     
-    //TODO: refactoring make it module in AlertView...
     func doAddTagAlert() {
         let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
         
