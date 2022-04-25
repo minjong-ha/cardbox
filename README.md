@@ -82,7 +82,8 @@ Cardbox supports powerful sorting functions.
 
 ### 5. Possible features?
 
-  > * write location info where the card created? updated?
+  > * -write location info where the card created? updated?-
+
 
 ## Development Environment
   * Xcode 13
