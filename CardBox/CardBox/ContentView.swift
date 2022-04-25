@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-//TODO: organize *.swift files into the directories considering their purpose
-
 struct ContentView: View {
     @State private var selection : Int = 1 //default tab bar is Public Box
     
@@ -22,7 +20,6 @@ struct ContentView: View {
                 }
                 .tag(0)
 
-            //TODO: refresh each views only whenever I press the tabItem button! now it reload all the Views...
             PublicBoxTabView() 
                 .tabItem {
                         Image(systemName: "person.3")
