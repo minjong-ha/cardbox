@@ -44,7 +44,6 @@ struct CardView: View {
                                 .opacity(self.isEditState ? 1 : 0)
                                 .transition(.slide)
                             TextField(self.localTitle, text: $localTitle)
-                            //.shadow(radius: 3.0)
                                 .textFieldStyle(.roundedBorder)
                                 .disabled(self.isEditState == false)
                                 .opacity(self.isEditState ? 1 : 0)
@@ -60,7 +59,6 @@ struct CardView: View {
                             TextField(self.localTag, text: $localTag)
                                 .textFieldStyle(.roundedBorder)
                                 .disabled(self.isEditState == false)
-                            //.shadow(radius: 3.0)
                         }
                         VStack(alignment: .leading) {
                             Text("Date")
@@ -88,7 +86,6 @@ struct CardView: View {
                         TextField("no location info", text: $localLocation)
                             .textFieldStyle(.roundedBorder)
                             .disabled(self.isEditState == false)
-                        //.shadow(radius: 3.0)
                     }
                     VStack (alignment: .leading) {
                         Text("Contents")
@@ -265,24 +262,6 @@ struct CardView: View {
         self.currentDate = dateFormatter.date(from: self.localDate)!
         
         self.localContents = card!.cardContents
-        
-        /*
-        if (self.localTitle == "") {
-            self.localTitle = "Empty Title"
-        }
-        if (self.localTag == "") {
-            self.localTag = "No Tag"
-        }
-        if (self.localLocation == "") {
-            self.localLocation = "No Location Info"
-        }
-        if (self.localDate == "") {
-            self.localDate = "No Date Info"
-        }
-        if (self.localContents == "") {
-            self.localContents = "No Contents Data"
-        }
-         */
     }
     
     private func locationConfig() {
