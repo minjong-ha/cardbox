@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 struct PrivateBoxTabView: View {
     
@@ -15,6 +16,8 @@ struct PrivateBoxTabView: View {
     
     init() {
         print("DEBUG: load PrivateBoxTabView")
+        
+        //faceID / touchID
     }
     
     var body: some View {
@@ -31,6 +34,27 @@ struct PrivateBoxTabView: View {
                     AddButtonView()
                 }
             }
+        }
+    }
+    
+    func privateAuthenticate() {
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "We need to unlock your data"
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {success, authenticatorError in
+                if success {
+                    //authenticated successfully!
+                }
+                else {
+                    //authentication fail!
+                }
+            }
+        }
+        else {
+            //no biometrics! password plz!
         }
     }
 }
