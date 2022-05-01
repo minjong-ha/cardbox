@@ -17,7 +17,6 @@ struct PrivateBoxTabView: View {
     init() {
         print("DEBUG: load PrivateBoxTabView")
         
-        //faceID / touchID
     }
     
     var body: some View {
@@ -35,6 +34,10 @@ struct PrivateBoxTabView: View {
                 }
             }
         }
+    }
+
+    func onAppearUpdate() {
+        //faceID / touchID
     }
     
     func privateAuthenticate() {
