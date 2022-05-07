@@ -13,6 +13,8 @@ struct PrivateBoxTabView: View {
 	//TODO: add encrypt config - only contents, full (title, tag, contents)
 	//TODO: encrpytion candidates (https://developer.apple.com/documentation/applearchive/encrypting_and_decrypting_a_string) (https://developer.apple.com/documentation/cryptokit/)
 	//TODO: faceID/touchID (https://www.hackingwithswift.com/books/ios-swiftui/using-touch-id-and-face-id-with-swiftui) (https://www.andyibanez.com/posts/integrating-face-id-touch-id-swiftui/)
+    //TODO: refactoring ScrollView in PublicBoxTabView
+    
     
     init() {
         print("DEBUG: load PrivateBoxTabView")
