@@ -126,6 +126,7 @@ struct PublicBoxTabView: View {
     } //body closure
     
     private func onAppearUpdate() {
+        print("onAppearUpdate in PublicBoxTabView")
         let cardInfoList = realm.objects(CardInfo.self)
         let publicCardInfoList = cardInfoList.where {
             $0.isPrivate == false
