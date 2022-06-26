@@ -32,6 +32,7 @@ struct PrivateBoxTabView: View {
 	//TODO: faceID/touchID (https://www.hackingwithswift.com/books/ios-swiftui/using-touch-id-and-face-id-with-swiftui) (https://www.andyibanez.com/posts/integrating-face-id-touch-id-swiftui/)
     //TODO: refactoring ScrollView in PublicBoxTabView
     
+    //TODO: export inUnlocked to the ContentView for locked, unlocked image
     @State private var isUnlocked = false
     
     func authenticate() {
@@ -182,7 +183,8 @@ struct PrivateBoxTabView: View {
         
         let cardInfoList = realm.objects(CardInfo.self)
         let publicCardInfoList = cardInfoList.where {
-            $0.isPrivate == false
+            $0.isPrivate == true
+            //$0.isPrivate == false
         }
         
         self.sectionList.removeAll()
@@ -222,27 +224,6 @@ struct PrivateBoxTabView: View {
             self.isPublicExist = false
         }
 
-    }
-    
-    func privateAuthenticate() {
-        let context = LAContext()
-        var error: NSError?
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "We need to unlock your data"
-            
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {success, authenticatorError in
-                if success {
-                    //authenticated successfully!
-                }
-                else {
-                    //authentication fail!
-                }
-            }
-        }
-        else {
-            //no biometrics! password plz!
-        }
     }
     
     private func onDeleteCard(at indexSet: IndexSet, in section: SectionCell) {
