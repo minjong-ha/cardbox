@@ -40,128 +40,130 @@ struct PrivateBoxTabView: View {
         var error: NSError?
         let reason = "Test to private security"
         
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
-            
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { success, authenticationError in
-                if success {
-                    print ("do something")
-                    self.isUnlocked = true
-                }
-                else {
-                    print("fail. don't show the data")
-                    self.isUnlocked = false
-                }
-            })
-        }
-        else {
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason, reply: { success, authenticationError in
-                if success {
-                    print ("success in non Biometrics")
-                    self.isUnlocked = true
-                }
-                else {
-                    print("fail. in non Biometrics")
-                    self.isUnlocked = false
-                }
-            })
+        if (self.isUnlocked == false) {
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { success, authenticationError in
+                    if success {
+                        print ("do something")
+                        self.isUnlocked = true
+                    }
+                    else {
+                        print("fail. don't show the data")
+                        self.isUnlocked = false
+                    }
+                })
+            }
+            else {
+                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason, reply: { success, authenticationError in
+                    if success {
+                        print ("success in non Biometrics")
+                        self.isUnlocked = true
+                    }
+                    else {
+                        print("fail. in non Biometrics")
+                        self.isUnlocked = false
+                    }
+                })
+            }
         }
     }
     
     
     init() {
         print("DEBUG: load PrivateBoxTabView")
-        
     }
     
     var body: some View {
         NavigationView {
-            /*
-            VStack (alignment: .leading) {
-                Text("This is the Private Box which contains secret cards!")
-                Text("Press 'Add' to write a new secret card!")
-                
-            }
-            //.padding()
-            .navigationTitle("Private Box")
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    AddButtonView()
-                }
-            }
-            */
-            if (isPublicExist) {
-                VStack {
-                    List {
-                        ForEach (self.$sectionList, id: \.self) { $section in
-                            //Section filtering
-                            if (section.cardTag.contains(self.searchText)) {
-                                Section(header: SectionTitleView(sectionTitle: section.cardTag, isVisible: $section.isVisible, cardList: $section.cardCellList), content:  {
-                                    ForEach(section.cardCellList, id: \.self) { publicCardCell in
-                                        NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
-                                            HStack {
-                                                Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
-                                            }
-                                        }
-                                    }
-                                    .onDelete {
-                                        self.onDeleteCard(at: $0, in: section)
-                                    }
-                                })
-                            }
-                            
-                            //Card filtering
-                            else {
-                                Section(header: SectionTitleView(sectionTitle: section.cardTag, isVisible: $section.isVisible, cardList: $section.cardCellList), content:  {
-                                    ForEach(section.cardCellList, id: \.self) { publicCardCell in
-                                        if (self.searchText == "" && section.isVisible) {
+            if (isUnlocked) {
+                if (isPublicExist) {
+                    VStack {
+                        List {
+                            ForEach (self.$sectionList, id: \.self) { $section in
+                                //Section filtering
+                                if (section.cardTag.contains(self.searchText)) {
+                                    Section(header: SectionTitleView(sectionTitle: section.cardTag, isVisible: $section.isVisible, cardList: $section.cardCellList), content:  {
+                                        ForEach(section.cardCellList, id: \.self) { publicCardCell in
                                             NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                                 HStack {
                                                     Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                                 }
                                             }
                                         }
-                                        else {
-                                            if (publicCardCell.cardTitle.contains(self.searchText) && section.isVisible) {
+                                        .onDelete {
+                                            self.onDeleteCard(at: $0, in: section)
+                                        }
+                                    })
+                                }
+                                
+                                //Card filtering
+                                else {
+                                    Section(header: SectionTitleView(sectionTitle: section.cardTag, isVisible: $section.isVisible, cardList: $section.cardCellList), content:  {
+                                        ForEach(section.cardCellList, id: \.self) { publicCardCell in
+                                            if (self.searchText == "" && section.isVisible) {
                                                 NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
                                                     HStack {
                                                         Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
                                                     }
                                                 }
                                             }
+                                            else {
+                                                if (publicCardCell.cardTitle.contains(self.searchText) && section.isVisible) {
+                                                    NavigationLink(destination: OnDemandView(CardView(cardUUID: publicCardCell.cardUUID, localTitle: publicCardCell.cardTitle, localTag: "", localDate: "", localContents: "", localLocation: "", localPrivate: publicCardCell.cardInfo.isPrivate, localEncrypt: publicCardCell.cardInfo.isEncrypt, localCloud: publicCardCell.cardInfo.isCloud, localChecked: publicCardCell.cardInfo.isChecked, isEditState: false))) {
+                                                        HStack {
+                                                            Label("\(publicCardCell.cardTitle)", systemImage: "envelope.fill")
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
-                                    }
-                                    .onDelete {
-                                        self.onDeleteCard(at: $0, in: section)
-                                    }
-                                })
+                                        .onDelete {
+                                            self.onDeleteCard(at: $0, in: section)
+                                        }
+                                    })
+                                }
+                                
                             }
-                            
+                        }
+                        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always)) //Reference: https://sarunw.com/posts/searchable-in-swiftui/
+                        .shadow(radius: 3.0)
+                        .listStyle(PlainListStyle())
+                    }
+                    .padding([.top], 0)
+                    .padding([.horizontal])
+                    .navigationTitle(Text("Public Box"))
+                    .navigationBarTitleDisplayMode(.large)
+                    //.onAppear(perform: self.onAppearUpdate)
+                    .toolbar {
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
+                            AddButtonView()
                         }
                     }
-                    .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always)) //Reference: https://sarunw.com/posts/searchable-in-swiftui/
-                    .shadow(radius: 3.0)
-                    .listStyle(PlainListStyle())
                 }
-                .padding([.top], 0)
-                .padding([.horizontal])
-                .navigationTitle(Text("Public Box"))
-                .navigationBarTitleDisplayMode(.large)
-                .onAppear(perform: self.onAppearUpdate)
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        AddButtonView()
+                // there is no card in the private box
+                else {
+                    VStack(alignment: .leading) {
+                        Text("This is the Private Box which contains secret cards!")
+                        Text("Press 'Add' to write a new secret card!")
+                    }
+                    .padding()
+                    .padding([.horizontal])
+                    .navigationTitle(Text("Private Box"))
+                    .toolbar {
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
+                            AddButtonView()
+                        }
                     }
                 }
             }
-            
+            // isUnlocked false. authentication fail
             else {
                 VStack(alignment: .leading) {
-                    Text("This is the Private Box which contains secret cards!")
-                    Text("Press 'Add' to write a new secret card!")
+                    Text("Authentication Fail")
+                    Text("Pass the Authentication first to see the cards")
                 }
                 .padding()
                 .padding([.horizontal])
-                .onAppear(perform: self.onAppearUpdate)
                 .navigationTitle(Text("Private Box"))
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -169,16 +171,14 @@ struct PrivateBoxTabView: View {
                     }
                 }
             }
-            
-            
         }
+        .onAppear(perform: self.onAppearUpdate)
     }
-
+    
     func onAppearUpdate() {
         //faceID / touchID
-        print("onAppearUpdate() Private Box")
+        self.isUnlocked = false
         print("onAppearUpdate in PublicBoxTabView")
-        
         self.authenticate()
         
         let cardInfoList = realm.objects(CardInfo.self)

@@ -99,7 +99,6 @@ struct PublicBoxTabView: View {
                 .padding([.horizontal])
                 .navigationTitle(Text("Public Box"))
                 .navigationBarTitleDisplayMode(.large)
-                .onAppear(perform: self.onAppearUpdate)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         AddButtonView()
@@ -114,7 +113,6 @@ struct PublicBoxTabView: View {
                 }
                 .padding()
                 .padding([.horizontal])
-                .onAppear(perform: self.onAppearUpdate)
                 .navigationTitle(Text("Public Box"))
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -123,6 +121,7 @@ struct PublicBoxTabView: View {
                 }
             }
         }
+        .onAppear(perform: self.onAppearUpdate)
     } //body closure
     
     private func onAppearUpdate() {
