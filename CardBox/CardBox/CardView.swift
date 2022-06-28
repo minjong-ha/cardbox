@@ -106,6 +106,8 @@ struct CardView: View {
                     }
                     .id(self.contentsID)
                     
+                    
+                    if (isEditState) {
                     VStack (alignment: .leading) {
                         HStack (alignment: .center) {
                             Text("Private?")
@@ -195,6 +197,7 @@ struct CardView: View {
                             
                         }
                     }
+                }
 
                 }
             }

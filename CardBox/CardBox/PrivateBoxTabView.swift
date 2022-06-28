@@ -33,7 +33,7 @@ struct PrivateBoxTabView: View {
     //TODO: refactoring ScrollView in PublicBoxTabView
     
     //TODO: export inUnlocked to the ContentView for locked, unlocked image
-    @State private var isUnlocked = false
+    @State private var isUnlocked: Bool = false
     
     func authenticate() {
         let context = LAContext()
@@ -131,7 +131,7 @@ struct PrivateBoxTabView: View {
                     }
                     .padding([.top], 0)
                     .padding([.horizontal])
-                    .navigationTitle(Text("Public Box"))
+                    .navigationTitle(Text("Private Box"))
                     .navigationBarTitleDisplayMode(.large)
                     //.onAppear(perform: self.onAppearUpdate)
                     .toolbar {
@@ -178,7 +178,7 @@ struct PrivateBoxTabView: View {
     func onAppearUpdate() {
         //faceID / touchID
         self.isUnlocked = false
-        print("onAppearUpdate in PublicBoxTabView")
+        print("onAppearUpdate in PrivateBoxTabView")
         self.authenticate()
         
         let cardInfoList = realm.objects(CardInfo.self)
@@ -239,7 +239,6 @@ struct PrivateBoxTabView: View {
         })
         self.onAppearUpdate()
     }
-    
 }
 
 struct PrivateBox_Previews: PreviewProvider {

@@ -27,8 +27,7 @@ struct PublicBoxTabView: View {
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
     
-    /*
-     init() {
+     //init() {
      //SwiftUI does not like load in init(). Use onAppear() instead
      //=======================================================
      //UITabBar.appearance().barTintColor = .red
@@ -37,8 +36,7 @@ struct PublicBoxTabView: View {
      //UITableViewCell.appearance().backgroundColor = .black
      //UITableView.appearance().tableFooterView = UIView()
      //=======================================================
-     }
-     */
+     //}
     
     var body: some View {
         NavigationView {
