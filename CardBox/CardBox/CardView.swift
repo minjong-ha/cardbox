@@ -91,27 +91,23 @@ struct CardView: View {
                         Text("Contents")
                             .font(.title2)
                             .bold()
-                        if(self.isEditState) {
-                            TextEditor(text: $localContents)
-                                .cornerRadius(10.0)
-                                .shadow(radius: 3.0)
-                                .frame(height: UIScreen.main.bounds.size.height / 4)
-                                .frame(width: (UIScreen.main.bounds.size.width * 0.9))
-                                .disabled(self.isEditState == false)
-                                .onTapGesture {
-                                    withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
-                                }
-                                .transition(.slide)
-                        }
-                        else {
-                            Text(self.localContents)
-                                .transition(.slide)
-                        }
                         
-                        
+                        //TODO: textedit disabled but scrolling
+                        TextEditor(text: $localContents)
+                            .cornerRadius(10.0)
+                            .shadow(radius: 3.0)
+                            .frame(height: UIScreen.main.bounds.size.height / 4)
+                            .frame(width: (UIScreen.main.bounds.size.width * 0.9))
+                            .disabled(self.isEditState == false)
+                            .onTapGesture {
+                                withAnimation(Animation.easeInOut(duration: 1)) { value.scrollTo(contentsID, anchor: .topLeading) }
+                            }
+                            .transition(.slide)
                     }
                     .id(self.contentsID)
                     
+                    
+                    if (isEditState) {
                     VStack (alignment: .leading) {
                         HStack (alignment: .center) {
                             Text("Private?")
@@ -201,6 +197,7 @@ struct CardView: View {
                             
                         }
                     }
+                }
 
                 }
             }
@@ -239,7 +236,7 @@ struct CardView: View {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         self.localDate = dateFormatter.string(from: self.currentDate)
         
-        let card = RealmObjectManager().initRealmCard(uuid: self.cardUUID, title: self.localTitle, tag: self.localTag, location: self.localLocation, date: self.localLocation, contents: self.localContents)
+        let card = RealmObjectManager().initRealmCard(uuid: self.cardUUID, title: self.localTitle, tag: self.localTag, location: self.localLocation, date: self.localDate, contents: self.localContents)
         let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.cardUUID, isPrivate: self.localPrivate, isEncrypt: self.localEncrypt, isCloud: self.localCloud, isChecked: self.localChecked)
         let cardKey = RealmObjectManager().initRealmCardKey(uuid: self.cardUUID, key: self.encryptedPassword)
         

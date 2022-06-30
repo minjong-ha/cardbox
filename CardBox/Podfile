@@ -7,7 +7,7 @@ target 'CardBox' do
 use_frameworks!
 
 pod 'FoldingCell' # for later
-pod 'RealmSwift' # for Card data
+pod 'RealmSwift', '~> 10.25.0' # for Card data
 
   target 'CardBoxTests' do
     inherit! :search_paths

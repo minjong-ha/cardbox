@@ -27,8 +27,7 @@ struct PublicBoxTabView: View {
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
     
-    /*
-     init() {
+     //init() {
      //SwiftUI does not like load in init(). Use onAppear() instead
      //=======================================================
      //UITabBar.appearance().barTintColor = .red
@@ -37,8 +36,7 @@ struct PublicBoxTabView: View {
      //UITableViewCell.appearance().backgroundColor = .black
      //UITableView.appearance().tableFooterView = UIView()
      //=======================================================
-     }
-     */
+     //}
     
     var body: some View {
         NavigationView {
@@ -99,7 +97,6 @@ struct PublicBoxTabView: View {
                 .padding([.horizontal])
                 .navigationTitle(Text("Public Box"))
                 .navigationBarTitleDisplayMode(.large)
-                .onAppear(perform: self.onAppearUpdate)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         AddButtonView()
@@ -114,7 +111,6 @@ struct PublicBoxTabView: View {
                 }
                 .padding()
                 .padding([.horizontal])
-                .onAppear(perform: self.onAppearUpdate)
                 .navigationTitle(Text("Public Box"))
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -123,9 +119,11 @@ struct PublicBoxTabView: View {
                 }
             }
         }
+        .onAppear(perform: self.onAppearUpdate)
     } //body closure
     
     private func onAppearUpdate() {
+        print("onAppearUpdate in PublicBoxTabView")
         let cardInfoList = realm.objects(CardInfo.self)
         let publicCardInfoList = cardInfoList.where {
             $0.isPrivate == false
