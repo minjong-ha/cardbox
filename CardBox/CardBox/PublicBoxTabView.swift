@@ -104,20 +104,7 @@ struct PublicBoxTabView: View {
                 }
             }
             
-            else {
-                VStack(alignment: .leading) {
-                    Text("This is the Public Box which contains public cards!")
-                    Text("Press 'Add' to write a new card!")
-                }
-                .padding()
-                .padding([.horizontal])
-                .navigationTitle(Text("Public Box"))
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        AddButtonView()
-                    }
-                }
-            }
+            else { EmptyPublicBoxView() }
         }
         .onAppear(perform: self.onAppearUpdate)
     } //body closure

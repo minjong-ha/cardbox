@@ -140,37 +140,12 @@ struct PrivateBoxTabView: View {
                         }
                     }
                 }
+                
                 // there is no card in the private box
-                else {
-                    VStack(alignment: .leading) {
-                        Text("This is the Private Box which contains secret cards!")
-                        Text("Press 'Add' to write a new secret card!")
-                    }
-                    .padding()
-                    .padding([.horizontal])
-                    .navigationTitle(Text("Private Box"))
-                    .toolbar {
-                        ToolbarItemGroup(placement: .navigationBarTrailing) {
-                            AddButtonView()
-                        }
-                    }
-                }
+                else { EmptyPrivateBoxView() }
             }
             // isUnlocked false. authentication fail
-            else {
-                VStack(alignment: .leading) {
-                    Text("Authentication Fail")
-                    Text("Pass the Authentication first to see the cards")
-                }
-                .padding()
-                .padding([.horizontal])
-                .navigationTitle(Text("Private Box"))
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        AddButtonView()
-                    }
-                }
-            }
+            else { LockedPrivateBoxView() }
         }
         .onAppear(perform: self.onAppearUpdate)
     }
