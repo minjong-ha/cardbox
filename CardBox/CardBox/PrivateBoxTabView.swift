@@ -41,7 +41,7 @@ struct PrivateBoxTabView: View {
         let reason = "Test to private security"
         
         if (self.isUnlocked == false) {
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
+            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error){
                 context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { success, authenticationError in
                     if success {
                         print ("do something")
