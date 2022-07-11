@@ -203,14 +203,14 @@ struct PrivateBoxTabView: View {
     
     private func onDeleteCard(at indexSet: IndexSet, in section: SectionCell) {
         indexSet.forEach ({ index in
-            let publicCardCell = section.cardCellList[index]
-            let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
-            let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
-            let publicCardKey = realm.object(ofType: CardKey.self, forPrimaryKey: publicCardCell.cardUUID)
+            let privateCardCell = section.cardCellList[index]
+            let privateCard = realm.object(ofType: Card.self, forPrimaryKey: privateCardCell.cardUUID)
+            let privateCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: privateCardCell.cardUUID)
+            let privateCardKey = realm.object(ofType: CardKey.self, forPrimaryKey: privateCardCell.cardUUID)
             
-            if(publicCard != nil) {RealmObjectManager().realmCardDelete(card: publicCard!)}
-            if(publicCardInfo != nil) {RealmObjectManager().realmCardInfoDelete(cardInfo: publicCardInfo!)}
-            if(publicCardKey != nil) {RealmObjectManager().realmCardKeyDelete(cardKey: publicCardKey!)}
+            if(privateCard != nil) {RealmObjectManager().realmCardDelete(card: privateCard!)}
+            if(privateCardInfo != nil) {RealmObjectManager().realmCardInfoDelete(cardInfo: privateCardInfo!)}
+            if(privateCardKey != nil) {RealmObjectManager().realmCardKeyDelete(cardKey: privateCardKey!)}
         })
         self.onAppearUpdate()
     }
