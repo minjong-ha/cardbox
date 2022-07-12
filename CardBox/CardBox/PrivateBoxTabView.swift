@@ -20,7 +20,7 @@ struct PrivateBoxTabView: View {
     @State private var tagList: Array<String> = []
     @State private var sectionList: Array<SectionCell> = []
     
-    @State private var isPublicExist: Bool = false
+    @State private var isPrivateExist: Bool = false
     @State private var isEditing: Bool = false
     @FocusState private var isFocused: Bool
     
@@ -76,7 +76,7 @@ struct PrivateBoxTabView: View {
     var body: some View {
         NavigationView {
             if (isUnlocked) {
-                if (isPublicExist) {
+                if (isPrivateExist) {
                     VStack {
                         List {
                             ForEach (self.$sectionList, id: \.self) { $section in
@@ -157,21 +157,21 @@ struct PrivateBoxTabView: View {
         self.authenticate()
         
         let cardInfoList = realm.objects(CardInfo.self)
-        let publicCardInfoList = cardInfoList.where {
+        let privateCardInfoList = cardInfoList.where {
             $0.isPrivate == true
             //$0.isPrivate == false
         }
         
         self.sectionList.removeAll()
         
-        if (publicCardInfoList.count > 0) {
-            self.isPublicExist = true
+        if (privateCardInfoList.count > 0) {
+            self.isPrivateExist = true
             
-            for publicCardInfo in publicCardInfoList {
-                let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
-                let publicInfoCell = CardInfoCell.init(cardUUID: publicCard!.cardUUID, isPrivate: publicCardInfo.isPrivate, isEncrypt: publicCardInfo.isEncrypt, isCloud: publicCardInfo.isCloud, isChecked: publicCardInfo.isChecked)
-                let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle, cardLocation: publicCard!.cardLocation, cardDate: publicCard!.cardDate, cardContents: publicCard!.cardContents, cardInfo: publicInfoCell)
-                let cardTag : String = publicCard!.cardTag
+            for privateCardInfo in privateCardInfoList {
+                let privateCard = realm.object(ofType: Card.self, forPrimaryKey: privateCardInfo.cardUUID)
+                let privateInfoCell = CardInfoCell.init(cardUUID: privateCard!.cardUUID, isPrivate: privateCardInfo.isPrivate, isEncrypt: privateCardInfo.isEncrypt, isCloud: privateCardInfo.isCloud, isChecked: privateCardInfo.isChecked)
+                let privateCardCell = CardCell.init(cardUUID: privateCard!.cardUUID, cardTag: privateCard!.cardTag, cardTitle: privateCard!.cardTitle, cardLocation: privateCard!.cardLocation, cardDate: privateCard!.cardDate, cardContents: privateCard!.cardContents, cardInfo: privateInfoCell)
+                let cardTag : String = privateCard!.cardTag
                 
                 var isExist = false
                 for section in self.sectionList {
@@ -182,12 +182,12 @@ struct PrivateBoxTabView: View {
                 if (!isExist) {
                     var newSection = SectionCell.init()
                     newSection.cardTag = cardTag
-                    newSection.cardCellList.append(publicCardCell)
+                    newSection.cardCellList.append(privateCardCell)
                     self.sectionList.append(newSection)
                 }
                 else {
                     let index = self.sectionList.firstIndex(where: { $0.cardTag == cardTag })!
-                    self.sectionList[index].cardCellList.append(publicCardCell)
+                    self.sectionList[index].cardCellList.append(privateCardCell)
                 }
             }
             
@@ -196,7 +196,7 @@ struct PrivateBoxTabView: View {
             }
         }
         else {
-            self.isPublicExist = false
+            self.isPrivateExist = false
         }
 
     }
