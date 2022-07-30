@@ -9,8 +9,7 @@ import Foundation
 import RealmSwift
 
 class BoxManager {
-    /*
-    var colorScheme = ""
+    //var colorScheme = ""
     
     private let realm = try! Realm()
     
@@ -19,13 +18,16 @@ class BoxManager {
     
     private var isExist: Bool = false
     private var isEditing: Bool = false
-    private var isFocused: Bool
     
     private var searchText: String = ""
     private var searchTag: String = ""
     
-    init() {
-        print("HELLO WORLD")
+    func loadCards() {
+        print("loadCards()")
     }
-    */
+    
+    func deleteCard() {
+        print("deleteCard()")
+    }
+    
 }

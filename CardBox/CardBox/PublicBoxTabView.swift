@@ -22,7 +22,7 @@ struct PublicBoxTabView: View {
     
     @State private var isPublicExist: Bool = false
     @State private var isEditing: Bool = false
-    @FocusState private var isFocused: Bool
+    //@FocusState private var isFocused: Bool
     
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
@@ -102,8 +102,8 @@ struct PublicBoxTabView: View {
                         AddButtonView()
                     }
                 }
+                .onAppear(perform: self.onAppearUpdate)
             }
-            
             else { EmptyPublicBoxView() }
         }
         .onAppear(perform: self.onAppearUpdate)

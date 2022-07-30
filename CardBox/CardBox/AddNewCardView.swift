@@ -139,6 +139,7 @@ struct AddNewCardView: View {
                                         self.isEncrypt = false
                                         self.encryptedPassword.removeAll()
                                     }
+                                    self.onAppearUpdate()
                                 }
                             }
                         
@@ -274,6 +275,8 @@ struct AddNewCardView: View {
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
         self.uuid = NSUUID().uuidString
         
+        self.tagList.removeAll()
+        
         if (cardInfoList == nil) { /*do nothing */ }
         else {
             //if isPrivate, else condition required!
@@ -285,7 +288,7 @@ struct AddNewCardView: View {
                     
                     print("DEBUG: ", cardTag, cardTitle)
                     //TODO: refactoring ArrayManager required...
-                    if (!self.tagList.contains(cardTag)) {
+                    if (!self.tagList.contains(cardTag) && (cardInfo.isPrivate == self.isPrivate)) {
                         self.tagList.append(cardTag)
                     }
                 }
@@ -301,7 +304,7 @@ struct AddNewCardView: View {
         self.date = DateManager().getStringfromDate(date: self.currentDate)
         
         let card = RealmObjectManager().initRealmCard(uuid: self.uuid, title: self.title, tag: self.tag, location: self.location, date: self.date, contents: self.contents)
-        let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.uuid, isPrivate: false, isEncrypt: self.isEncrypt, isCloud: self.isCloud, isChecked: self.isChecked)
+        let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.uuid, isPrivate: self.isPrivate, isEncrypt: self.isEncrypt, isCloud: self.isCloud, isChecked: self.isChecked)
         let cardKey = RealmObjectManager().initRealmCardKey(uuid: self.uuid, key: self.encryptedPassword)
         
         RealmObjectManager().realmCardUpdate(card: card)

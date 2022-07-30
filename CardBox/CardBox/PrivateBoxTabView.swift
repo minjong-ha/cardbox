@@ -22,7 +22,7 @@ struct PrivateBoxTabView: View {
     
     @State private var isPrivateExist: Bool = false
     @State private var isEditing: Bool = false
-    @FocusState private var isFocused: Bool
+    //@FocusState private var isFocused: Bool
     
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
@@ -41,19 +41,23 @@ struct PrivateBoxTabView: View {
         let reason = "Test to private security"
         
         if (self.isUnlocked == false) {
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error){
+            
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
                 context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { success, authenticationError in
                     if success {
                         print ("do something")
                         self.isUnlocked = true
                     }
                     else {
+                        // TODO: add passcode autentication in here!!!
                         print("fail. don't show the data")
                         self.isUnlocked = false
                     }
                 })
             }
+            /*
             else {
+                print("when else")
                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason, reply: { success, authenticationError in
                     if success {
                         print ("success in non Biometrics")
@@ -65,6 +69,7 @@ struct PrivateBoxTabView: View {
                     }
                 })
             }
+            */
         }
     }
     
@@ -139,6 +144,7 @@ struct PrivateBoxTabView: View {
                             AddButtonView()
                         }
                     }
+                    .onAppear(perform: onAppearUpdate)
                 }
                 
                 // there is no card in the private box
@@ -148,11 +154,16 @@ struct PrivateBoxTabView: View {
             else { LockedPrivateBoxView() }
         }
         .onAppear(perform: self.onAppearUpdate)
+        .onDisappear(perform: self.onDisappearUpdate)
+    }
+    
+    func onDisappearUpdate() {
+        print("DEBUG: onDisappearUpdate in PrivateBoxTabView")
+        self.isUnlocked = false
     }
     
     func onAppearUpdate() {
         //faceID / touchID
-        self.isUnlocked = false
         print("onAppearUpdate in PrivateBoxTabView")
         self.authenticate()
         

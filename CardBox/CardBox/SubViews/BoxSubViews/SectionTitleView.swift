@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct SectionTitleView: View {
+    @Environment (\.colorScheme) var colorScheme
+    
     @State var sectionTitle: String
     @Binding var isVisible: Bool
     @Binding var cardList: Array<CardCell>
     
     var body: some View {
         HStack {
-            
             Button(action: {
                 withAnimation {
                     self.isVisible.toggle()
@@ -24,7 +25,7 @@ struct SectionTitleView: View {
                     .bold()
                     .font(.title2)
             }
-            .foregroundColor(.black)
+            .foregroundColor(self.colorScheme == .dark ? Color.white : Color.black)
             
             Spacer() // for the button trailing
             
