@@ -27,12 +27,14 @@ struct ContentView: View {
                 }
                 .tag(1)
            //================================
+            /*
             TestBoxTabView()
                 .tabItem {
                     Image(systemName: "person.1")
                     Text("RefactoringTest")
                 }
                 .tag(2)
+             */
            //================================
         }
         .ignoresSafeArea(.keyboard)

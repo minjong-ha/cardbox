@@ -37,43 +37,25 @@ struct PrivateBoxTabView: View {
     
     func authenticate() {
         let context = LAContext()
-        var error: NSError?
         let reason = "Test to private security"
         
         if (self.isUnlocked == false) {
-            
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
-                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { success, authenticationError in
-                    if success {
-                        print ("do something")
-                        self.isUnlocked = true
-                    }
-                    else {
-                        // TODO: add passcode autentication in here!!!
-                        print("fail. don't show the data")
-                        self.isUnlocked = false
-                    }
-                })
-            }
-            /*
-            else {
-                print("when else")
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason, reply: { success, authenticationError in
-                    if success {
-                        print ("success in non Biometrics")
-                        self.isUnlocked = true
-                    }
-                    else {
-                        print("fail. in non Biometrics")
-                        self.isUnlocked = false
-                    }
-                })
-            }
-            */
+            //if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason, reply: { success, authenticationError in
+                if success {
+                    print ("do something")
+                    self.isUnlocked = true
+                }
+                else {
+                    // TODO: add passcode autentication in here!!!
+                    print("fail. don't show the data")
+                    self.isUnlocked = false
+                }
+            })
         }
     }
     
-    
+
     init() {
         print("DEBUG: load PrivateBoxTabView")
     }
