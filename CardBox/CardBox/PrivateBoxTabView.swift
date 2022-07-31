@@ -9,9 +9,10 @@ import SwiftUI
 import LocalAuthentication
 import RealmSwift
 import Combine
-
+import OSLog
 
 struct PrivateBoxTabView: View {
+    let logger = Logger()
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -43,12 +44,12 @@ struct PrivateBoxTabView: View {
             //if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
             context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason, reply: { success, authenticationError in
                 if success {
-                    print ("do something")
+                    logger.debug("Authentication Success: Unlock the screen")
                     self.isUnlocked = true
                 }
                 else {
                     // TODO: add passcode autentication in here!!!
-                    print("fail. don't show the data")
+                    logger.debug("Authentication Fail: Keep Lock the screen")
                     self.isUnlocked = false
                 }
             })
@@ -57,7 +58,7 @@ struct PrivateBoxTabView: View {
     
 
     init() {
-        print("DEBUG: load PrivateBoxTabView")
+        logger.debug("init() in PrivateBoxTabView")
     }
     
     var body: some View {
@@ -140,13 +141,13 @@ struct PrivateBoxTabView: View {
     }
     
     func onDisappearUpdate() {
-        print("DEBUG: onDisappearUpdate in PrivateBoxTabView")
+        logger.debug("onDisapearUpdate() in PrivateBoxTabView")
         self.isUnlocked = false
     }
     
     func onAppearUpdate() {
         //faceID / touchID
-        print("onAppearUpdate in PrivateBoxTabView")
+        logger.debug("onApearUpdate() in PrivateBoxTabView")
         self.authenticate()
         
         let cardInfoList = realm.objects(CardInfo.self)

@@ -280,6 +280,9 @@ struct CardView: View {
     private func onAppearUpdate() {
         let realm = try! Realm()
         let card = realm.object(ofType: Card.self, forPrimaryKey: self.cardUUID)
+        //---------------
+        let cardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: self.cardUUID)
+        //---------------
         
         //============
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
@@ -296,6 +299,13 @@ struct CardView: View {
         self.currentDate = dateFormatter.date(from: self.localDate)!
         
         self.localContents = card!.cardContents
+        
+        //---------------
+        self.localPrivate = cardInfo!.isPrivate
+        self.localEncrypt = cardInfo!.isEncrypt
+        self.localCloud = cardInfo!.isCloud
+        self.localChecked = cardInfo!.isChecked
+        //---------------
         
         //=============
         if (cardInfoList == nil) { /*do nothing */ }
