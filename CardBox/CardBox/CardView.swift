@@ -31,6 +31,9 @@ struct CardView: View {
     @State var currentDate = Date.now
     
     @State private var encryptedPassword = "" // key
+    //=====
+    @State private var tagList: Array<String> = []
+    //=====
     
     var body: some View {
         ScrollViewReader { value in
@@ -52,6 +55,7 @@ struct CardView: View {
                     }
                     
                     HStack(alignment: .top) {
+                        /*
                         VStack(alignment: .leading) {
                             Text("Tag")
                                 .font(.title2)
@@ -59,7 +63,35 @@ struct CardView: View {
                             TextField(self.localTag, text: $localTag)
                                 .textFieldStyle(.roundedBorder)
                                 .disabled(self.isEditState == false)
+                         }
+                         */
+                        
+                        //==========================================================
+                        VStack(alignment: .leading) {
+                            Text("Tag")
+                                .bold()
+                            Menu {
+                                ForEach(self.tagList, id: \.self) { cardTag in
+                                    Button(action: {
+                                        self.localTag = cardTag
+                                    }) {
+                                        Text(cardTag)
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    self.doAddTagAlert()
+                                }) {
+                                    Text("+ Add New Tag")
+                                }
+                            } label: {
+                                TextField("Tag", text: $localTag)
+                                    .textFieldStyle(.roundedBorder)
+                                    .multilineTextAlignment(.leading)
+                            }
                         }
+                        //==========================================================
+                        
                         VStack(alignment: .leading) {
                             Text("Date")
                                 .font(.title2)
@@ -247,8 +279,16 @@ struct CardView: View {
     
     private func onAppearUpdate() {
         let realm = try! Realm()
-        
         let card = realm.object(ofType: Card.self, forPrimaryKey: self.cardUUID)
+        //---------------
+        let cardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: self.cardUUID)
+        //---------------
+        
+        //============
+        let cardInfoList = RealmObjectManager().getRealmCardInfoList()
+        self.tagList.removeAll()
+        //============
+        
         self.localTitle = card!.cardTitle
         self.localTag = card!.cardTag
         self.localLocation = card!.cardLocation
@@ -259,6 +299,39 @@ struct CardView: View {
         self.currentDate = dateFormatter.date(from: self.localDate)!
         
         self.localContents = card!.cardContents
+        
+        //---------------
+        self.localPrivate = cardInfo!.isPrivate
+        self.localEncrypt = cardInfo!.isEncrypt
+        self.localCloud = cardInfo!.isCloud
+        self.localChecked = cardInfo!.isChecked
+        //---------------
+        
+        //=============
+        if (cardInfoList == nil) { /*do nothing */ }
+        else {
+            //if isPrivate, else condition required!
+            if (cardInfoList!.count > 0) {
+                for cardInfo in cardInfoList! {
+                    let card = RealmObjectManager().getRealmCard(uuid: cardInfo.cardUUID) as! Card
+                    let cardTag : String = card.cardTag
+                    let cardTitle : String = card.cardTitle
+                    
+                    print("DEBUG: ", cardTag, cardTitle)
+                    //TODO: refactoring ArrayManager required...
+                    if (!self.tagList.contains(cardTag) && (cardInfo.isPrivate == self.localPrivate)) {
+                        self.tagList.append(cardTag)
+                    }
+                }
+                
+                self.tagList.sort {
+                    $0 < $1
+                }
+            }
+        }
+        //=============
+        
+        
     }
     
     private func locationConfig() {
@@ -305,6 +378,31 @@ struct CardView: View {
             self.localLocation = "Unable to get Location"
         }
     }
+    
+    func doAddTagAlert() {
+        let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "New Tag"
+        }
+        
+        let saveAction = UIAlertAction(title: "Add Tag", style: .default, handler: { alert -> Void in
+            let secondTextField = alertController.textFields![0] as UITextField
+            self.localTag = secondTextField.text!
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        window?.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+    
+
 }
 
 struct CardView_Previews: PreviewProvider {

@@ -22,7 +22,7 @@ struct PublicBoxTabView: View {
     
     @State private var isPublicExist: Bool = false
     @State private var isEditing: Bool = false
-    @FocusState private var isFocused: Bool
+    //@FocusState private var isFocused: Bool
     
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
@@ -102,22 +102,9 @@ struct PublicBoxTabView: View {
                         AddButtonView()
                     }
                 }
+                .onAppear(perform: self.onAppearUpdate)
             }
-            
-            else {
-                VStack(alignment: .leading) {
-                    Text("This is the Public Box which contains public cards!")
-                    Text("Press 'Add' to write a new card!")
-                }
-                .padding()
-                .padding([.horizontal])
-                .navigationTitle(Text("Public Box"))
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        AddButtonView()
-                    }
-                }
-            }
+            else { EmptyPublicBoxView() }
         }
         .onAppear(perform: self.onAppearUpdate)
     } //body closure

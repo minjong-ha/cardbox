@@ -139,6 +139,7 @@ struct AddNewCardView: View {
                                         self.isEncrypt = false
                                         self.encryptedPassword.removeAll()
                                     }
+                                    self.onAppearUpdate()
                                 }
                             }
                         
@@ -220,15 +221,14 @@ struct AddNewCardView: View {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: {
                     self.isFocused = false
-                    self.checkAddPossible()
-                    let isAddable = self.isFieldEmpty()
+                    let isAddable = self.isAddable()
                     
                     if (isAddable) {
-                        AlertManager().isEmptyFieldAlert()
-                    }
-                    else {
                         self.realmUpdateCard()
                         self.dismiss()
+                    }
+                    else {
+                        AlertManager().isEmptyFieldAlert()
                     }
                 }) {
                     Text("Add")
@@ -248,18 +248,24 @@ struct AddNewCardView: View {
         }
     }
     
-    private func isFieldEmpty() -> Bool {
-        var ret: Bool = false
+    private func isAddable() -> Bool {
+        var ret: Bool = true
         
-        if (!self.isTagExist || !self.isTitleExist || !self.isPasswordExist) { ret = true }
+        self.checkFieldEmpty()
+        
+        if (!self.isTagExist || !self.isTitleExist || !self.isPasswordExist) { ret = false }
         
         return ret
     }
     
-    private func checkAddPossible() {
+    private func checkFieldEmpty() {
+        // Check Tat Empty
         if (!self.tag.isEmpty) { self.isTagExist = true }
+        
+        // Check Title Empty
         if (!self.title.isEmpty) { self.isTitleExist = true }
         
+        // Check Password Empty depending on isEncrypted configuration
         if (self.isEncrypt) {
             if (!self.encryptedPassword.isEmpty) { self.isPasswordExist = true }
             else { self.isPasswordExist = false}
@@ -274,9 +280,16 @@ struct AddNewCardView: View {
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
         self.uuid = NSUUID().uuidString
         
+        /* TODO Suggestion:
+         if self.uuid is not nil => this is CardView
+         else (self.uuid is nil) => this is AddNewCardView
+         */
+        
+        self.tagList.removeAll()
+        
         if (cardInfoList == nil) { /*do nothing */ }
         else {
-            //if isPrivate, else condition required!
+            //TODO: if isPrivate, else condition required!
             if (cardInfoList!.count > 0) {
                 for cardInfo in cardInfoList! {
                     let card = RealmObjectManager().getRealmCard(uuid: cardInfo.cardUUID) as! Card
@@ -285,7 +298,7 @@ struct AddNewCardView: View {
                     
                     print("DEBUG: ", cardTag, cardTitle)
                     //TODO: refactoring ArrayManager required...
-                    if (!self.tagList.contains(cardTag)) {
+                    if (!self.tagList.contains(cardTag) && (cardInfo.isPrivate == self.isPrivate)) {
                         self.tagList.append(cardTag)
                     }
                 }
@@ -301,7 +314,7 @@ struct AddNewCardView: View {
         self.date = DateManager().getStringfromDate(date: self.currentDate)
         
         let card = RealmObjectManager().initRealmCard(uuid: self.uuid, title: self.title, tag: self.tag, location: self.location, date: self.date, contents: self.contents)
-        let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.uuid, isPrivate: false, isEncrypt: self.isEncrypt, isCloud: self.isCloud, isChecked: self.isChecked)
+        let cardInfo = RealmObjectManager().initRealmCardInfo(uuid: self.uuid, isPrivate: self.isPrivate, isEncrypt: self.isEncrypt, isCloud: self.isCloud, isChecked: self.isChecked)
         let cardKey = RealmObjectManager().initRealmCardKey(uuid: self.uuid, key: self.encryptedPassword)
         
         RealmObjectManager().realmCardUpdate(card: card)

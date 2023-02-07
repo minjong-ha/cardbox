@@ -9,9 +9,10 @@ import SwiftUI
 import LocalAuthentication
 import RealmSwift
 import Combine
-
+import OSLog
 
 struct PrivateBoxTabView: View {
+    let logger = Logger()
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -20,9 +21,9 @@ struct PrivateBoxTabView: View {
     @State private var tagList: Array<String> = []
     @State private var sectionList: Array<SectionCell> = []
     
-    @State private var isPublicExist: Bool = false
+    @State private var isPrivateExist: Bool = false
     @State private var isEditing: Bool = false
-    @FocusState private var isFocused: Bool
+    //@FocusState private var isFocused: Bool
     
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
@@ -37,46 +38,33 @@ struct PrivateBoxTabView: View {
     
     func authenticate() {
         let context = LAContext()
-        var error: NSError?
         let reason = "Test to private security"
         
         if (self.isUnlocked == false) {
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
-                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { success, authenticationError in
-                    if success {
-                        print ("do something")
-                        self.isUnlocked = true
-                    }
-                    else {
-                        print("fail. don't show the data")
-                        self.isUnlocked = false
-                    }
-                })
-            }
-            else {
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason, reply: { success, authenticationError in
-                    if success {
-                        print ("success in non Biometrics")
-                        self.isUnlocked = true
-                    }
-                    else {
-                        print("fail. in non Biometrics")
-                        self.isUnlocked = false
-                    }
-                })
-            }
+            //if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason, reply: { success, authenticationError in
+                if success {
+                    logger.debug("Authentication Success: Unlock the screen")
+                    self.isUnlocked = true
+                }
+                else {
+                    // TODO: add passcode autentication in here!!!
+                    logger.debug("Authentication Fail: Keep Lock the screen")
+                    self.isUnlocked = false
+                }
+            })
         }
     }
     
-    
+
     init() {
-        print("DEBUG: load PrivateBoxTabView")
+        logger.debug("init() in PrivateBoxTabView")
     }
     
     var body: some View {
         NavigationView {
             if (isUnlocked) {
-                if (isPublicExist) {
+                if (isPrivateExist) {
                     VStack {
                         List {
                             ForEach (self.$sectionList, id: \.self) { $section in
@@ -139,64 +127,45 @@ struct PrivateBoxTabView: View {
                             AddButtonView()
                         }
                     }
+                    .onAppear(perform: onAppearUpdate)
                 }
+                
                 // there is no card in the private box
-                else {
-                    VStack(alignment: .leading) {
-                        Text("This is the Private Box which contains secret cards!")
-                        Text("Press 'Add' to write a new secret card!")
-                    }
-                    .padding()
-                    .padding([.horizontal])
-                    .navigationTitle(Text("Private Box"))
-                    .toolbar {
-                        ToolbarItemGroup(placement: .navigationBarTrailing) {
-                            AddButtonView()
-                        }
-                    }
-                }
+                else { EmptyPrivateBoxView() }
             }
             // isUnlocked false. authentication fail
-            else {
-                VStack(alignment: .leading) {
-                    Text("Authentication Fail")
-                    Text("Pass the Authentication first to see the cards")
-                }
-                .padding()
-                .padding([.horizontal])
-                .navigationTitle(Text("Private Box"))
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        AddButtonView()
-                    }
-                }
-            }
+            else { LockedPrivateBoxView() }
         }
         .onAppear(perform: self.onAppearUpdate)
+        .onDisappear(perform: self.onDisappearUpdate)
+    }
+    
+    func onDisappearUpdate() {
+        logger.debug("onDisapearUpdate() in PrivateBoxTabView")
+        self.isUnlocked = false
     }
     
     func onAppearUpdate() {
         //faceID / touchID
-        self.isUnlocked = false
-        print("onAppearUpdate in PrivateBoxTabView")
+        logger.debug("onApearUpdate() in PrivateBoxTabView")
         self.authenticate()
         
         let cardInfoList = realm.objects(CardInfo.self)
-        let publicCardInfoList = cardInfoList.where {
+        let privateCardInfoList = cardInfoList.where {
             $0.isPrivate == true
             //$0.isPrivate == false
         }
         
         self.sectionList.removeAll()
         
-        if (publicCardInfoList.count > 0) {
-            self.isPublicExist = true
+        if (privateCardInfoList.count > 0) {
+            self.isPrivateExist = true
             
-            for publicCardInfo in publicCardInfoList {
-                let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardInfo.cardUUID)
-                let publicInfoCell = CardInfoCell.init(cardUUID: publicCard!.cardUUID, isPrivate: publicCardInfo.isPrivate, isEncrypt: publicCardInfo.isEncrypt, isCloud: publicCardInfo.isCloud, isChecked: publicCardInfo.isChecked)
-                let publicCardCell = CardCell.init(cardUUID: publicCard!.cardUUID, cardTag: publicCard!.cardTag, cardTitle: publicCard!.cardTitle, cardLocation: publicCard!.cardLocation, cardDate: publicCard!.cardDate, cardContents: publicCard!.cardContents, cardInfo: publicInfoCell)
-                let cardTag : String = publicCard!.cardTag
+            for privateCardInfo in privateCardInfoList {
+                let privateCard = realm.object(ofType: Card.self, forPrimaryKey: privateCardInfo.cardUUID)
+                let privateInfoCell = CardInfoCell.init(cardUUID: privateCard!.cardUUID, isPrivate: privateCardInfo.isPrivate, isEncrypt: privateCardInfo.isEncrypt, isCloud: privateCardInfo.isCloud, isChecked: privateCardInfo.isChecked)
+                let privateCardCell = CardCell.init(cardUUID: privateCard!.cardUUID, cardTag: privateCard!.cardTag, cardTitle: privateCard!.cardTitle, cardLocation: privateCard!.cardLocation, cardDate: privateCard!.cardDate, cardContents: privateCard!.cardContents, cardInfo: privateInfoCell)
+                let cardTag : String = privateCard!.cardTag
                 
                 var isExist = false
                 for section in self.sectionList {
@@ -207,12 +176,12 @@ struct PrivateBoxTabView: View {
                 if (!isExist) {
                     var newSection = SectionCell.init()
                     newSection.cardTag = cardTag
-                    newSection.cardCellList.append(publicCardCell)
+                    newSection.cardCellList.append(privateCardCell)
                     self.sectionList.append(newSection)
                 }
                 else {
                     let index = self.sectionList.firstIndex(where: { $0.cardTag == cardTag })!
-                    self.sectionList[index].cardCellList.append(publicCardCell)
+                    self.sectionList[index].cardCellList.append(privateCardCell)
                 }
             }
             
@@ -221,21 +190,21 @@ struct PrivateBoxTabView: View {
             }
         }
         else {
-            self.isPublicExist = false
+            self.isPrivateExist = false
         }
 
     }
     
     private func onDeleteCard(at indexSet: IndexSet, in section: SectionCell) {
         indexSet.forEach ({ index in
-            let publicCardCell = section.cardCellList[index]
-            let publicCard = realm.object(ofType: Card.self, forPrimaryKey: publicCardCell.cardUUID)
-            let publicCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: publicCardCell.cardUUID)
-            let publicCardKey = realm.object(ofType: CardKey.self, forPrimaryKey: publicCardCell.cardUUID)
+            let privateCardCell = section.cardCellList[index]
+            let privateCard = realm.object(ofType: Card.self, forPrimaryKey: privateCardCell.cardUUID)
+            let privateCardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: privateCardCell.cardUUID)
+            let privateCardKey = realm.object(ofType: CardKey.self, forPrimaryKey: privateCardCell.cardUUID)
             
-            if(publicCard != nil) {RealmObjectManager().realmCardDelete(card: publicCard!)}
-            if(publicCardInfo != nil) {RealmObjectManager().realmCardInfoDelete(cardInfo: publicCardInfo!)}
-            if(publicCardKey != nil) {RealmObjectManager().realmCardKeyDelete(cardKey: publicCardKey!)}
+            if(privateCard != nil) {RealmObjectManager().realmCardDelete(card: privateCard!)}
+            if(privateCardInfo != nil) {RealmObjectManager().realmCardInfoDelete(cardInfo: privateCardInfo!)}
+            if(privateCardKey != nil) {RealmObjectManager().realmCardKeyDelete(cardKey: privateCardKey!)}
         })
         self.onAppearUpdate()
     }
