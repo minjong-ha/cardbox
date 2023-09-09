@@ -92,7 +92,7 @@ struct AddNewCardView: View {
                         Text("Location")
                             .bold()
                         Button(action: {
-                            self.locationConfig()
+                            self.location = self.locationViewModel.requestLocation()
                         }) {
                             Image(systemName: "map")
                         }
@@ -313,28 +313,7 @@ struct AddNewCardView: View {
         RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
         RealmObjectManager().realmCardKeyUpdate(cardKey: cardKey)
     }
-    
-    func setLocation() {
-        let latitude = CLLocationManager().location?.coordinate.latitude
-        let longitude = CLLocationManager().location?.coordinate.longitude
-        
-        let geocoder = CLGeocoder()
-        let locale = Locale(identifier: "en_US_POSIX")
-        
-        if (latitude != nil && longitude != nil) {
-            let findLocation = CLLocation(latitude: latitude!, longitude: longitude!)
-            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
-                if let address: [CLPlacemark] = placemarks {
-                    let addr = (address.last?.name)! + ", " + (address.last?.locality)!// + ", " + (address.last?.administrativeArea)!
-                    self.location = addr
-                }
-            })
-        }
-        else {
-            self.location = "Unable to get Location"
-        }
-    }
-    
+   
     func doAddTagAlert() {
         let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
         
@@ -358,29 +337,6 @@ struct AddNewCardView: View {
         window?.rootViewController?.present(alertController, animated: true, completion: nil)
     }
     
-    private func locationConfig() {
-        let authorizationStatus = CLLocationManager().authorizationStatus
-        
-        switch authorizationStatus {
-        case .notDetermined:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .restricted:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .denied:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .authorizedAlways:
-            self.setLocation()
-        case .authorizedWhenInUse:
-            self.setLocation()
-        case .authorized:
-            self.setLocation()
-        @unknown default:
-            break
-        }
-    }
 }
 
 struct AddNewCardView_Previews: PreviewProvider {

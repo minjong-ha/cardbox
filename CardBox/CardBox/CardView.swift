@@ -95,7 +95,7 @@ struct CardView: View {
                                 .font(.title2)
                                 .bold()
                             Button(action: {
-                                self.locationConfig()
+                                self.localLocation = self.locationViewModel.requestLocation()
                             }) {
                                 Image(systemName: "map")
                             }
@@ -307,51 +307,6 @@ struct CardView: View {
         }
         
         
-    }
-    
-    private func locationConfig() {
-        let authorizationStatus = CLLocationManager().authorizationStatus
-        
-        switch authorizationStatus {
-        case .notDetermined:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .restricted:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .denied:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .authorizedAlways:
-            self.setLocation()
-        case .authorizedWhenInUse:
-            self.setLocation()
-        case .authorized:
-            self.setLocation()
-        @unknown default:
-            break
-        }
-    }
-    
-    private func setLocation() {
-        let latitude = CLLocationManager().location?.coordinate.latitude
-        let longitude = CLLocationManager().location?.coordinate.longitude
-        
-        let geocoder = CLGeocoder()
-        let locale = Locale(identifier: "en_US_POSIX")
-        
-        if (latitude != nil && longitude != nil) {
-            let findLocation = CLLocation(latitude: latitude!, longitude: longitude!)
-            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
-                if let address: [CLPlacemark] = placemarks {
-                    let addr = (address.last?.name)! + ", " + (address.last?.locality)!// + ", " + (address.last?.administrativeArea)!
-                    self.localLocation = addr
-                }
-            })
-        }
-        else {
-            self.localLocation = "Unable to get Location"
-        }
     }
     
     func doAddTagAlert() {
