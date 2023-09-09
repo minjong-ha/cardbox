@@ -80,4 +80,30 @@ class AlertManager {
         window?.rootViewController?.present(alertController, animated: true, completion: nil)
     }
     
+  
+    func doAddTagAlert(tagBinding: Binding<String>) {
+        let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "New Tag"
+        }
+        
+        let saveAction = UIAlertAction(title: "Add Tag", style: .default, handler: { alert -> Void in
+            if let secondTextField = alertController.textFields?.first, let text = secondTextField.text {
+                tagBinding.wrappedValue = text
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        window?.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+      
+    
 }

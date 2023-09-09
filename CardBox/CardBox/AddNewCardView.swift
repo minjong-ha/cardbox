@@ -66,7 +66,7 @@ struct AddNewCardView: View {
                             }
                             
                             Button(action: {
-                                self.doAddTagAlert()
+                                AlertManager().doAddTagAlert(tagBinding: $tag)
                             }) {
                                 Text("+ Add New Tag")
                             }
@@ -313,30 +313,6 @@ struct AddNewCardView: View {
         RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
         RealmObjectManager().realmCardKeyUpdate(cardKey: cardKey)
     }
-   
-    func doAddTagAlert() {
-        let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
-        
-        alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "New Tag"
-        }
-        
-        let saveAction = UIAlertAction(title: "Add Tag", style: .default, handler: { alert -> Void in
-            let secondTextField = alertController.textFields![0] as UITextField
-            self.tag = secondTextField.text!
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-        
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        let window = windowScene?.windows.first
-        window?.rootViewController?.present(alertController, animated: true, completion: nil)
-    }
-    
 }
 
 struct AddNewCardView_Previews: PreviewProvider {
