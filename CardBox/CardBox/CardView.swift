@@ -74,7 +74,9 @@ struct CardView: View {
                                 TextField("Tag", text: $localTag)
                                     .textFieldStyle(.roundedBorder)
                                     .multilineTextAlignment(.leading)
+
                             }
+                            .disabled(self.isEditState == false)
                         }
                         
                         VStack(alignment: .leading) {
