@@ -28,12 +28,6 @@ struct PrivateBoxTabView: View {
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
     
-	//TODO: add encrypt config - only contents, full (title, tag, contents)
-	//TODO: encrpytion candidates (https://developer.apple.com/documentation/applearchive/encrypting_and_decrypting_a_string) (https://developer.apple.com/documentation/cryptokit/)
-	//TODO: faceID/touchID (https://www.hackingwithswift.com/books/ios-swiftui/using-touch-id-and-face-id-with-swiftui) (https://www.andyibanez.com/posts/integrating-face-id-touch-id-swiftui/)
-    //TODO: refactoring ScrollView in PublicBoxTabView
-    
-    //TODO: export inUnlocked to the ContentView for locked, unlocked image
     @State private var isUnlocked: Bool = false
     
     func authenticate() {
@@ -48,7 +42,6 @@ struct PrivateBoxTabView: View {
                     self.isUnlocked = true
                 }
                 else {
-                    // TODO: add passcode autentication in here!!!
                     logger.debug("Authentication Fail: Keep Lock the screen")
                     self.isUnlocked = false
                 }
