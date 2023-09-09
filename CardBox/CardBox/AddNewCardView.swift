@@ -249,32 +249,19 @@ struct AddNewCardView: View {
     }
     
     private func isAddable() -> Bool {
-        var ret: Bool = true
+        let isTagValid = !self.tag.isEmpty
+        let isTitleValid = !self.title.isEmpty
+        let isPasswordValid: Bool
         
-        self.checkFieldEmpty()
+        if self.isEncrypt {
+            isPasswordValid = !self.encryptedPassword.isEmpty
+        } else {
+            isPasswordValid = self.encryptedPassword.isEmpty
+        }
         
-        if (!self.isTagExist || !self.isTitleExist || !self.isPasswordExist) { ret = false }
-        
-        return ret
+        return isTagValid && isTitleValid && isPasswordValid
     }
     
-    private func checkFieldEmpty() {
-        // Check Tat Empty
-        if (!self.tag.isEmpty) { self.isTagExist = true }
-        
-        // Check Title Empty
-        if (!self.title.isEmpty) { self.isTitleExist = true }
-        
-        // Check Password Empty depending on isEncrypted configuration
-        if (self.isEncrypt) {
-            if (!self.encryptedPassword.isEmpty) { self.isPasswordExist = true }
-            else { self.isPasswordExist = false}
-        }
-        else {
-            if (self.encryptedPassword.isEmpty) { self.isPasswordExist = true }
-            else { self.isPasswordExist = false }
-        }
-    }
     
     private func onAppearUpdate() {
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
