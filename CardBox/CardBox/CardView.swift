@@ -225,7 +225,7 @@ struct CardView: View {
                     if (self.isEditState) {
                         Button (action: {
                             withAnimation {
-                                self.realmUpdateCard()
+                                self.updateRealmCard()
                             }
                         }) {
                             Text("Confirm")
@@ -245,7 +245,7 @@ struct CardView: View {
         }
     }
     
-    private func realmUpdateCard() {
+    private func updateRealmCard() {
         self.isEditState.toggle()
         
         let dateFormatter = DateFormatter()

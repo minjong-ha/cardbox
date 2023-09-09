@@ -224,7 +224,7 @@ struct AddNewCardView: View {
                     let isAddable = self.isAddable()
                     
                     if (isAddable) {
-                        self.realmUpdateCard()
+                        self.updateRealmCard()
                         self.dismiss()
                     }
                     else {
@@ -289,7 +289,7 @@ struct AddNewCardView: View {
         }
     }
     
-    private func realmUpdateCard() {
+    private func updateRealmCard() {
         self.date = DateManager().getStringfromDate(date: self.currentDate)
         
         let card = RealmObjectManager().initRealmCard(uuid: self.uuid, title: self.title, tag: self.tag, location: self.location, date: self.date, contents: self.contents)
