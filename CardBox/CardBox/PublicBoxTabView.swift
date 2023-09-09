@@ -27,17 +27,6 @@ struct PublicBoxTabView: View {
     @State private var searchText: String = ""
     @State private var searchTag: String = ""
     
-     //init() {
-     //SwiftUI does not like load in init(). Use onAppear() instead
-     //=======================================================
-     //UITabBar.appearance().barTintColor = .red
-     //UITableView.appearance().backgroundColor = .clear  // List background Color
-     //UITableView.appearance().separatorStyle = .none // List Cell separator style
-     //UITableViewCell.appearance().backgroundColor = .black
-     //UITableView.appearance().tableFooterView = UIView()
-     //=======================================================
-     //}
-    
     var body: some View {
         NavigationView {
             if (isPublicExist) {
