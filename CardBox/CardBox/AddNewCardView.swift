@@ -279,17 +279,10 @@ struct AddNewCardView: View {
     private func onAppearUpdate() {
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
         self.uuid = NSUUID().uuidString
-        
-        /* TODO Suggestion:
-         if self.uuid is not nil => this is CardView
-         else (self.uuid is nil) => this is AddNewCardView
-         */
-        
         self.tagList.removeAll()
         
         if (cardInfoList == nil) { /*do nothing */ }
         else {
-            //TODO: if isPrivate, else condition required!
             if (cardInfoList!.count > 0) {
                 for cardInfo in cardInfoList! {
                     let card = RealmObjectManager().getRealmCard(uuid: cardInfo.cardUUID) as! Card
@@ -297,7 +290,6 @@ struct AddNewCardView: View {
                     let cardTitle : String = card.cardTitle
                     
                     print("DEBUG: ", cardTag, cardTitle)
-                    //TODO: refactoring ArrayManager required...
                     if (!self.tagList.contains(cardTag) && (cardInfo.isPrivate == self.isPrivate)) {
                         self.tagList.append(cardTag)
                     }
@@ -323,7 +315,6 @@ struct AddNewCardView: View {
     }
     
     func setLocation() {
-        //TODO: refactoring LocationManager()!
         let latitude = CLLocationManager().location?.coordinate.latitude
         let longitude = CLLocationManager().location?.coordinate.longitude
         
