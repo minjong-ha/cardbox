@@ -31,9 +31,7 @@ struct CardView: View {
     @State var currentDate = Date.now
     
     @State private var encryptedPassword = "" // key
-    //=====
     @State private var tagList: Array<String> = []
-    //=====
     
     var body: some View {
         ScrollViewReader { value in
@@ -55,18 +53,6 @@ struct CardView: View {
                     }
                     
                     HStack(alignment: .top) {
-                        /*
-                        VStack(alignment: .leading) {
-                            Text("Tag")
-                                .font(.title2)
-                                .bold()
-                            TextField(self.localTag, text: $localTag)
-                                .textFieldStyle(.roundedBorder)
-                                .disabled(self.isEditState == false)
-                         }
-                         */
-                        
-                        //==========================================================
                         VStack(alignment: .leading) {
                             Text("Tag")
                                 .bold()
@@ -90,7 +76,6 @@ struct CardView: View {
                                     .multilineTextAlignment(.leading)
                             }
                         }
-                        //==========================================================
                         
                         VStack(alignment: .leading) {
                             Text("Date")
@@ -124,7 +109,6 @@ struct CardView: View {
                             .font(.title2)
                             .bold()
                         
-                        //TODO: textedit disabled but scrolling
                         TextEditor(text: $localContents)
                             .cornerRadius(10.0)
                             .shadow(radius: 3.0)
@@ -280,14 +264,10 @@ struct CardView: View {
     private func onAppearUpdate() {
         let realm = try! Realm()
         let card = realm.object(ofType: Card.self, forPrimaryKey: self.cardUUID)
-        //---------------
         let cardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: self.cardUUID)
-        //---------------
         
-        //============
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
         self.tagList.removeAll()
-        //============
         
         self.localTitle = card!.cardTitle
         self.localTag = card!.cardTag
@@ -300,14 +280,11 @@ struct CardView: View {
         
         self.localContents = card!.cardContents
         
-        //---------------
         self.localPrivate = cardInfo!.isPrivate
         self.localEncrypt = cardInfo!.isEncrypt
         self.localCloud = cardInfo!.isCloud
         self.localChecked = cardInfo!.isChecked
-        //---------------
         
-        //=============
         if (cardInfoList == nil) { /*do nothing */ }
         else {
             //if isPrivate, else condition required!
@@ -318,7 +295,6 @@ struct CardView: View {
                     let cardTitle : String = card.cardTitle
                     
                     print("DEBUG: ", cardTag, cardTitle)
-                    //TODO: refactoring ArrayManager required...
                     if (!self.tagList.contains(cardTag) && (cardInfo.isPrivate == self.localPrivate)) {
                         self.tagList.append(cardTag)
                     }
@@ -329,7 +305,6 @@ struct CardView: View {
                 }
             }
         }
-        //=============
         
         
     }
