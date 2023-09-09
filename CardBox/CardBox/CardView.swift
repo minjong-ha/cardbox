@@ -31,9 +31,7 @@ struct CardView: View {
     @State var currentDate = Date.now
     
     @State private var encryptedPassword = "" // key
-    //=====
     @State private var tagList: Array<String> = []
-    //=====
     
     var body: some View {
         ScrollViewReader { value in
@@ -55,18 +53,6 @@ struct CardView: View {
                     }
                     
                     HStack(alignment: .top) {
-                        /*
-                        VStack(alignment: .leading) {
-                            Text("Tag")
-                                .font(.title2)
-                                .bold()
-                            TextField(self.localTag, text: $localTag)
-                                .textFieldStyle(.roundedBorder)
-                                .disabled(self.isEditState == false)
-                         }
-                         */
-                        
-                        //==========================================================
                         VStack(alignment: .leading) {
                             Text("Tag")
                                 .bold()
@@ -80,7 +66,7 @@ struct CardView: View {
                                 }
                                 
                                 Button(action: {
-                                    self.doAddTagAlert()
+                                    AlertManager().doAddTagAlert(tagBinding: $localTag)
                                 }) {
                                     Text("+ Add New Tag")
                                 }
@@ -88,9 +74,10 @@ struct CardView: View {
                                 TextField("Tag", text: $localTag)
                                     .textFieldStyle(.roundedBorder)
                                     .multilineTextAlignment(.leading)
+
                             }
+                            .disabled(self.isEditState == false)
                         }
-                        //==========================================================
                         
                         VStack(alignment: .leading) {
                             Text("Date")
@@ -110,7 +97,7 @@ struct CardView: View {
                                 .font(.title2)
                                 .bold()
                             Button(action: {
-                                self.locationConfig()
+                                self.localLocation = self.locationViewModel.requestLocation()
                             }) {
                                 Image(systemName: "map")
                             }
@@ -124,7 +111,6 @@ struct CardView: View {
                             .font(.title2)
                             .bold()
                         
-                        //TODO: textedit disabled but scrolling
                         TextEditor(text: $localContents)
                             .cornerRadius(10.0)
                             .shadow(radius: 3.0)
@@ -241,7 +227,7 @@ struct CardView: View {
                     if (self.isEditState) {
                         Button (action: {
                             withAnimation {
-                                self.realmUpdateCard()
+                                self.updateRealmCard()
                             }
                         }) {
                             Text("Confirm")
@@ -261,7 +247,7 @@ struct CardView: View {
         }
     }
     
-    private func realmUpdateCard() {
+    private func updateRealmCard() {
         self.isEditState.toggle()
         
         let dateFormatter = DateFormatter()
@@ -280,14 +266,10 @@ struct CardView: View {
     private func onAppearUpdate() {
         let realm = try! Realm()
         let card = realm.object(ofType: Card.self, forPrimaryKey: self.cardUUID)
-        //---------------
         let cardInfo = realm.object(ofType: CardInfo.self, forPrimaryKey: self.cardUUID)
-        //---------------
         
-        //============
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
         self.tagList.removeAll()
-        //============
         
         self.localTitle = card!.cardTitle
         self.localTag = card!.cardTag
@@ -300,14 +282,11 @@ struct CardView: View {
         
         self.localContents = card!.cardContents
         
-        //---------------
         self.localPrivate = cardInfo!.isPrivate
         self.localEncrypt = cardInfo!.isEncrypt
         self.localCloud = cardInfo!.isCloud
         self.localChecked = cardInfo!.isChecked
-        //---------------
         
-        //=============
         if (cardInfoList == nil) { /*do nothing */ }
         else {
             //if isPrivate, else condition required!
@@ -318,7 +297,6 @@ struct CardView: View {
                     let cardTitle : String = card.cardTitle
                     
                     print("DEBUG: ", cardTag, cardTitle)
-                    //TODO: refactoring ArrayManager required...
                     if (!self.tagList.contains(cardTag) && (cardInfo.isPrivate == self.localPrivate)) {
                         self.tagList.append(cardTag)
                     }
@@ -329,80 +307,7 @@ struct CardView: View {
                 }
             }
         }
-        //=============
-        
-        
     }
-    
-    private func locationConfig() {
-        let authorizationStatus = CLLocationManager().authorizationStatus
-        
-        switch authorizationStatus {
-        case .notDetermined:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .restricted:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .denied:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .authorizedAlways:
-            self.setLocation()
-        case .authorizedWhenInUse:
-            self.setLocation()
-        case .authorized:
-            self.setLocation()
-        @unknown default:
-            break
-        }
-    }
-    
-    private func setLocation() {
-        let latitude = CLLocationManager().location?.coordinate.latitude
-        let longitude = CLLocationManager().location?.coordinate.longitude
-        
-        let geocoder = CLGeocoder()
-        let locale = Locale(identifier: "en_US_POSIX")
-        
-        if (latitude != nil && longitude != nil) {
-            let findLocation = CLLocation(latitude: latitude!, longitude: longitude!)
-            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
-                if let address: [CLPlacemark] = placemarks {
-                    let addr = (address.last?.name)! + ", " + (address.last?.locality)!// + ", " + (address.last?.administrativeArea)!
-                    self.localLocation = addr
-                }
-            })
-        }
-        else {
-            self.localLocation = "Unable to get Location"
-        }
-    }
-    
-    func doAddTagAlert() {
-        let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
-        
-        alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "New Tag"
-        }
-        
-        let saveAction = UIAlertAction(title: "Add Tag", style: .default, handler: { alert -> Void in
-            let secondTextField = alertController.textFields![0] as UITextField
-            self.localTag = secondTextField.text!
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-        
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        let window = windowScene?.windows.first
-        window?.rootViewController?.present(alertController, animated: true, completion: nil)
-    }
-    
-
 }
 
 struct CardView_Previews: PreviewProvider {

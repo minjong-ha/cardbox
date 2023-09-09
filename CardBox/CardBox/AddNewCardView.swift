@@ -66,7 +66,7 @@ struct AddNewCardView: View {
                             }
                             
                             Button(action: {
-                                self.doAddTagAlert()
+                                AlertManager().doAddTagAlert(tagBinding: $tag)
                             }) {
                                 Text("+ Add New Tag")
                             }
@@ -92,7 +92,7 @@ struct AddNewCardView: View {
                         Text("Location")
                             .bold()
                         Button(action: {
-                            self.locationConfig()
+                            self.location = self.locationViewModel.requestLocation()
                         }) {
                             Image(systemName: "map")
                         }
@@ -224,7 +224,7 @@ struct AddNewCardView: View {
                     let isAddable = self.isAddable()
                     
                     if (isAddable) {
-                        self.realmUpdateCard()
+                        self.updateRealmCard()
                         self.dismiss()
                     }
                     else {
@@ -249,47 +249,27 @@ struct AddNewCardView: View {
     }
     
     private func isAddable() -> Bool {
-        var ret: Bool = true
+        let isTagValid = !self.tag.isEmpty
+        let isTitleValid = !self.title.isEmpty
+        let isPasswordValid: Bool
         
-        self.checkFieldEmpty()
+        if self.isEncrypt {
+            isPasswordValid = !self.encryptedPassword.isEmpty
+        } else {
+            isPasswordValid = self.encryptedPassword.isEmpty
+        }
         
-        if (!self.isTagExist || !self.isTitleExist || !self.isPasswordExist) { ret = false }
-        
-        return ret
+        return isTagValid && isTitleValid && isPasswordValid
     }
     
-    private func checkFieldEmpty() {
-        // Check Tat Empty
-        if (!self.tag.isEmpty) { self.isTagExist = true }
-        
-        // Check Title Empty
-        if (!self.title.isEmpty) { self.isTitleExist = true }
-        
-        // Check Password Empty depending on isEncrypted configuration
-        if (self.isEncrypt) {
-            if (!self.encryptedPassword.isEmpty) { self.isPasswordExist = true }
-            else { self.isPasswordExist = false}
-        }
-        else {
-            if (self.encryptedPassword.isEmpty) { self.isPasswordExist = true }
-            else { self.isPasswordExist = false }
-        }
-    }
     
     private func onAppearUpdate() {
         let cardInfoList = RealmObjectManager().getRealmCardInfoList()
         self.uuid = NSUUID().uuidString
-        
-        /* TODO Suggestion:
-         if self.uuid is not nil => this is CardView
-         else (self.uuid is nil) => this is AddNewCardView
-         */
-        
         self.tagList.removeAll()
         
         if (cardInfoList == nil) { /*do nothing */ }
         else {
-            //TODO: if isPrivate, else condition required!
             if (cardInfoList!.count > 0) {
                 for cardInfo in cardInfoList! {
                     let card = RealmObjectManager().getRealmCard(uuid: cardInfo.cardUUID) as! Card
@@ -297,7 +277,6 @@ struct AddNewCardView: View {
                     let cardTitle : String = card.cardTitle
                     
                     print("DEBUG: ", cardTag, cardTitle)
-                    //TODO: refactoring ArrayManager required...
                     if (!self.tagList.contains(cardTag) && (cardInfo.isPrivate == self.isPrivate)) {
                         self.tagList.append(cardTag)
                     }
@@ -310,7 +289,7 @@ struct AddNewCardView: View {
         }
     }
     
-    private func realmUpdateCard() {
+    private func updateRealmCard() {
         self.date = DateManager().getStringfromDate(date: self.currentDate)
         
         let card = RealmObjectManager().initRealmCard(uuid: self.uuid, title: self.title, tag: self.tag, location: self.location, date: self.date, contents: self.contents)
@@ -320,75 +299,6 @@ struct AddNewCardView: View {
         RealmObjectManager().realmCardUpdate(card: card)
         RealmObjectManager().realmCardInfoUpdate(cardInfo: cardInfo)
         RealmObjectManager().realmCardKeyUpdate(cardKey: cardKey)
-    }
-    
-    func setLocation() {
-        //TODO: refactoring LocationManager()!
-        let latitude = CLLocationManager().location?.coordinate.latitude
-        let longitude = CLLocationManager().location?.coordinate.longitude
-        
-        let geocoder = CLGeocoder()
-        let locale = Locale(identifier: "en_US_POSIX")
-        
-        if (latitude != nil && longitude != nil) {
-            let findLocation = CLLocation(latitude: latitude!, longitude: longitude!)
-            geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
-                if let address: [CLPlacemark] = placemarks {
-                    let addr = (address.last?.name)! + ", " + (address.last?.locality)!// + ", " + (address.last?.administrativeArea)!
-                    self.location = addr
-                }
-            })
-        }
-        else {
-            self.location = "Unable to get Location"
-        }
-    }
-    
-    func doAddTagAlert() {
-        let alertController = UIAlertController(title: "Add New Tag", message: "You can add a new tag", preferredStyle: .alert)
-        
-        alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "New Tag"
-        }
-        
-        let saveAction = UIAlertAction(title: "Add Tag", style: .default, handler: { alert -> Void in
-            let secondTextField = alertController.textFields![0] as UITextField
-            self.tag = secondTextField.text!
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-        
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        let window = windowScene?.windows.first
-        window?.rootViewController?.present(alertController, animated: true, completion: nil)
-    }
-    
-    private func locationConfig() {
-        let authorizationStatus = CLLocationManager().authorizationStatus
-        
-        switch authorizationStatus {
-        case .notDetermined:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .restricted:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .denied:
-            self.locationViewModel.requestPermission()
-            self.setLocation()
-        case .authorizedAlways:
-            self.setLocation()
-        case .authorizedWhenInUse:
-            self.setLocation()
-        case .authorized:
-            self.setLocation()
-        @unknown default:
-            break
-        }
     }
 }
 

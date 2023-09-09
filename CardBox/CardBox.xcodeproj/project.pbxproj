@@ -14,7 +14,6 @@
 		1C83814B287314E800427B73 /* EmptyBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C83814A287314E800427B73 /* EmptyBoxView.swift */; };
 		1C83814D287318AA00427B73 /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C83814C287318AA00427B73 /* CardListView.swift */; };
 		1C838153287CF5A800427B73 /* BoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C838152287CF5A800427B73 /* BoxManager.swift */; };
-		1C838155287CF6A700427B73 /* TestBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C838154287CF6A700427B73 /* TestBoxTabView.swift */; };
 		1CB4531327BD37F1007CE24F /* PublicBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */; };
 		1CB4531527BD37F7007CE24F /* PrivateBoxTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */; };
 		1CB4531727BD37FD007CE24F /* OnDemandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4531627BD37FD007CE24F /* OnDemandView.swift */; };
@@ -62,7 +61,6 @@
 		1C83814A287314E800427B73 /* EmptyBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBoxView.swift; sourceTree = "<group>"; };
 		1C83814C287318AA00427B73 /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		1C838152287CF5A800427B73 /* BoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxManager.swift; sourceTree = "<group>"; };
-		1C838154287CF6A700427B73 /* TestBoxTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBoxTabView.swift; sourceTree = "<group>"; };
 		1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBoxTabView.swift; sourceTree = "<group>"; };
 		1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateBoxTabView.swift; sourceTree = "<group>"; };
 		1CB4531627BD37FD007CE24F /* OnDemandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnDemandView.swift; sourceTree = "<group>"; };
@@ -222,7 +220,6 @@
 				1CF3EDE927B7453900B6559F /* ContentView.swift */,
 				1CB4531227BD37F1007CE24F /* PublicBoxTabView.swift */,
 				1CB4531427BD37F7007CE24F /* PrivateBoxTabView.swift */,
-				1C838154287CF6A700427B73 /* TestBoxTabView.swift */,
 				1CB4531C27BD3813007CE24F /* AddNewCardView.swift */,
 				1C07394A27C05B2F000AB324 /* CardView.swift */,
 				1CE7578927EE757900BC91DF /* Utils */,
@@ -513,7 +510,6 @@
 				1C07394B27C05B2F000AB324 /* CardView.swift in Sources */,
 				1CB4531327BD37F1007CE24F /* PublicBoxTabView.swift in Sources */,
 				1CE7578627EE608400BC91DF /* SectionTitleView.swift in Sources */,
-				1C838155287CF6A700427B73 /* TestBoxTabView.swift in Sources */,
 				1CB4531B27BD380F007CE24F /* Card.swift in Sources */,
 				1CF3EDEA27B7453900B6559F /* ContentView.swift in Sources */,
 				1CE7578B27EE75A100BC91DF /* LocationManager.swift in Sources */,

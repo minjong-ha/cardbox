@@ -8,38 +8,56 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selection : Int = 1 //default tab bar is Public Box
+    @State private var selection: Int = 1 // default tab bar is Public Box
     
     var body: some View {
         TabView(selection: $selection) {
-            //TODO: observecobject to observe inside the View?
-            PrivateBoxTabView()
-                .tabItem {
-                    Image(systemName: (self.selection == 0) ? "lock.open" : "lock")
-                        Text("Private Box")
-                }
-                .tag(0)
-
-            PublicBoxTabView() 
-                .tabItem {
-                        Image(systemName: "person.3")
-                        Text("Public Box")
-                }
-                .tag(1)
-           //================================
-            /*
-            TestBoxTabView()
-                .tabItem {
-                    Image(systemName: "person.1")
-                    Text("RefactoringTest")
-                }
-                .tag(2)
-             */
-           //================================
+            tabView(for: .privateBox)
+            tabView(for: .publicBox)
         }
         .ignoresSafeArea(.keyboard)
     }
+    
+    private func tabView(for tab: Tab) -> some View {
+        let view: AnyView
+        let tag: Int
+        switch tab {
+        case .privateBox:
+            view = AnyView(PrivateBoxTabView())
+            tag = 0
+        case .publicBox:
+            view = AnyView(PublicBoxTabView())
+            tag = 1
+        }
+        return view.tabItem {
+            Image(systemName: tab.imageName(for: selection == tag))
+            Text(tab.title)
+        }
+        .tag(tag)
+    }
+    
+    private enum Tab {
+        case privateBox
+        case publicBox
+        
+        var title: String {
+            switch self {
+            case .privateBox: return "Private Box"
+            case .publicBox: return "Public Box"
+            }
+        }
+        
+        func imageName(for isSelected: Bool) -> String {
+            switch self {
+            case .privateBox:
+                return isSelected ? "lock.open" : "lock"
+            case .publicBox:
+                return "person.3"
+            }
+        }
+    }
 }
+
 
 /*
  * Each Views represents the page.

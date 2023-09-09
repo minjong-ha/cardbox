@@ -8,7 +8,6 @@
 import Foundation
 import RealmSwift
 
-//TODO: update schema caution (https://docs.mongodb.com/realm/sdk/swift/examples/modify-an-object-schema/)
 struct CardCell: Hashable {
     var cardUUID: String = "" // primary key
     
@@ -56,8 +55,6 @@ class CardInfo: Object {
     @Persisted var isChecked: Bool
 }
 
-//How to handle this key?
-//FUTURE WORKS
 class CardKey: Object {
 	@Persisted(primaryKey: true) var cardUUID: String
 	@Persisted var key: String
